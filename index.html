@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Lavandery GestÃ£o</title>
+<title>Lavandery Gestão</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <style>
@@ -146,7 +146,7 @@ body {
   transition: var(--transition);
 }
 .theme-toggle::after {
-  content: 'âï¸';
+  content: '☀️';
   position: absolute; left: 3px; top: 3px;
   width: 20px; height: 20px;
   background: white;
@@ -158,7 +158,7 @@ body {
 }
 [data-theme="dark"] .theme-toggle::after {
   transform: translateX(24px);
-  content: 'ð';
+  content: '🌙';
 }
 
 .app-container {
@@ -785,7 +785,7 @@ input[type="checkbox"] {
 <!-- LOGIN SCREEN -->
 <div id="loginScreen">
   <div class="login-container">
-    <h1>Lavandery GestÃ£o</h1>
+    <h1>Lavandery Gestão</h1>
     <p>Sistema de Controle de Lavanderias</p>
 
     <div class="login-error" id="loginError"></div>
@@ -801,7 +801,7 @@ input[type="checkbox"] {
     </form>
 
     <div class="login-toggle">
-      NÃ£o tem conta? <button type="button" onclick="toggleLoginMode()">Criar conta</button>
+      Não tem conta? <button type="button" onclick="toggleLoginMode()">Criar conta</button>
     </div>
   </div>
 </div>
@@ -809,7 +809,7 @@ input[type="checkbox"] {
 <div class="topnav">
   <div class="topnav-brand">
     <div class="topnav-logo">L</div>
-    <div class="topnav-title">Lavandery GestÃ£o</div>
+    <div class="topnav-title">Lavandery Gestão</div>
   </div>
   <div style="display:flex;align-items:center;gap:16px;">
     <div id="userEmailDisplay" style="font-size:12px;color:var(--text-tertiary);"></div>
@@ -823,24 +823,24 @@ input[type="checkbox"] {
     <div class="sidebar-section">
       <div class="sidebar-label">Menu</div>
       <div class="sidebar-item active" onclick="switchView('dashboard')">
-        <span class="icon">ð</span>
+        <span class="icon">📊</span>
         <span>Dashboard</span>
       </div>
       <div class="sidebar-item" onclick="switchView('newContract')">
-        <span class="icon">ð</span>
+        <span class="icon">📝</span>
         <span>Novo Contrato</span>
       </div>
       <div class="sidebar-item" onclick="switchView('simulator')">
-        <span class="icon">ð</span>
+        <span class="icon">📈</span>
         <span>Simulador</span>
       </div>
       <div class="sidebar-item" onclick="switchView('comparator')">
-        <span class="icon">âï¸</span>
+        <span class="icon">⚖️</span>
         <span>Comparador</span>
       </div>
       <div class="sidebar-item" onclick="switchView('savedSims')">
-        <span class="icon">ð¾</span>
-        <span>SimulaÃ§Ãµes Salvas</span>
+        <span class="icon">💾</span>
+        <span>Simulações Salvas</span>
       </div>
     </div>
   </div>
@@ -850,8 +850,8 @@ input[type="checkbox"] {
     <!-- DASHBOARD -->
     <div id="dashboard" class="view active">
       <div class="page-header">
-        <h1>Lavandery GestÃ£o</h1>
-        <p>Sistema de Controle de Lavanderias Compartilhadas â Inova Lavandery</p>
+        <h1>Lavandery Gestão</h1>
+        <p>Sistema de Controle de Lavanderias Compartilhadas — Inova Lavandery</p>
       </div>
 
       <div class="funnel-container">
@@ -868,17 +868,17 @@ input[type="checkbox"] {
         <div class="funnel-stage">
           <h3>Ganhos</h3>
           <div class="value" id="ganhos">0</div>
-          <div class="sub"><span id="conversionRate">0</span>% conversÃ£o</div>
+          <div class="sub"><span id="conversionRate">0</span>% conversão</div>
         </div>
         <div class="funnel-stage">
           <h3>Perdidos</h3>
           <div class="value" id="perdidos">0</div>
-          <div class="sub">Taxa rejeiÃ§Ã£o</div>
+          <div class="sub">Taxa rejeição</div>
         </div>
         <div class="funnel-stage" style="grid-column: span 2;">
           <h3>Receita Potencial</h3>
           <div class="value" id="receitaPotencial">R$ 0</div>
-          <div class="sub">Margem Ã VigÃªncia</div>
+          <div class="sub">Margem × Vigência</div>
         </div>
       </div>
 
@@ -902,7 +902,7 @@ input[type="checkbox"] {
       </div>
 
       <div class="card" style="margin-top: 32px;">
-        <h3 style="font-size: 17px; font-weight: 600; margin-bottom: 16px;">AÃ§Ãµes RÃ¡pidas</h3>
+        <h3 style="font-size: 17px; font-weight: 600; margin-bottom: 16px;">Ações Rápidas</h3>
         <div class="btn-group">
           <button class="btn btn-primary" onclick="switchView('newContract')">Criar Novo Contrato</button>
           <button class="btn btn-secondary" onclick="switchView('simulator')">Simulador</button>
@@ -915,7 +915,7 @@ input[type="checkbox"] {
     <div id="newContract" class="view">
       <div class="page-header">
         <h1>Novo Contrato</h1>
-        <p>Preencha as informaÃ§Ãµes para gerar seu contrato personalizado</p>
+        <p>Preencha as informações para gerar seu contrato personalizado</p>
       </div>
 
       <div class="progress-container">
@@ -949,12 +949,12 @@ input[type="checkbox"] {
 
           <!-- Step 1 -->
           <div id="step1" class="card step-content active">
-            <h2 style="font-size: 20px; font-weight: 600; margin-bottom: 24px;">InformaÃ§Ãµes das Partes</h2>
+            <h2 style="font-size: 20px; font-weight: 600; margin-bottom: 24px;">Informações das Partes</h2>
 
             <h3 style="font-size: 14px; font-weight: 600; margin: 24px 0 16px;">CONTRATADA (Prestadora)</h3>
             <div class="form-row">
               <div class="form-group">
-                <label class="form-label">RazÃ£o Social</label>
+                <label class="form-label">Razão Social</label>
                 <input type="text" class="form-input" id="contratada_nome" value="INOVA TECNOLOGIA E SERVICOS E REPRESENTACAO LTDA">
               </div>
               <div class="form-group">
@@ -964,12 +964,12 @@ input[type="checkbox"] {
             </div>
             <div class="form-row">
               <div class="form-group">
-                <label class="form-label">EndereÃ§o</label>
-                <input type="text" class="form-input" id="contratada_endereco" value="Rua CalifÃ³rnia, 40, CEP 06515-240">
+                <label class="form-label">Endereço</label>
+                <input type="text" class="form-input" id="contratada_endereco" value="Rua Califórnia, 40, CEP 06515-240">
               </div>
               <div class="form-group">
                 <label class="form-label">Cidade/UF</label>
-                <input type="text" class="form-input" id="contratada_cidade" value="Santana de ParnaÃ­ba, SP">
+                <input type="text" class="form-input" id="contratada_cidade" value="Santana de Parnaíba, SP">
               </div>
             </div>
             <div class="form-row">
@@ -983,11 +983,11 @@ input[type="checkbox"] {
               </div>
             </div>
 
-            <h3 style="font-size: 14px; font-weight: 600; margin: 32px 0 16px;">CONTRATANTE (CondomÃ­nio)</h3>
+            <h3 style="font-size: 14px; font-weight: 600; margin: 32px 0 16px;">CONTRATANTE (Condomínio)</h3>
             <div class="form-row">
               <div class="form-group">
-                <label class="form-label">Nome/RazÃ£o Social</label>
-                <input type="text" class="form-input" id="contratante_nome" placeholder="Nome do CondomÃ­nio">
+                <label class="form-label">Nome/Razão Social</label>
+                <input type="text" class="form-input" id="contratante_nome" placeholder="Nome do Condomínio">
               </div>
               <div class="form-group">
                 <label class="form-label">CNPJ/CPF</label>
@@ -996,8 +996,8 @@ input[type="checkbox"] {
             </div>
             <div class="form-row">
               <div class="form-group">
-                <label class="form-label">EndereÃ§o</label>
-                <input type="text" class="form-input" id="contratante_endereco" placeholder="EndereÃ§o do condomÃ­nio">
+                <label class="form-label">Endereço</label>
+                <input type="text" class="form-input" id="contratante_endereco" placeholder="Endereço do condomínio">
               </div>
               <div class="form-group">
                 <label class="form-label">Cidade/UF</label>
@@ -1007,7 +1007,7 @@ input[type="checkbox"] {
 
             <div class="step-buttons">
               <button class="btn btn-secondary" onclick="previousStep()" style="visibility:hidden;">Anterior</button>
-              <button class="btn btn-primary" onclick="nextStep()">PrÃ³ximo</button>
+              <button class="btn btn-primary" onclick="nextStep()">Próximo</button>
             </div>
           </div>
 
@@ -1017,15 +1017,15 @@ input[type="checkbox"] {
             <div class="models-grid" id="modelsGrid"></div>
             <div class="step-buttons">
               <button class="btn btn-secondary" onclick="previousStep()">Anterior</button>
-              <button class="btn btn-primary" onclick="nextStep()">PrÃ³ximo</button>
+              <button class="btn btn-primary" onclick="nextStep()">Próximo</button>
             </div>
           </div>
 
           <!-- Step 3 -->
           <div id="step3" class="card step-content">
-            <h2 style="font-size: 20px; font-weight: 600; margin-bottom: 24px;">ConfiguraÃ§Ã£o Financeira</h2>
+            <h2 style="font-size: 20px; font-weight: 600; margin-bottom: 24px;">Configuração Financeira</h2>
 
-            <h3 style="font-size: 14px; font-weight: 600; margin: 24px 0 16px;">PreÃ§os</h3>
+            <h3 style="font-size: 14px; font-weight: 600; margin: 24px 0 16px;">Preços</h3>
             <div class="form-row">
               <div class="form-group">
                 <label class="form-label">Lavagem (R$)</label>
@@ -1039,11 +1039,11 @@ input[type="checkbox"] {
 
             <div class="form-row">
               <div class="form-group">
-                <label class="form-label">Ciclos/MÃªs</label>
+                <label class="form-label">Ciclos/Mês</label>
                 <input type="number" class="form-input" id="config_ciclos" step="1" min="0" onchange="updateFinancialSidebar()">
               </div>
               <div class="form-group">
-                <label class="form-label">VigÃªncia (meses)</label>
+                <label class="form-label">Vigência (meses)</label>
                 <input type="number" class="form-input" id="config_vigencia" step="1" min="1" onchange="updateFinancialSidebar()">
               </div>
             </div>
@@ -1071,11 +1071,11 @@ input[type="checkbox"] {
 
             <div id="config_specific"></div>
 
-            <h3 style="font-size: 14px; font-weight: 600; margin: 24px 0 16px;">Obra de AdequaÃ§Ã£o</h3>
+            <h3 style="font-size: 14px; font-weight: 600; margin: 24px 0 16px;">Obra de Adequação</h3>
             <div class="checkbox-group">
               <label class="checkbox-label">
                 <input type="checkbox" id="config_obra_check" onchange="updateConfigUI()">
-                Incluir Obra de AdequaÃ§Ã£o
+                Incluir Obra de Adequação
               </label>
             </div>
             <div id="config_obra_fields" style="display:none;">
@@ -1093,7 +1093,7 @@ input[type="checkbox"] {
 
             <div class="step-buttons">
               <button class="btn btn-secondary" onclick="previousStep()">Anterior</button>
-              <button class="btn btn-primary" onclick="nextStep()">PrÃ³ximo</button>
+              <button class="btn btn-primary" onclick="nextStep()">Próximo</button>
             </div>
           </div>
 
@@ -1127,7 +1127,7 @@ input[type="checkbox"] {
             <span class="wizard-sidebar-value" id="sidebar-model">-</span>
           </div>
           <div class="wizard-sidebar-item">
-            <span class="wizard-sidebar-label">Fat./MÃªs</span>
+            <span class="wizard-sidebar-label">Fat./Mês</span>
             <span class="wizard-sidebar-value" id="sidebar-faturamento">-</span>
           </div>
           <div class="wizard-sidebar-item">
@@ -1139,11 +1139,11 @@ input[type="checkbox"] {
             <span class="wizard-sidebar-value" id="sidebar-repasse-pct">-</span>
           </div>
           <div class="wizard-sidebar-item">
-            <span class="wizard-sidebar-label">Repasse/MÃªs</span>
+            <span class="wizard-sidebar-label">Repasse/Mês</span>
             <span class="wizard-sidebar-value" id="sidebar-repasse">-</span>
           </div>
           <div class="wizard-sidebar-item">
-            <span class="wizard-sidebar-label">Margem/MÃªs</span>
+            <span class="wizard-sidebar-label">Margem/Mês</span>
             <span class="wizard-sidebar-value" id="sidebar-margem">-</span>
           </div>
           <div class="wizard-sidebar-item">
@@ -1151,7 +1151,7 @@ input[type="checkbox"] {
             <span class="wizard-sidebar-value" id="sidebar-margem-pct">-</span>
           </div>
           <div class="wizard-sidebar-item">
-            <span class="wizard-sidebar-label">MÃ©dia Anual</span>
+            <span class="wizard-sidebar-label">Média Anual</span>
             <span class="wizard-sidebar-value" id="sidebar-media-anual">-</span>
           </div>
           <div class="wizard-sidebar-item">
@@ -1167,20 +1167,20 @@ input[type="checkbox"] {
     <div id="simulator" class="view">
       <div class="page-header">
         <h1>Simulador Financeiro</h1>
-        <p>Configure parÃ¢metros, custos de produto e implantaÃ§Ã£o â veja o retorno</p>
+        <p>Configure parâmetros, custos de produto e implantação — veja o retorno</p>
       </div>
 
       <div class="wizard-layout">
         <div class="wizard-main">
-          <!-- MODELO + PREÃOS + VOLUME + REPASSE -->
+          <!-- MODELO + PREÇOS + VOLUME + REPASSE -->
           <div class="card">
-            <h3 style="font-size: 16px; font-weight: 600; margin-bottom: 20px;">Configurar SimulaÃ§Ã£o</h3>
+            <h3 style="font-size: 16px; font-weight: 600; margin-bottom: 20px;">Configurar Simulação</h3>
 
-            <h4 style="font-size: 12px; font-weight: 600; text-transform: uppercase; color: var(--text-tertiary); margin: 0 0 12px;">IdentificaÃ§Ã£o</h4>
+            <h4 style="font-size: 12px; font-weight: 600; text-transform: uppercase; color: var(--text-tertiary); margin: 0 0 12px;">Identificação</h4>
             <div class="form-row">
               <div class="form-group">
-                <label class="form-label">Nome do CondomÃ­nio</label>
-                <input type="text" class="form-input" id="sim_condominio" placeholder="Ex: EdifÃ­cio Solar das Artes" oninput="updateSimulator()">
+                <label class="form-label">Nome do Condomínio</label>
+                <input type="text" class="form-input" id="sim_condominio" placeholder="Ex: Edifício Solar das Artes" oninput="updateSimulator()">
               </div>
               <div class="form-group">
                 <label class="form-label">Vendedor</label>
@@ -1189,7 +1189,7 @@ input[type="checkbox"] {
             </div>
             <div class="form-row">
               <div class="form-group">
-                <label class="form-label">ComissÃ£o do Vendedor (R$)</label>
+                <label class="form-label">Comissão do Vendedor (R$)</label>
                 <input type="number" class="form-input" id="sim_comissao" value="500" step="50" min="0" oninput="updateSimulator()">
               </div>
               <div class="form-group">
@@ -1202,15 +1202,15 @@ input[type="checkbox"] {
             <div class="form-group">
               <select class="form-select" id="sim_model" onchange="updateSimulator()">
                 <option value="">Selecionar...</option>
-                <option value="gestao">GestÃ£o</option>
+                <option value="gestao">Gestão</option>
                 <option value="comodato">Comodato</option>
                 <option value="aluguel">Aluguel</option>
                 <option value="venda">Venda</option>
-                <option value="hibrido">HÃ­brido</option>
+                <option value="hibrido">Híbrido</option>
               </select>
             </div>
 
-            <h4 style="font-size: 12px; font-weight: 600; text-transform: uppercase; color: var(--text-tertiary); margin: 16px 0 12px;">PreÃ§os</h4>
+            <h4 style="font-size: 12px; font-weight: 600; text-transform: uppercase; color: var(--text-tertiary); margin: 16px 0 12px;">Preços</h4>
             <div class="form-row">
               <div class="form-group">
                 <label class="form-label">Lavagem (R$)</label>
@@ -1225,11 +1225,11 @@ input[type="checkbox"] {
             <h4 style="font-size: 12px; font-weight: 600; text-transform: uppercase; color: var(--text-tertiary); margin: 16px 0 12px;">Volume</h4>
             <div class="form-row">
               <div class="form-group">
-                <label class="form-label">Ciclos/MÃªs</label>
+                <label class="form-label">Ciclos/Mês</label>
                 <input type="number" class="form-input" id="sim_ciclos" step="10" min="0" value="400" oninput="updateSimulator()">
               </div>
               <div class="form-group">
-                <label class="form-label">VigÃªncia (meses)</label>
+                <label class="form-label">Vigência (meses)</label>
                 <input type="number" class="form-input" id="sim_vigencia" step="1" min="1" value="48" oninput="updateSimulator()">
               </div>
             </div>
@@ -1253,7 +1253,7 @@ input[type="checkbox"] {
           <!-- CUSTO DE PRODUTOS -->
           <div class="card" style="margin-top: 20px;">
             <h3 style="font-size: 16px; font-weight: 600; margin-bottom: 4px; display:flex; align-items:center; gap:8px;">
-              <span style="font-size:20px;">ð§´</span> Custo de Produtos
+              <span style="font-size:20px;">🧴</span> Custo de Produtos
             </h3>
             <p style="font-size:12px; color:var(--text-tertiary); margin-bottom:16px;">Calcule o custo real dos produtos por ciclo</p>
 
@@ -1262,10 +1262,10 @@ input[type="checkbox"] {
                 <div style="display:grid;grid-template-columns:2fr 1fr 1fr 1fr auto;gap:10px;align-items:end;">
                   <div class="form-group" style="margin:0">
                     <label class="form-label">Produto</label>
-                    <input type="text" class="form-input" value="SabÃ£o" oninput="updateSimulator()">
+                    <input type="text" class="form-input" value="Sabão" oninput="updateSimulator()">
                   </div>
                   <div class="form-group" style="margin:0">
-                    <label class="form-label">PreÃ§o GalÃ£o</label>
+                    <label class="form-label">Preço Galão</label>
                     <input type="number" class="form-input sim-prod-preco" value="108" step="0.50" min="0" oninput="updateSimulator()">
                   </div>
                   <div class="form-group" style="margin:0">
@@ -1276,7 +1276,7 @@ input[type="checkbox"] {
                     <label class="form-label">ml/Ciclo</label>
                     <input type="number" class="form-input sim-prod-ml" value="50" step="1" min="0" oninput="updateSimulator()">
                   </div>
-                  <button onclick="this.closest('.produto-row').remove();updateSimulator()" style="background:none;border:none;color:#ff3b30;font-size:18px;cursor:pointer;padding:8px;margin-bottom:2px;">â</button>
+                  <button onclick="this.closest('.produto-row').remove();updateSimulator()" style="background:none;border:none;color:#ff3b30;font-size:18px;cursor:pointer;padding:8px;margin-bottom:2px;">✕</button>
                 </div>
               </div>
               <div class="produto-row" data-ctx="sim">
@@ -1286,7 +1286,7 @@ input[type="checkbox"] {
                     <input type="text" class="form-input" value="Amaciante" oninput="updateSimulator()">
                   </div>
                   <div class="form-group" style="margin:0">
-                    <label class="form-label">PreÃ§o GalÃ£o</label>
+                    <label class="form-label">Preço Galão</label>
                     <input type="number" class="form-input sim-prod-preco" value="108" step="0.50" min="0" oninput="updateSimulator()">
                   </div>
                   <div class="form-group" style="margin:0">
@@ -1297,7 +1297,7 @@ input[type="checkbox"] {
                     <label class="form-label">ml/Ciclo</label>
                     <input type="number" class="form-input sim-prod-ml" value="50" step="1" min="0" oninput="updateSimulator()">
                   </div>
-                  <button onclick="this.closest('.produto-row').remove();updateSimulator()" style="background:none;border:none;color:#ff3b30;font-size:18px;cursor:pointer;padding:8px;margin-bottom:2px;">â</button>
+                  <button onclick="this.closest('.produto-row').remove();updateSimulator()" style="background:none;border:none;color:#ff3b30;font-size:18px;cursor:pointer;padding:8px;margin-bottom:2px;">✕</button>
                 </div>
               </div>
             </div>
@@ -1309,20 +1309,20 @@ input[type="checkbox"] {
             </div>
           </div>
 
-          <!-- CUSTO DE IMPLANTAÃÃO -->
+          <!-- CUSTO DE IMPLANTAÇÃO -->
           <div class="card" style="margin-top: 20px;">
             <h3 style="font-size: 16px; font-weight: 600; margin-bottom: 4px; display:flex; align-items:center; gap:8px;">
-              <span style="font-size:20px;">ð§</span> Custo de ImplantaÃ§Ã£o
+              <span style="font-size:20px;">🔧</span> Custo de Implantação
             </h3>
-            <p style="font-size:12px; color:var(--text-tertiary); margin-bottom:16px;">Investimento inicial para instalar a lavanderia no condomÃ­nio</p>
+            <p style="font-size:12px; color:var(--text-tertiary); margin-bottom:16px;">Investimento inicial para instalar a lavanderia no condomínio</p>
 
             <div class="form-row">
               <div class="form-group">
-                <label class="form-label">Qtd MÃ¡quinas/Conjuntos</label>
+                <label class="form-label">Qtd Máquinas/Conjuntos</label>
                 <input type="number" class="form-input" id="sim_qtd_maquinas" value="4" step="1" min="0" oninput="updateSimulator()">
               </div>
               <div class="form-group">
-                <label class="form-label">Valor por MÃ¡quina/Conjunto (R$)</label>
+                <label class="form-label">Valor por Máquina/Conjunto (R$)</label>
                 <input type="number" class="form-input" id="sim_valor_maquina" value="0" step="100" min="0" oninput="updateSimulator()">
               </div>
             </div>
@@ -1338,7 +1338,7 @@ input[type="checkbox"] {
             </div>
             <div class="form-row">
               <div class="form-group">
-                <label class="form-label">TÃ©cnico / InstalaÃ§Ã£o (R$)</label>
+                <label class="form-label">Técnico / Instalação (R$)</label>
                 <input type="number" class="form-input" id="sim_tecnico" value="0" step="50" min="0" oninput="updateSimulator()">
               </div>
               <div class="form-group">
@@ -1348,7 +1348,7 @@ input[type="checkbox"] {
             </div>
 
             <div style="margin-top:12px;padding:12px;background:rgba(255,149,0,0.08);border-radius:var(--radius-sm);display:flex;justify-content:space-between;align-items:center;">
-              <span style="font-size:13px;color:var(--text-secondary);font-weight:600;">Total ImplantaÃ§Ã£o</span>
+              <span style="font-size:13px;color:var(--text-secondary);font-weight:600;">Total Implantação</span>
               <span style="font-size:18px;font-weight:700;color:#ff9500;" id="sim_total_implantacao">R$ 0,00</span>
             </div>
           </div>
@@ -1358,7 +1358,7 @@ input[type="checkbox"] {
         <div class="wizard-sidebar">
           <div class="wizard-sidebar-title">Resultados</div>
           <div class="wizard-sidebar-item">
-            <span class="wizard-sidebar-label">Fat. Bruto/MÃªs</span>
+            <span class="wizard-sidebar-label">Fat. Bruto/Mês</span>
             <span class="wizard-sidebar-value" id="sim_faturamento">-</span>
           </div>
           <div class="wizard-sidebar-item">
@@ -1366,43 +1366,43 @@ input[type="checkbox"] {
             <span class="wizard-sidebar-value" id="sim_repasse_ciclo">-</span>
           </div>
           <div class="wizard-sidebar-item">
-            <span class="wizard-sidebar-label">% Ciclo CondomÃ­nio</span>
+            <span class="wizard-sidebar-label">% Ciclo Condomínio</span>
             <span class="wizard-sidebar-value" id="sim_repasse_pct">-</span>
           </div>
           <div class="wizard-sidebar-item">
-            <span class="wizard-sidebar-label">ð§´ Custo Prod./Ciclo</span>
+            <span class="wizard-sidebar-label">🧴 Custo Prod./Ciclo</span>
             <span class="wizard-sidebar-value" id="sim_prod_ciclo_side" style="color:var(--accent)">-</span>
           </div>
 
           <div style="padding:12px 0;border-top:2px solid var(--border);border-bottom:2px solid var(--border);margin:8px 0;">
             <div class="wizard-sidebar-item" style="padding:4px 0;">
-              <span class="wizard-sidebar-label" style="font-weight:700;color:var(--text-primary)">Recebo LÃ­quido/Ciclo</span>
+              <span class="wizard-sidebar-label" style="font-weight:700;color:var(--text-primary)">Recebo Líquido/Ciclo</span>
               <span class="wizard-sidebar-value" id="sim_liquido_ciclo" style="font-size:16px;font-weight:700;">-</span>
             </div>
           </div>
 
           <div class="wizard-sidebar-item">
-            <span class="wizard-sidebar-label">Repasse/MÃªs</span>
+            <span class="wizard-sidebar-label">Repasse/Mês</span>
             <span class="wizard-sidebar-value" id="sim_repasse_mes">-</span>
           </div>
           <div class="wizard-sidebar-item">
-            <span class="wizard-sidebar-label">Margem Bruta/MÃªs</span>
+            <span class="wizard-sidebar-label">Margem Bruta/Mês</span>
             <span class="wizard-sidebar-value" id="sim_margem_mes">-</span>
           </div>
           <div class="wizard-sidebar-item">
-            <span class="wizard-sidebar-label">ð§´ Custo Prod./MÃªs</span>
+            <span class="wizard-sidebar-label">🧴 Custo Prod./Mês</span>
             <span class="wizard-sidebar-value" id="sim_prod_mes_side" style="color:var(--accent)">-</span>
           </div>
           <div class="wizard-sidebar-item">
-            <span class="wizard-sidebar-label" style="font-weight:600">Margem LÃ­quida/MÃªs</span>
+            <span class="wizard-sidebar-label" style="font-weight:600">Margem Líquida/Mês</span>
             <span class="wizard-sidebar-value" id="sim_margem_liq_mes" style="font-weight:700">-</span>
           </div>
           <div class="wizard-sidebar-item">
-            <span class="wizard-sidebar-label">Margem LÃ­q. %</span>
+            <span class="wizard-sidebar-label">Margem Líq. %</span>
             <span class="wizard-sidebar-value" id="sim_margem_pct">-</span>
           </div>
           <div class="wizard-sidebar-item">
-            <span class="wizard-sidebar-label">MÃ©dia Anual (LÃ­q.)</span>
+            <span class="wizard-sidebar-label">Média Anual (Líq.)</span>
             <span class="wizard-sidebar-value" id="sim_media_anual">-</span>
           </div>
           <div class="wizard-sidebar-item">
@@ -1410,12 +1410,12 @@ input[type="checkbox"] {
             <span class="wizard-sidebar-value" id="sim_receita_anual">-</span>
           </div>
           <div class="wizard-sidebar-item">
-            <span class="wizard-sidebar-label">Total LÃ­q. VigÃªncia</span>
+            <span class="wizard-sidebar-label">Total Líq. Vigência</span>
             <span class="wizard-sidebar-value" id="sim_margem_total" style="font-weight:700">-</span>
           </div>
 
           <div style="padding:12px 0;border-top:2px solid var(--border);margin-top:8px;">
-            <div class="wizard-sidebar-title" style="color:#ff9500;">ð§ Retorno ImplantaÃ§Ã£o</div>
+            <div class="wizard-sidebar-title" style="color:#ff9500;">🔧 Retorno Implantação</div>
             <div class="wizard-sidebar-item" style="padding:4px 0;">
               <span class="wizard-sidebar-label">Investimento Total</span>
               <span class="wizard-sidebar-value" id="sim_invest_side" style="color:#ff9500">-</span>
@@ -1425,12 +1425,12 @@ input[type="checkbox"] {
               <span class="wizard-sidebar-value" id="sim_payback" style="font-size:18px;font-weight:800;">-</span>
             </div>
             <div class="wizard-sidebar-item" style="padding:4px 0;">
-              <span class="wizard-sidebar-label">Lucro apÃ³s Payback</span>
+              <span class="wizard-sidebar-label">Lucro após Payback</span>
               <span class="wizard-sidebar-value" id="sim_lucro_pos_payback">-</span>
             </div>
 
             <div style="padding:16px 0;border-top:2px solid var(--border);margin-top:8px;">
-              <div class="wizard-sidebar-title">AvaliaÃ§Ã£o da Proposta</div>
+              <div class="wizard-sidebar-title">Avaliação da Proposta</div>
               <div id="sim_avaliacao" style="text-align:center;padding:12px;border-radius:var(--radius-md);margin-top:8px;">
                 <div id="sim_avaliacao_emoji" style="font-size:40px;">-</div>
                 <div id="sim_avaliacao_texto" style="font-size:14px;font-weight:700;margin-top:4px;">Selecione um modelo</div>
@@ -1440,23 +1440,23 @@ input[type="checkbox"] {
 
             <div style="padding:12px 0;border-top:2px solid var(--border);margin-top:8px;">
               <div class="wizard-sidebar-item" style="padding:4px 0;">
-                <span class="wizard-sidebar-label">ComissÃ£o Vendedor</span>
+                <span class="wizard-sidebar-label">Comissão Vendedor</span>
                 <span class="wizard-sidebar-value" id="sim_comissao_valor" style="color:var(--accent)">-</span>
               </div>
             </div>
 
-            <!-- MINI CHART: ComposiÃ§Ã£o do Ciclo -->
+            <!-- MINI CHART: Composição do Ciclo -->
             <div style="padding:12px 0;border-top:2px solid var(--border);margin-top:8px;">
-              <div class="chart-title" style="font-size:12px;">ComposiÃ§Ã£o do Faturamento/MÃªs</div>
+              <div class="chart-title" style="font-size:12px;">Composição do Faturamento/Mês</div>
               <div id="simChartBreakdown" style="display:flex;height:24px;border-radius:6px;overflow:hidden;margin-top:8px;"></div>
               <div id="simChartLegend" class="chart-legend" style="margin-top:8px;"></div>
             </div>
 
             <button onclick="salvarSimulacao()" class="btn btn-primary" style="width:100%;margin-top:16px;display:flex;align-items:center;justify-content:center;gap:8px;">
-              <span style="font-size:18px;">ð¾</span> Salvar SimulaÃ§Ã£o
+              <span style="font-size:18px;">💾</span> Salvar Simulação
             </button>
             <button onclick="downloadSimulacaoPDF()" class="btn btn-secondary" style="width:100%;margin-top:8px;display:flex;align-items:center;justify-content:center;gap:8px;">
-              <span style="font-size:18px;">ð</span> Baixar SimulaÃ§Ã£o PDF
+              <span style="font-size:18px;">📄</span> Baixar Simulação PDF
             </button>
           </div>
         </div>
@@ -1466,14 +1466,14 @@ input[type="checkbox"] {
     <!-- SAVED SIMULATIONS -->
     <div id="savedSims" class="view">
       <div class="page-header">
-        <h1>SimulaÃ§Ãµes Salvas</h1>
-        <p>Visualize, carregue ou exclua suas simulaÃ§Ãµes anteriores</p>
+        <h1>Simulações Salvas</h1>
+        <p>Visualize, carregue ou exclua suas simulações anteriores</p>
       </div>
       <div id="savedSimsList"></div>
       <div id="savedSimsEmpty" class="card" style="text-align:center;padding:48px 24px;display:none;">
-        <div style="font-size:48px;margin-bottom:16px;">ð</div>
-        <h3 style="font-size:18px;margin-bottom:8px;color:var(--text-primary);">Nenhuma simulaÃ§Ã£o salva</h3>
-        <p style="color:var(--text-tertiary);margin-bottom:20px;">VÃ¡ ao Simulador, configure uma proposta e clique em "Salvar SimulaÃ§Ã£o"</p>
+        <div style="font-size:48px;margin-bottom:16px;">📋</div>
+        <h3 style="font-size:18px;margin-bottom:8px;color:var(--text-primary);">Nenhuma simulação salva</h3>
+        <p style="color:var(--text-tertiary);margin-bottom:20px;">Vá ao Simulador, configure uma proposta e clique em "Salvar Simulação"</p>
         <button onclick="switchView('simulator')" class="btn btn-primary">Ir ao Simulador</button>
       </div>
     </div>
@@ -1482,11 +1482,11 @@ input[type="checkbox"] {
     <div id="comparator" class="view">
       <div class="page-header">
         <h1>Comparador de Modelos</h1>
-        <p>Compare todos os 5 modelos â ajuste o repasse de cada um</p>
+        <p>Compare todos os 5 modelos — ajuste o repasse de cada um</p>
       </div>
 
       <div class="card" style="margin-bottom: 24px;">
-        <h3 style="font-size: 16px; font-weight: 600; margin-bottom: 20px;">ParÃ¢metros Comuns</h3>
+        <h3 style="font-size: 16px; font-weight: 600; margin-bottom: 20px;">Parâmetros Comuns</h3>
         <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:16px;">
           <div class="form-group">
             <label class="form-label">Lavagem (R$)</label>
@@ -1497,29 +1497,29 @@ input[type="checkbox"] {
             <input type="number" class="form-input" id="comp_secagem" value="8" step="0.50" min="0" oninput="updateComparator()">
           </div>
           <div class="form-group">
-            <label class="form-label">Ciclos/MÃªs</label>
+            <label class="form-label">Ciclos/Mês</label>
             <input type="number" class="form-input" id="comp_ciclos" value="400" step="10" min="0" oninput="updateComparator()">
           </div>
           <div class="form-group">
-            <label class="form-label">VigÃªncia (meses)</label>
+            <label class="form-label">Vigência (meses)</label>
             <input type="number" class="form-input" id="comp_vigencia" value="48" step="1" min="1" oninput="updateComparator()">
           </div>
         </div>
 
         <h3 style="font-size: 16px; font-weight: 600; margin: 24px 0 16px; display:flex; align-items:center; gap:8px;">
-          <span style="font-size:20px;">ð§´</span> Custo de Produtos por Ciclo
+          <span style="font-size:20px;">🧴</span> Custo de Produtos por Ciclo
         </h3>
-        <p style="font-size:13px; color:var(--text-tertiary); margin-bottom:16px;">Informe o custo dos produtos (sabÃ£o, amaciante, etc.) para calcular o lucro lÃ­quido real por ciclo.</p>
+        <p style="font-size:13px; color:var(--text-tertiary); margin-bottom:16px;">Informe o custo dos produtos (sabão, amaciante, etc.) para calcular o lucro líquido real por ciclo.</p>
 
         <div id="produtosContainer">
           <div class="produto-row" data-idx="0">
             <div style="display:grid;grid-template-columns:2fr 1fr 1fr 1fr auto;gap:12px;align-items:end;">
               <div class="form-group" style="margin:0">
                 <label class="form-label">Produto</label>
-                <input type="text" class="form-input" value="SabÃ£o" oninput="updateComparator()">
+                <input type="text" class="form-input" value="Sabão" oninput="updateComparator()">
               </div>
               <div class="form-group" style="margin:0">
-                <label class="form-label">PreÃ§o GalÃ£o (R$)</label>
+                <label class="form-label">Preço Galão (R$)</label>
                 <input type="number" class="form-input prod-preco" value="108" step="0.50" min="0" oninput="updateComparator()">
               </div>
               <div class="form-group" style="margin:0">
@@ -1530,7 +1530,7 @@ input[type="checkbox"] {
                 <label class="form-label">ml/Ciclo</label>
                 <input type="number" class="form-input prod-ml" value="50" step="1" min="0" oninput="updateComparator()">
               </div>
-              <button onclick="removeProduto(this)" style="background:none;border:none;color:#ff3b30;font-size:18px;cursor:pointer;padding:8px;margin-bottom:2px;" title="Remover">â</button>
+              <button onclick="removeProduto(this)" style="background:none;border:none;color:#ff3b30;font-size:18px;cursor:pointer;padding:8px;margin-bottom:2px;" title="Remover">✕</button>
             </div>
           </div>
           <div class="produto-row" data-idx="1">
@@ -1540,7 +1540,7 @@ input[type="checkbox"] {
                 <input type="text" class="form-input" value="Amaciante" oninput="updateComparator()">
               </div>
               <div class="form-group" style="margin:0">
-                <label class="form-label">PreÃ§o GalÃ£o (R$)</label>
+                <label class="form-label">Preço Galão (R$)</label>
                 <input type="number" class="form-input prod-preco" value="108" step="0.50" min="0" oninput="updateComparator()">
               </div>
               <div class="form-group" style="margin:0">
@@ -1551,7 +1551,7 @@ input[type="checkbox"] {
                 <label class="form-label">ml/Ciclo</label>
                 <input type="number" class="form-input prod-ml" value="50" step="1" min="0" oninput="updateComparator()">
               </div>
-              <button onclick="removeProduto(this)" style="background:none;border:none;color:#ff3b30;font-size:18px;cursor:pointer;padding:8px;margin-bottom:2px;" title="Remover">â</button>
+              <button onclick="removeProduto(this)" style="background:none;border:none;color:#ff3b30;font-size:18px;cursor:pointer;padding:8px;margin-bottom:2px;" title="Remover">✕</button>
             </div>
           </div>
         </div>
@@ -1620,7 +1620,7 @@ function toggleLoginMode() {
 
   if (isLogin) {
     btn.textContent = 'Criar conta';
-    document.querySelector('.login-toggle button').textContent = 'JÃ¡ tem conta?';
+    document.querySelector('.login-toggle button').textContent = 'Já tem conta?';
     form.onsubmit = handleSignupSubmit;
   } else {
     btn.textContent = 'Entrar';
@@ -1657,9 +1657,9 @@ async function handleLoginSubmit(event) {
     document.getElementById('loginForm').reset();
   } catch (error) {
     let message = 'Erro ao fazer login';
-    if (error.code === 'auth/user-not-found') message = 'UsuÃ¡rio nÃ£o encontrado';
+    if (error.code === 'auth/user-not-found') message = 'Usuário não encontrado';
     if (error.code === 'auth/wrong-password') message = 'Senha incorreta';
-    if (error.code === 'auth/invalid-email') message = 'Email invÃ¡lido';
+    if (error.code === 'auth/invalid-email') message = 'Email inválido';
     showLoginError(message);
   } finally {
     btn.classList.remove('loading');
@@ -1679,7 +1679,7 @@ async function handleSignupSubmit(event) {
   }
 
   if (password.length < 6) {
-    showLoginError('Senha deve ter no mÃ­nimo 6 caracteres');
+    showLoginError('Senha deve ter no mínimo 6 caracteres');
     return;
   }
 
@@ -1691,8 +1691,8 @@ async function handleSignupSubmit(event) {
     document.getElementById('loginForm').reset();
   } catch (error) {
     let message = 'Erro ao criar conta';
-    if (error.code === 'auth/email-already-in-use') message = 'Email jÃ¡ cadastrado';
-    if (error.code === 'auth/invalid-email') message = 'Email invÃ¡lido';
+    if (error.code === 'auth/email-already-in-use') message = 'Email já cadastrado';
+    if (error.code === 'auth/invalid-email') message = 'Email inválido';
     if (error.code === 'auth/weak-password') message = 'Senha muito fraca';
     showLoginError(message);
   } finally {
@@ -1751,7 +1751,7 @@ async function getSimulacoes() {
     const snapshot = await db.collection('users').doc(currentUser.uid).collection('simulacoes').get();
     return snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
   } catch (error) {
-    console.error('Erro ao carregar simulaÃ§Ãµes:', error);
+    console.error('Erro ao carregar simulações:', error);
     return [];
   }
 }
@@ -1774,7 +1774,7 @@ async function setSimulacoes(sims) {
 
     await batch.commit();
   } catch (error) {
-    console.error('Erro ao salvar simulaÃ§Ãµes:', error);
+    console.error('Erro ao salvar simulações:', error);
   }
 }
 
@@ -1783,10 +1783,10 @@ let selectedModel = null;
 
 const contractModels = {
   gestao: {
-    name: 'GestÃ£o',
-    subtitle: 'CondomÃ­nio possui os equipamentos',
-    icon: 'ð¢',
-    description: 'O condomÃ­nio jÃ¡ possui os equipamentos. A Inova Lavandery gerencia a operaÃ§Ã£o, manutenÃ§Ã£o e cobranÃ§a.',
+    name: 'Gestão',
+    subtitle: 'Condomínio possui os equipamentos',
+    icon: '🏢',
+    description: 'O condomínio já possui os equipamentos. A Inova Lavandery gerencia a operação, manutenção e cobrança.',
     hasComodato: false,
     hasAluguelEquip: false,
     hasVenda: false,
@@ -1800,8 +1800,8 @@ const contractModels = {
   comodato: {
     name: 'Comodato',
     subtitle: 'Inova Lavandery fornece equipamentos Speed Queen',
-    icon: 'ð§',
-    description: 'A Inova Lavandery fornece equipamentos SPEED QUEEN em regime de comodato (emprÃ©stimo). Propriedade da Inova Lavandery.',
+    icon: '🔧',
+    description: 'A Inova Lavandery fornece equipamentos SPEED QUEEN em regime de comodato (empréstimo). Propriedade da Inova Lavandery.',
     hasComodato: true,
     hasAluguelEquip: false,
     hasVenda: false,
@@ -1815,8 +1815,8 @@ const contractModels = {
   aluguel: {
     name: 'Aluguel',
     subtitle: 'Inova Lavandery aluga os equipamentos',
-    icon: 'ð',
-    description: 'A Inova Lavandery aluga os equipamentos para o condomÃ­nio mediante taxa mensal. ManutenÃ§Ã£o incluÃ­da.',
+    icon: '📋',
+    description: 'A Inova Lavandery aluga os equipamentos para o condomínio mediante taxa mensal. Manutenção incluída.',
     hasComodato: false,
     hasAluguelEquip: true,
     hasVenda: false,
@@ -1830,8 +1830,8 @@ const contractModels = {
   venda: {
     name: 'Venda',
     subtitle: 'Inova Lavandery vende os equipamentos',
-    icon: 'ð°',
-    description: 'A Inova Lavandery vende os equipamentos ao condomÃ­nio com gestÃ£o operacional pÃ³s-venda.',
+    icon: '💰',
+    description: 'A Inova Lavandery vende os equipamentos ao condomínio com gestão operacional pós-venda.',
     hasComodato: false,
     hasAluguelEquip: false,
     hasVenda: true,
@@ -1843,10 +1843,10 @@ const contractModels = {
     }
   },
   hibrido: {
-    name: 'HÃ­brido',
-    subtitle: 'CombinaÃ§Ã£o personalizada',
-    icon: 'ð',
-    description: 'Combine mÃºltiplas modalidades: comodato + aluguel, gestÃ£o + venda, etc.',
+    name: 'Híbrido',
+    subtitle: 'Combinação personalizada',
+    icon: '🔀',
+    description: 'Combine múltiplas modalidades: comodato + aluguel, gestão + venda, etc.',
     hasComodato: true,
     hasAluguelEquip: false,
     hasVenda: false,
@@ -1976,7 +1976,7 @@ function updateConfigUI() {
     specific.innerHTML += `
       <h3 style="font-size: 14px; font-weight: 600; margin: 24px 0 16px;">Aluguel de Equipamentos</h3>
       <div class="form-group">
-        <label class="form-label">Aluguel (R$/mÃªs)</label>
+        <label class="form-label">Aluguel (R$/mês)</label>
         <input type="number" class="form-input" id="config_aluguel_equip" placeholder="2500" step="0.01" min="0">
       </div>
     `;
@@ -2075,10 +2075,10 @@ function generateSummary() {
     </div>
     <div style="margin-bottom: 20px;">
       <h3 style="font-size: 16px; font-weight: 600; margin-bottom: 12px;">Modelo</h3>
-      <p><strong>${model.name}</strong> â ${model.subtitle}</p>
+      <p><strong>${model.name}</strong> — ${model.subtitle}</p>
     </div>
     <div>
-      <h3 style="font-size: 16px; font-weight: 600; margin-bottom: 12px;">PrÃ³ximo Passo</h3>
+      <h3 style="font-size: 16px; font-weight: 600; margin-bottom: 12px;">Próximo Passo</h3>
       <p>Clique em "Gerar" para criar o documento final em PDF.</p>
     </div>
   `;
@@ -2086,11 +2086,11 @@ function generateSummary() {
 
 function generateContractDisplay() {
   const clauses = {
-    gestao: 'CONTRATO DE GESTÃO DE LAVANDERIA - Clausulas padrÃ£o para modelo GestÃ£o',
+    gestao: 'CONTRATO DE GESTÃO DE LAVANDERIA - Clausulas padrão para modelo Gestão',
     comodato: 'CONTRATO DE COMODATO DE EQUIPAMENTOS - Clausulas para comodato SPEED QUEEN',
-    aluguel: 'CONTRATO DE LOCAÃÃO DE EQUIPAMENTOS - Clausulas para aluguel mensal',
-    venda: 'CONTRATO DE VENDA DE EQUIPAMENTOS - Clausulas para venda e pÃ³s-venda',
-    hibrido: 'CONTRATO DE SERVIÃOS INTEGRADOS - Clausulas para modalidade hÃ­brida'
+    aluguel: 'CONTRATO DE LOCAÇÃO DE EQUIPAMENTOS - Clausulas para aluguel mensal',
+    venda: 'CONTRATO DE VENDA DE EQUIPAMENTOS - Clausulas para venda e pós-venda',
+    hibrido: 'CONTRATO DE SERVIÇOS INTEGRADOS - Clausulas para modalidade híbrida'
   };
 
   const contratada = document.getElementById('contratada_nome').value || 'Contratada';
@@ -2108,28 +2108,28 @@ function generateContractDisplay() {
     <h1 style="text-align: center; font-size: 18px; font-weight: 700; margin-bottom: 30px;">${getContractTitle()}</h1>
     <p style="margin-bottom: 20px;"><strong>Data:</strong> ${new Date().toLocaleDateString('pt-BR')}</p>
     <p style="margin-bottom: 20px;">Pelo presente instrumento particular, as partes abaixo qualificadas:</p>
-    <p style="margin-bottom: 5px;"><strong>CONTRATADA:</strong> ${contratada}${contratadaFantasia ? ', doravante denominada ' + contratadaFantasia : ''}${contratadaCnpj ? ', inscrita no CNPJ/MF sob nÂº ' + contratadaCnpj : ''}${contratadaEnd ? ', situada na ' + contratadaEnd : ''}${contratadaCid ? ', ' + contratadaCid : ''}${contratadaRep ? ', neste ato representada por seu sÃ³cio ' + contratadaRep.toUpperCase() : ''};</p>
-    <p style="margin-bottom: 20px;"><strong>CONTRATANTE:</strong> ${contratante}${contratanteCnpj ? ', inscrito no CNPJ/CPF sob nÂº ' + contratanteCnpj : ''}${contratanteEnd ? ', situado em ' + contratanteEnd : ''}${contratanteCid ? ', ' + contratanteCid : ''}, doravante denominado CONTRATANTE;</p>
-    <h2 style="font-size: 14px; font-weight: 700; margin-top: 30px; margin-bottom: 15px;">I â DAS PARTES</h2>
+    <p style="margin-bottom: 5px;"><strong>CONTRATADA:</strong> ${contratada}${contratadaFantasia ? ', doravante denominada ' + contratadaFantasia : ''}${contratadaCnpj ? ', inscrita no CNPJ/MF sob nº ' + contratadaCnpj : ''}${contratadaEnd ? ', situada na ' + contratadaEnd : ''}${contratadaCid ? ', ' + contratadaCid : ''}${contratadaRep ? ', neste ato representada por seu sócio ' + contratadaRep.toUpperCase() : ''};</p>
+    <p style="margin-bottom: 20px;"><strong>CONTRATANTE:</strong> ${contratante}${contratanteCnpj ? ', inscrito no CNPJ/CPF sob nº ' + contratanteCnpj : ''}${contratanteEnd ? ', situado em ' + contratanteEnd : ''}${contratanteCid ? ', ' + contratanteCid : ''}, doravante denominado CONTRATANTE;</p>
+    <h2 style="font-size: 14px; font-weight: 700; margin-top: 30px; margin-bottom: 15px;">I — DAS PARTES</h2>
     <p style="margin-bottom: 15px;">Pelo presente instrumento particular, constituem-se as seguintes partes:</p>
-    <h2 style="font-size: 14px; font-weight: 700; margin-top: 30px; margin-bottom: 15px;">II â DO OBJETO</h2>
+    <h2 style="font-size: 14px; font-weight: 700; margin-top: 30px; margin-bottom: 15px;">II — DO OBJETO</h2>
     <p style="margin-bottom: 15px;">${clauses[selectedModel]}</p>
-    <h2 style="font-size: 14px; font-weight: 700; margin-top: 30px; margin-bottom: 15px;">III â DAS OBRIGAÃÃES</h2>
-    <p style="margin-bottom: 15px;">As partes assumem as obrigaÃ§Ãµes conforme pactuado neste contrato.</p>
-    <h2 style="font-size: 14px; font-weight: 700; margin-top: 30px; margin-bottom: 15px;">IV â DO FINANCEIRO</h2>
-    <p style="margin-bottom: 15px;">Os preÃ§os sÃ£o aqueles estabelecidos no Termo de ReferÃªncia anexado.</p>
-    <h2 style="font-size: 14px; font-weight: 700; margin-top: 30px; margin-bottom: 15px;">V â DISPOSIÃÃES FINAIS</h2>
-    <p>As partes elegem o foro da comarca de SÃ£o Paulo para dirimir qualquer dÃºvida decorrente deste contrato.</p>
+    <h2 style="font-size: 14px; font-weight: 700; margin-top: 30px; margin-bottom: 15px;">III — DAS OBRIGAÇÕES</h2>
+    <p style="margin-bottom: 15px;">As partes assumem as obrigações conforme pactuado neste contrato.</p>
+    <h2 style="font-size: 14px; font-weight: 700; margin-top: 30px; margin-bottom: 15px;">IV — DO FINANCEIRO</h2>
+    <p style="margin-bottom: 15px;">Os preços são aqueles estabelecidos no Termo de Referência anexado.</p>
+    <h2 style="font-size: 14px; font-weight: 700; margin-top: 30px; margin-bottom: 15px;">V — DISPOSIÇÕES FINAIS</h2>
+    <p>As partes elegem o foro da comarca de São Paulo para dirimir qualquer dúvida decorrente deste contrato.</p>
   `;
 }
 
 function getContractTitle() {
   const titles = {
-    gestao: 'CONTRATO DE GESTÃO DE LAVANDERIA',
-    comodato: 'CONTRATO DE GESTÃO E COMODATO DE EQUIPAMENTOS',
-    aluguel: 'CONTRATO DE GESTÃO E LOCAÃÃO DE EQUIPAMENTOS',
-    venda: 'CONTRATO DE VENDA E GESTÃO DE EQUIPAMENTOS',
-    hibrido: 'CONTRATO DE SERVIÃOS INTEGRADOS DE LAVANDERIA'
+    gestao: 'CONTRATO DE GESTÃO DE LAVANDERIA',
+    comodato: 'CONTRATO DE GESTÃO E COMODATO DE EQUIPAMENTOS',
+    aluguel: 'CONTRATO DE GESTÃO E LOCAÇÃO DE EQUIPAMENTOS',
+    venda: 'CONTRATO DE VENDA E GESTÃO DE EQUIPAMENTOS',
+    hibrido: 'CONTRATO DE SERVIÇOS INTEGRADOS DE LAVANDERIA'
   };
   return titles[selectedModel] || 'CONTRATO DE LAVANDERIA';
 }
@@ -2198,10 +2198,10 @@ function downloadPDF() {
   doc.setFont('helvetica', 'normal');
   let contratadaTxt = contratada;
   if (contratadaFantasia) contratadaTxt += ', doravante denominada ' + contratadaFantasia;
-  if (contratadaCnpj) contratadaTxt += ', inscrita no CNPJ/MF sob nÂº ' + contratadaCnpj;
+  if (contratadaCnpj) contratadaTxt += ', inscrita no CNPJ/MF sob nº ' + contratadaCnpj;
   if (contratadaEnd) contratadaTxt += ', situada na ' + contratadaEnd;
   if (contratadaCid) contratadaTxt += ', ' + contratadaCid;
-  if (contratadaRep) contratadaTxt += ', neste ato representada por seu sÃ³cio ' + contratadaRep.toUpperCase();
+  if (contratadaRep) contratadaTxt += ', neste ato representada por seu sócio ' + contratadaRep.toUpperCase();
   contratadaTxt += ';';
   const contratadaLines = doc.splitTextToSize(contratadaTxt, contentWidth - 5);
   doc.text(contratadaLines, marginLeft + 5, y);
@@ -2212,7 +2212,7 @@ function downloadPDF() {
   y += 6;
   doc.setFont('helvetica', 'normal');
   let contratanteTxt = contratante;
-  if (contratanteCnpj) contratanteTxt += ', inscrito no CNPJ/CPF sob nÂº ' + contratanteCnpj;
+  if (contratanteCnpj) contratanteTxt += ', inscrito no CNPJ/CPF sob nº ' + contratanteCnpj;
   if (contratanteEnd) contratanteTxt += ', situado em ' + contratanteEnd;
   if (contratanteCid) contratanteTxt += ', ' + contratanteCid;
   contratanteTxt += ', doravante denominado CONTRATANTE;';
@@ -2224,7 +2224,7 @@ function downloadPDF() {
 
   doc.setFont('helvetica', 'bold');
   doc.setFontSize(11);
-  doc.text('I â DAS PARTES', marginLeft, y);
+  doc.text('I — DAS PARTES', marginLeft, y);
   y += 7;
 
   doc.setFont('helvetica', 'normal');
@@ -2239,7 +2239,7 @@ function downloadPDF() {
     doc.setPage(i);
     doc.setFontSize(7);
     doc.setTextColor(150, 150, 150);
-    doc.text('Lavandery GestÃ£o | PÃ¡gina ' + i, pageWidth / 2, pageHeight - 10, { align: 'center' });
+    doc.text('Lavandery Gestão | Página ' + i, pageWidth / 2, pageHeight - 10, { align: 'center' });
   }
 
   const filename = (contratante || 'contrato').replace(/\s+/g, '_') + '_contrato.pdf';
@@ -2374,11 +2374,11 @@ function updateSimBreakdownChart(fatBrutoMes, repasseMes, custoProdMes, margemLi
   const liqPct = Math.max(0, 100 - repPct - prodPct);
 
   bar.innerHTML = `
-    <div style="width:${liqPct}%;background:var(--green);transition:width 0.6s ease;" title="Margem LÃ­quida"></div>
+    <div style="width:${liqPct}%;background:var(--green);transition:width 0.6s ease;" title="Margem Líquida"></div>
     <div style="width:${repPct}%;background:#ff9500;transition:width 0.6s ease;" title="Repasse"></div>
     <div style="width:${prodPct}%;background:var(--accent);transition:width 0.6s ease;" title="Produtos"></div>`;
   legend.innerHTML = `
-    <div class="chart-legend-item"><div class="chart-legend-dot" style="background:var(--green)"></div>LÃ­quido ${liqPct.toFixed(0)}%</div>
+    <div class="chart-legend-item"><div class="chart-legend-dot" style="background:var(--green)"></div>Líquido ${liqPct.toFixed(0)}%</div>
     <div class="chart-legend-item"><div class="chart-legend-dot" style="background:#ff9500"></div>Repasse ${repPct.toFixed(0)}%</div>
     <div class="chart-legend-item"><div class="chart-legend-dot" style="background:var(--accent)"></div>Produtos ${prodPct.toFixed(0)}%</div>`;
 }
@@ -2406,7 +2406,7 @@ function addSimProduto() {
         <input type="text" class="form-input" value="" placeholder="Nome" oninput="updateSimulator()">
       </div>
       <div class="form-group" style="margin:0">
-        <label class="form-label">PreÃ§o GalÃ£o</label>
+        <label class="form-label">Preço Galão</label>
         <input type="number" class="form-input sim-prod-preco" value="108" step="0.50" min="0" oninput="updateSimulator()">
       </div>
       <div class="form-group" style="margin:0">
@@ -2417,7 +2417,7 @@ function addSimProduto() {
         <label class="form-label">ml/Ciclo</label>
         <input type="number" class="form-input sim-prod-ml" value="50" step="1" min="0" oninput="updateSimulator()">
       </div>
-      <button onclick="this.closest('.produto-row').remove();updateSimulator()" style="background:none;border:none;color:#ff3b30;font-size:18px;cursor:pointer;padding:8px;margin-bottom:2px;">â</button>
+      <button onclick="this.closest('.produto-row').remove();updateSimulator()" style="background:none;border:none;color:#ff3b30;font-size:18px;cursor:pointer;padding:8px;margin-bottom:2px;">✕</button>
     </div>
   `;
   c.appendChild(div);
@@ -2522,7 +2522,7 @@ function updateSimulator() {
     pbEl.style.color = 'var(--green)';
     pbEl.style.fontSize = '13px';
   } else if (margemLiqMes <= 0) {
-    pbEl.textContent = 'â (sem lucro)';
+    pbEl.textContent = '∞ (sem lucro)';
     pbEl.style.color = '#ff3b30';
     pbEl.style.fontSize = '14px';
   } else {
@@ -2535,11 +2535,11 @@ function updateSimulator() {
   lpEl.textContent = 'R$ ' + fmtBRL(lucroAposPayback);
   lpEl.style.color = lucroAposPayback >= 0 ? 'var(--green)' : '#ff3b30';
 
-  // ComissÃ£o do vendedor (valor fixo em R$)
+  // Comissão do vendedor (valor fixo em R$)
   const comissaoValor = parseFloat(document.getElementById('sim_comissao').value) || 0;
   document.getElementById('sim_comissao_valor').textContent = 'R$ ' + fmtBRL(comissaoValor);
 
-  // AvaliaÃ§Ã£o automÃ¡tica da proposta
+  // Avaliação automática da proposta
   const avalEl = document.getElementById('sim_avaliacao');
   const avalEmoji = document.getElementById('sim_avaliacao_emoji');
   const avalTexto = document.getElementById('sim_avaliacao_texto');
@@ -2560,28 +2560,28 @@ function updateSimulator() {
 
   if (avalScore >= 7) {
     avalEl.style.background = 'rgba(52,199,89,0.1)';
-    avalEmoji.textContent = 'ð¢';
+    avalEmoji.textContent = '🟢';
     avalTexto.textContent = 'EXCELENTE';
     avalTexto.style.color = 'var(--green)';
-    avalDetalhe.textContent = 'Proposta muito lucrativa. Alta margem e retorno rÃ¡pido.';
+    avalDetalhe.textContent = 'Proposta muito lucrativa. Alta margem e retorno rápido.';
   } else if (avalScore >= 5) {
     avalEl.style.background = 'rgba(124,92,252,0.08)';
-    avalEmoji.textContent = 'ðµ';
+    avalEmoji.textContent = '🔵';
     avalTexto.textContent = 'BOA';
     avalTexto.style.color = 'var(--accent)';
-    avalDetalhe.textContent = 'Proposta viÃ¡vel com bom potencial de lucro.';
+    avalDetalhe.textContent = 'Proposta viável com bom potencial de lucro.';
   } else if (avalScore >= 3) {
     avalEl.style.background = 'rgba(255,149,0,0.08)';
-    avalEmoji.textContent = 'ð¡';
+    avalEmoji.textContent = '🟡';
     avalTexto.textContent = 'REGULAR';
     avalTexto.style.color = '#ff9500';
     avalDetalhe.textContent = 'Margem apertada. Considere renegociar termos.';
   } else {
     avalEl.style.background = 'rgba(255,59,48,0.08)';
-    avalEmoji.textContent = 'ð´';
+    avalEmoji.textContent = '🔴';
     avalTexto.textContent = 'RUIM';
     avalTexto.style.color = '#ff3b30';
-    avalDetalhe.textContent = 'Proposta nÃ£o viÃ¡vel. Margem insuficiente ou payback muito longo.';
+    avalDetalhe.textContent = 'Proposta não viável. Margem insuficiente ou payback muito longo.';
   }
 
   // Set today's date if empty
@@ -2653,7 +2653,7 @@ function addProduto() {
         <input type="text" class="form-input" value="" placeholder="Nome" oninput="updateComparator()">
       </div>
       <div class="form-group" style="margin:0">
-        <label class="form-label">PreÃ§o GalÃ£o (R$)</label>
+        <label class="form-label">Preço Galão (R$)</label>
         <input type="number" class="form-input prod-preco" value="108" step="0.50" min="0" oninput="updateComparator()">
       </div>
       <div class="form-group" style="margin:0">
@@ -2664,7 +2664,7 @@ function addProduto() {
         <label class="form-label">ml/Ciclo</label>
         <input type="number" class="form-input prod-ml" value="50" step="1" min="0" oninput="updateComparator()">
       </div>
-      <button onclick="removeProduto(this)" style="background:none;border:none;color:#ff3b30;font-size:18px;cursor:pointer;padding:8px;margin-bottom:2px;" title="Remover">â</button>
+      <button onclick="removeProduto(this)" style="background:none;border:none;color:#ff3b30;font-size:18px;cursor:pointer;padding:8px;margin-bottom:2px;" title="Remover">✕</button>
     </div>
   `;
   container.appendChild(div);
@@ -2695,7 +2695,7 @@ function updateComparator(skipRebuild) {
         <div style="font-size:20px;font-weight:700;color:var(--accent);">R$ ${fmtBRL(custoProdCiclo)}</div>
       </div>
       <div>
-        <span style="font-size:13px;color:var(--text-secondary);font-weight:500;">Custo Produtos/MÃªs</span>
+        <span style="font-size:13px;color:var(--text-secondary);font-weight:500;">Custo Produtos/Mês</span>
         <div style="font-size:20px;font-weight:700;color:var(--accent);">R$ ${fmtBRL(custoProdMes)}</div>
       </div>
       <div>
@@ -2734,15 +2734,15 @@ function updateComparator(skipRebuild) {
   const summaryEl = document.getElementById('compSummary');
   summaryEl.innerHTML = `
     <div class="comp-summary-item">
-      <div class="comp-summary-label">Fat. Bruto/MÃªs</div>
+      <div class="comp-summary-label">Fat. Bruto/Mês</div>
       <div class="comp-summary-value">R$ ${fmtBRL(fatBrutoMes)}</div>
     </div>
     <div class="comp-summary-item">
-      <div class="comp-summary-label">PreÃ§o MÃ©dio/Ciclo</div>
+      <div class="comp-summary-label">Preço Médio/Ciclo</div>
       <div class="comp-summary-value">R$ ${fmtBRL(precoMedio)}</div>
     </div>
     <div class="comp-summary-item">
-      <div class="comp-summary-label">ð§´ Custo Produto/Ciclo</div>
+      <div class="comp-summary-label">🧴 Custo Produto/Ciclo</div>
       <div class="comp-summary-value" style="color:var(--accent)">R$ ${fmtBRL(custoProdCiclo)}</div>
     </div>
     <div class="comp-summary-item">
@@ -2782,35 +2782,35 @@ function updateComparator(skipRebuild) {
       </div>
       <div class="comp-metrics">
         <div class="comp-metric">
-          <span class="comp-metric-label">Repasse/Ciclo (CondomÃ­nio)</span>
+          <span class="comp-metric-label">Repasse/Ciclo (Condomínio)</span>
           <span class="comp-metric-value">R$ ${fmtBRL(r.repasseCiclo)} <small style="color:var(--text-tertiary)">(${r.repassePct.toFixed(1)}%)</small></span>
         </div>
         <div class="comp-metric">
-          <span class="comp-metric-label">ð§´ Custo Produto/Ciclo</span>
+          <span class="comp-metric-label">🧴 Custo Produto/Ciclo</span>
           <span class="comp-metric-value" style="color:var(--accent)">- R$ ${fmtBRL(r.custoProdCiclo)}</span>
         </div>
         <div class="comp-metric" style="background:${r.lucroLiqCiclo >= 0 ? 'var(--green-light)' : 'rgba(255,59,48,0.08)'};margin:0 -8px;padding:10px 8px;border-radius:8px;">
-          <span class="comp-metric-label" style="font-weight:600;color:var(--text-primary)">Recebo LÃ­quido/Ciclo</span>
+          <span class="comp-metric-label" style="font-weight:600;color:var(--text-primary)">Recebo Líquido/Ciclo</span>
           <span class="comp-metric-value ${lucroClass}" style="font-size:16px;font-weight:700">R$ ${fmtBRL(r.lucroLiqCiclo)}</span>
         </div>
         <div class="comp-metric">
-          <span class="comp-metric-label">Repasse/MÃªs</span>
+          <span class="comp-metric-label">Repasse/Mês</span>
           <span class="comp-metric-value">R$ ${fmtBRL(r.repasseMes)}</span>
         </div>
         <div class="comp-metric">
-          <span class="comp-metric-label">Margem Bruta/MÃªs</span>
+          <span class="comp-metric-label">Margem Bruta/Mês</span>
           <span class="comp-metric-value">R$ ${fmtBRL(r.margemBrutaMes)}</span>
         </div>
         <div class="comp-metric">
-          <span class="comp-metric-label">Margem LÃ­quida/MÃªs</span>
+          <span class="comp-metric-label">Margem Líquida/Mês</span>
           <span class="comp-metric-value ${liqClass}" style="font-weight:700">R$ ${fmtBRL(r.margemLiqMes)}</span>
         </div>
         <div class="comp-metric">
-          <span class="comp-metric-label">Margem LÃ­q. %</span>
+          <span class="comp-metric-label">Margem Líq. %</span>
           <span class="comp-metric-value ${liqClass}">${r.margemLiqPct.toFixed(1)}%</span>
         </div>
         <div class="comp-metric">
-          <span class="comp-metric-label">MÃ©dia Anual (LÃ­quido)</span>
+          <span class="comp-metric-label">Média Anual (Líquido)</span>
           <span class="comp-metric-value ${liqClass}">R$ ${fmtBRL(r.mediaAnualLiq)}</span>
         </div>
         <div class="comp-metric" style="background:var(--bg-tertiary);margin:0 -8px;padding:10px 8px;border-radius:8px;">
@@ -2832,7 +2832,7 @@ function updateComparator(skipRebuild) {
   });
 }
 
-// ===== SIMULAÃÃES SALVAS =====
+// ===== SIMULAÇÕES SALVAS =====
 function coletarDadosSimulacao() {
   // Collect all simulator input values
   const produtos = [];
@@ -2879,14 +2879,14 @@ function coletarDadosSimulacao() {
 async function salvarSimulacao() {
   const dados = coletarDadosSimulacao();
   if (!dados.condominio && !dados.modelo) {
-    alert('Preencha ao menos o nome do condomÃ­nio ou selecione um modelo antes de salvar.');
+    alert('Preencha ao menos o nome do condomínio ou selecione um modelo antes de salvar.');
     return;
   }
   const sims = await getSimulacoes();
   const modelName = dados.modelo ? (contractModels[dados.modelo]?.name || dados.modelo) : 'Sem modelo';
   const sim = {
     id: Date.now(),
-    nome: dados.condominio || ('SimulaÃ§Ã£o ' + (sims.length + 1)),
+    nome: dados.condominio || ('Simulação ' + (sims.length + 1)),
     modelo: modelName,
     data: dados.data || new Date().toISOString().split('T')[0],
     vendedor: dados.vendedor || '-',
@@ -2898,7 +2898,7 @@ async function salvarSimulacao() {
   // Visual feedback
   const btn = event.target.closest('button');
   const originalHTML = btn.innerHTML;
-  btn.innerHTML = '<span style="font-size:18px;">â</span> Salvo!';
+  btn.innerHTML = '<span style="font-size:18px;">✅</span> Salvo!';
   btn.style.background = 'var(--green)';
   setTimeout(() => {
     btn.innerHTML = originalHTML;
@@ -2940,10 +2940,10 @@ async function carregarSimulacao(id) {
         <div class="produto-row" data-ctx="sim">
           <div style="display:grid;grid-template-columns:2fr 1fr 1fr 1fr auto;gap:10px;align-items:end;${mt}">
             <div class="form-group" style="margin:0"><label class="form-label">Produto</label><input type="text" class="form-input" value="${p.nome}" oninput="updateSimulator()"></div>
-            <div class="form-group" style="margin:0"><label class="form-label">PreÃ§o GalÃ£o</label><input type="number" class="form-input sim-prod-preco" value="${p.preco}" step="0.50" min="0" oninput="updateSimulator()"></div>
+            <div class="form-group" style="margin:0"><label class="form-label">Preço Galão</label><input type="number" class="form-input sim-prod-preco" value="${p.preco}" step="0.50" min="0" oninput="updateSimulator()"></div>
             <div class="form-group" style="margin:0"><label class="form-label">Tamanho (ml)</label><input type="number" class="form-input sim-prod-tamanho" value="${p.tamanho}" step="100" min="1" oninput="updateSimulator()"></div>
             <div class="form-group" style="margin:0"><label class="form-label">ml/Ciclo</label><input type="number" class="form-input sim-prod-ml" value="${p.ml}" step="1" min="0" oninput="updateSimulator()"></div>
-            <button onclick="this.closest('.produto-row').remove();updateSimulator()" style="background:none;border:none;color:#ff3b30;font-size:18px;cursor:pointer;padding:8px;margin-bottom:2px;">â</button>
+            <button onclick="this.closest('.produto-row').remove();updateSimulator()" style="background:none;border:none;color:#ff3b30;font-size:18px;cursor:pointer;padding:8px;margin-bottom:2px;">✕</button>
           </div>
         </div>
       `);
@@ -2954,7 +2954,7 @@ async function carregarSimulacao(id) {
 }
 
 async function excluirSimulacao(id) {
-  if (!confirm('Tem certeza que deseja excluir esta simulaÃ§Ã£o?')) return;
+  if (!confirm('Tem certeza que deseja excluir esta simulação?')) return;
   const sims = await getSimulacoes();
   const filtered = sims.filter(s => s.id !== id);
   await setSimulacoes(filtered);
@@ -2995,16 +2995,16 @@ async function renderSavedSims() {
               <span style="padding:2px 10px;border-radius:20px;font-size:11px;font-weight:700;background:${avalColor}22;color:${avalColor};">${d._avaliacao || '-'}</span>
             </div>
             <div style="display:flex;gap:20px;font-size:12px;color:var(--text-tertiary);flex-wrap:wrap;">
-              <span>ð ${dataFmt}</span>
-              <span>ð¤ ${sim.vendedor}</span>
-              <span>ð° Faturamento: ${d._faturamento || '-'}</span>
+              <span>📅 ${dataFmt}</span>
+              <span>👤 ${sim.vendedor}</span>
+              <span>💰 Faturamento: ${d._faturamento || '-'}</span>
               <span style="font-weight:600;color:${avalColors[d._avaliacao] || 'inherit'}">Margem: ${d._margemLiqMes || '-'}</span>
-              <span>â±ï¸ Payback: ${d._payback || '-'}</span>
+              <span>⏱️ Payback: ${d._payback || '-'}</span>
             </div>
           </div>
           <div style="display:flex;gap:8px;flex-shrink:0;">
             <button onclick="carregarSimulacao(${sim.id})" class="btn btn-primary" style="padding:8px 16px;font-size:12px;">Carregar</button>
-            <button onclick="excluirSimulacao(${sim.id})" class="btn btn-secondary" style="padding:8px 12px;font-size:12px;color:#ff3b30;border-color:#ff3b30;">â</button>
+            <button onclick="excluirSimulacao(${sim.id})" class="btn btn-secondary" style="padding:8px 12px;font-size:12px;color:#ff3b30;border-color:#ff3b30;">✕</button>
           </div>
         </div>
       </div>
@@ -3071,14 +3071,14 @@ function downloadSimulacaoPDF() {
   doc.setFontSize(22);
   doc.setTextColor(255, 255, 255);
   doc.setFont('helvetica', 'bold');
-  doc.text('LAVANDERY GESTÃO', margin, 16);
+  doc.text('LAVANDERY GESTÃO', margin, 16);
   doc.setFontSize(9);
   doc.setFont('helvetica', 'normal');
   doc.setTextColor(200, 190, 255);
   doc.text('LAVANDERIA COMPARTILHADA', margin, 23);
   doc.setFontSize(11);
   doc.setTextColor(255, 255, 255);
-  doc.text('SimulaÃ§Ã£o Financeira', margin, 31);
+  doc.text('Simulação Financeira', margin, 31);
 
   // Date and seller on right
   const dataVal = document.getElementById('sim_data').value || new Date().toISOString().split('T')[0];
@@ -3090,8 +3090,8 @@ function downloadSimulacaoPDF() {
 
   y = 45;
 
-  // CondomÃ­nio name
-  const condNome = document.getElementById('sim_condominio').value || 'NÃ£o informado';
+  // Condomínio name
+  const condNome = document.getElementById('sim_condominio').value || 'Não informado';
   doc.setFontSize(14);
   doc.setTextColor(...dark);
   doc.setFont('helvetica', 'bold');
@@ -3106,51 +3106,51 @@ function downloadSimulacaoPDF() {
   doc.text('Modelo: ' + modelName, margin, y + 4);
   y += 14;
 
-  // SEÃÃO: PARÃMETROS
-  y = addSection('PARÃMETROS DO CONTRATO', y);
+  // SEÇÃO: PARÂMETROS
+  y = addSection('PARÂMETROS DO CONTRATO', y);
   const lavVal = document.getElementById('sim_lavagem').value || '-';
   const secVal = document.getElementById('sim_secagem').value || '-';
   const cicVal = document.getElementById('sim_ciclos').value || '-';
   const vigVal = document.getElementById('sim_vigencia').value || '-';
   y = addLine('Lavagem', 'R$ ' + lavVal, y);
   y = addLine('Secagem', 'R$ ' + secVal, y);
-  y = addLine('Ciclos/MÃªs', cicVal, y);
-  y = addLine('VigÃªncia', vigVal + ' meses', y);
+  y = addLine('Ciclos/Mês', cicVal, y);
+  y = addLine('Vigência', vigVal + ' meses', y);
   y += 4;
 
-  // SEÃÃO: RESULTADOS FINANCEIROS
+  // SEÇÃO: RESULTADOS FINANCEIROS
   y = addSection('RESULTADOS FINANCEIROS', y);
-  y = addLine('Fat. Bruto/MÃªs', document.getElementById('sim_faturamento').textContent, y);
+  y = addLine('Fat. Bruto/Mês', document.getElementById('sim_faturamento').textContent, y);
   y = addLine('Repasse/Ciclo', document.getElementById('sim_repasse_ciclo').textContent, y);
-  y = addLine('% Ciclo CondomÃ­nio', document.getElementById('sim_repasse_pct').textContent, y);
+  y = addLine('% Ciclo Condomínio', document.getElementById('sim_repasse_pct').textContent, y);
   y = addLine('Custo Produto/Ciclo', document.getElementById('sim_prod_ciclo_side').textContent, y);
   y += 2;
-  y = addHighlight('RECEBO LÃQUIDO/CICLO', document.getElementById('sim_liquido_ciclo').textContent, y, green);
-  y = addLine('Margem Bruta/MÃªs', document.getElementById('sim_margem_mes').textContent, y);
-  y = addLine('Custo Produto/MÃªs', document.getElementById('sim_prod_mes_side').textContent, y);
-  y = addHighlight('MARGEM LÃQUIDA/MÃS', document.getElementById('sim_margem_liq_mes').textContent, y, green);
-  y = addLine('Margem LÃ­q. %', document.getElementById('sim_margem_pct').textContent, y);
-  y = addLine('MÃ©dia Anual (LÃ­q.)', document.getElementById('sim_media_anual').textContent, y);
+  y = addHighlight('RECEBO LÍQUIDO/CICLO', document.getElementById('sim_liquido_ciclo').textContent, y, green);
+  y = addLine('Margem Bruta/Mês', document.getElementById('sim_margem_mes').textContent, y);
+  y = addLine('Custo Produto/Mês', document.getElementById('sim_prod_mes_side').textContent, y);
+  y = addHighlight('MARGEM LÍQUIDA/MÊS', document.getElementById('sim_margem_liq_mes').textContent, y, green);
+  y = addLine('Margem Líq. %', document.getElementById('sim_margem_pct').textContent, y);
+  y = addLine('Média Anual (Líq.)', document.getElementById('sim_media_anual').textContent, y);
   y = addLine('Receita Anual', document.getElementById('sim_receita_anual').textContent, y);
-  y = addHighlight('TOTAL LÃQ. VIGÃNCIA', document.getElementById('sim_margem_total').textContent, y, green);
+  y = addHighlight('TOTAL LÍQ. VIGÊNCIA', document.getElementById('sim_margem_total').textContent, y, green);
   y += 4;
 
-  // SEÃÃO: IMPLANTAÃÃO E RETORNO
-  y = addSection('IMPLANTAÃÃO E RETORNO', y);
+  // SEÇÃO: IMPLANTAÇÃO E RETORNO
+  y = addSection('IMPLANTAÇÃO E RETORNO', y);
   y = addLine('Investimento Total', document.getElementById('sim_invest_side').textContent, y);
   const pbText = document.getElementById('sim_payback').textContent;
   y = addHighlight('PAYBACK', pbText, y, pbText.includes('Sem') ? green : accent);
-  y = addLine('Lucro apÃ³s Payback', document.getElementById('sim_lucro_pos_payback').textContent, y);
+  y = addLine('Lucro após Payback', document.getElementById('sim_lucro_pos_payback').textContent, y);
   y += 4;
 
-  // SEÃÃO: COMISSÃO
-  y = addSection('VENDEDOR E COMISSÃO', y);
+  // SEÇÃO: COMISSÃO
+  y = addSection('VENDEDOR E COMISSÃO', y);
   y = addLine('Vendedor', vendedor, y);
-  y = addLine('ComissÃ£o', document.getElementById('sim_comissao_valor').textContent, y);
+  y = addLine('Comissão', document.getElementById('sim_comissao_valor').textContent, y);
   y += 4;
 
-  // SEÃÃO: AVALIAÃÃO DA PROPOSTA
-  y = addSection('AVALIAÃÃO DA PROPOSTA', y);
+  // SEÇÃO: AVALIAÇÃO DA PROPOSTA
+  y = addSection('AVALIAÇÃO DA PROPOSTA', y);
   const avalTexto = document.getElementById('sim_avaliacao_texto').textContent;
   const avalDetalhe = document.getElementById('sim_avaliacao_detalhe').textContent;
   let avalColor = gray;
@@ -3177,13 +3177,13 @@ function downloadSimulacaoPDF() {
     doc.setPage(i);
     doc.setFontSize(8);
     doc.setTextColor(180, 180, 180);
-    doc.text('Lavandery GestÃ£o - SimulaÃ§Ã£o Financeira', margin, 290);
-    doc.text('PÃ¡gina ' + i + '/' + pageCount, w - margin, 290, { align: 'right' });
+    doc.text('Lavandery Gestão - Simulação Financeira', margin, 290);
+    doc.text('Página ' + i + '/' + pageCount, w - margin, 290, { align: 'right' });
     doc.setDrawColor(200, 200, 200);
     doc.line(margin, 286, w - margin, 286);
   }
 
-  const fileName = 'Simulacao_' + (condNome !== 'NÃ£o informado' ? condNome.replace(/[^a-zA-Z0-9]/g, '_') : 'Lavandery') + '_' + dataVal + '.pdf';
+  const fileName = 'Simulacao_' + (condNome !== 'Não informado' ? condNome.replace(/[^a-zA-Z0-9]/g, '_') : 'Lavandery') + '_' + dataVal + '.pdf';
   doc.save(fileName);
   showToast('PDF exportado com sucesso!');
 }

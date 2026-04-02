@@ -972,6 +972,10 @@ input[type="checkbox"] {
         <span class="icon">💾</span>
         <span>Simulações Salvas</span>
       </div>
+      <div class="sidebar-item" onclick="switchView('clausesEditor')">
+        <span class="icon">⚙️</span>
+        <span>Cláusulas</span>
+      </div>
     </div>
   </div>
 
@@ -1688,6 +1692,23 @@ input[type="checkbox"] {
       </div>
     </div>
 
+    <!-- CLAUSES EDITOR -->
+    <div id="clausesEditor" class="view">
+      <div class="page-header">
+        <h1>Gerenciador de Cláusulas</h1>
+        <p>Personalize as cláusulas dos contratos conforme suas necessidades</p>
+      </div>
+
+      <div class="card" style="margin-bottom: 20px;">
+        <div style="display: flex; gap: 12px;">
+          <button class="btn btn-primary" onclick="saveAllClauses()">💾 Salvar Alterações</button>
+          <button class="btn btn-secondary" onclick="resetAllClauses()">↻ Redefinir para Padrão</button>
+        </div>
+      </div>
+
+      <div id="clausesContainer"></div>
+    </div>
+
     <!-- COMPARATOR -->
     <div id="comparator" class="view">
       <div class="page-header">
@@ -2069,13 +2090,158 @@ const contractModels = {
   }
 };
 
+const defaultClauses = {
+  c1_objeto: {
+    title: 'CLÁUSULA 1 – DO OBJETO',
+    items: [
+      { key: '1.1', text: 'O presente Contrato tem por objeto a prestação de serviços ("Serviços") de instalação, suporte técnico, assistência e gestão de lavanderia compartilhada por meio do aplicativo Lavandery, desenvolvido e operado pela CONTRATADA, para o gerenciamento remoto e local dos equipamentos de lavanderia em regime de comodato.' },
+      { key: '1.2', text: 'Em regime de comodato, a CONTRATADA fornecerá à CONTRATANTE 02 (dois) conjuntos de equipamentos do tipo "máquina de lavar e secar roupas", marca SPEED QUEEN, de sua propriedade, responsabilizando-se pela realização da manutenção preventiva dos referidos equipamentos durante todo o período contratual.' },
+      { key: '1.3', text: 'A CONTRATADA atuará em regime de não exclusividade, podendo prestar serviços idênticos ou semelhantes a terceiros sem que isso configure descumprimento contratual.' },
+      { key: '1.4', text: 'A CONTRATADA declara estar regularmente apta e legalmente habilitada para a prática de sua atividade, nos termos de seu objeto social, assumindo responsabilidade apenas por danos diretos comprovadamente causados por sua ação ou omissão culposa, excluída qualquer responsabilidade por mau uso, vandalismo, sabotagem, sobrecarga elétrica, falhas de infraestrutura predial, ou utilização indevida dos equipamentos.' }
+    ]
+  },
+  c2_valor: {
+    title: 'CLÁUSULA 2 - DO VALOR DOS SERVIÇOS',
+    items: [
+      { key: '2.1', text: 'Os condôminos usuários dos serviços efetuarão o pagamento pelo ciclo de uso das máquinas diretamente no aplicativo da CONTRATADA, em regime pré-pago.' },
+      { key: '2.2', text: 'O valor de referência será de R$ {VALOR_LAVAGEM} para o ciclo de lavagem e R$ {VALOR_SECAGEM} para o ciclo de secagem, incluindo os insumos básicos necessários à operação.' },
+      { key: '2.3', text: 'A CONTRATADA realizará o repasse ao CONTRATANTE o valor de R$ {REPASSE} por ciclo efetivamente operado, mediante relatório mensal detalhado. Parágrafo único: Fica ressalvado que qualquer divergência ou disputa quanto ao total de ciclos será apurada e resolvida exclusivamente pela CONTRATADA, mediante os registros eletrônicos do seu sistema, prevalecendo estes para todos os efeitos legais.' },
+      { key: '2.4', text: 'O repasse será processado automaticamente pelo sistema da CONTRATADA, mediante depósito identificado em conta informada pelo CONTRATANTE, dentro do prazo máximo de sessenta dias após o fechamento do ciclo mensal.' }
+    ]
+  },
+  c3_reajuste: {
+    title: 'CLÁUSULA 3. DO REAJUSTE',
+    items: [
+      { key: '3.1', text: 'Os valores por ciclo informados na cláusula anterior serão reajustados anualmente pelo acumulado dos doze meses anteriores ao reajuste, pelo IPCA.' },
+      { key: '3.2', text: 'Na impossibilidade legal de utilização do IPCA como indexador, será utilizado o índice autorizado pela legislação em vigor, que reflita a variação dos custos do setor, à critério da CONTRATADA.' },
+      { key: '3.3', text: 'Caso o acumulado do índice acima totalizar valores negativos, manter-se-á o valor do ciclo cobrado no mês antecedente.' }
+    ]
+  },
+  c4_vigencia: {
+    title: 'CLÁUSULA 4. PRAZO DE VIGÊNCIA E RESCISÃO ANTECIPADA',
+    items: [
+      { key: '4.1', text: 'O presente Contrato terá prazo de vigência de {VIGENCIA} (meses) meses, a contar da assinatura da avença, podendo ser automaticamente prorrogado por iguais períodos, salvo se manifestado por qualquer das partes o desinteresse, com no mínimo 30 (trinta) dias de antecedência ao termo do contrato.' },
+      { key: '4.2', text: 'O CONTRATANTE poderá rescindir unilateralmente o presente Contrato, antes do término do seu prazo de vigência, desde que devidamente notificada à CONTRATADA com 90 (noventa) dias de antecedência, devendo ambas as partes cumprirem com suas obrigações até o término do prazo aqui estipulado. Paragrafo único: Descumprido o aviso prévio ou sendo ele dispensado pelo CONTRATANTE, o mesmo deverá arcar com o pagamento de valor equivalente ao acumulado das duas ultimas arrecadações mensais da CONTRATADA.' },
+      { key: '4.3', text: 'O Contrato poderá ainda ser rescindido por justa causa se ocorrer inobservância ou descumprimento, por qualquer das Partes, das obrigações aqui previstas, hipótese em que a rescisão será imediata e a Parte infratora incorrerá na multa contratual disposta acima, sem prejuízo da apuração das perdas e danos.' },
+      { key: '4.4', text: 'Rescindido o contrato, a CONTRATADA se compromete a retirar os adesivos, placas e kits de sua propriedade, no prazo máximo de 30 (trinta) dias e deverá a CONTRATANTE permitir o acesso imediato da CONTRATADA para remoção dos itens. Caso a CONTRATANTE não permita o acesso imediato à CONTRATADA, incorrerá a CONTRATANTE em multa contratual equivalente a R$ 500,00 (quinhentos reais), diariamente, até a liberação do acesso.' },
+      { key: '4.5', text: 'A inexecução total ou parcial injustificada, assim como o descumprimento comprovado dos prazos e das condições estipuladas para a prestação dos serviços, serão notificados à CONTRATADA, para que haja o devido saneamento do vício.' }
+    ]
+  },
+  c5_obrigacoes_contratante: {
+    title: 'CLÁUSULA 5. DAS OBRIGAÇÕES DO CONTRATANTE',
+    items: [
+      { key: '5.1.a', text: 'Prestar à CONTRATADA todas as informações e proporcionar durante a vigência deste Contrato, todas as facilidades necessárias à boa execução dos Serviços.' },
+      { key: '5.1.b', text: 'Indicar o espaço dentro do condomínio que receberá o maquinário.' },
+      { key: '5.1.c', text: 'O CONTRATANTE, na qualidade de representante dos condôminos, será integralmente responsável pela utilização adequada dos equipamentos e aplicativo disponibilizados pela CONTRATADA, bem como pelo uso da lavanderia.' },
+      { key: '5.1.d', text: 'Manter a lavanderia compartilhada fechada quando da realização dos Serviços pela CONTRATADA.' },
+      { key: '5.1.e', text: 'Ter sua equipe predial com os treinamentos em dia.' },
+      { key: '5.1.f', text: 'Permitir acesso da CONTRATADA, bem como de seus funcionários, no local de prestação dos serviços e para fins de manutenção, reparo, inspeção e remoção dos equipamentos dados em comodato. Parágrafo único: As visitas técnicas serão agendadas previamente por e-mail ou outro meio de comunicação contemplado pelas partes, devendo constar o nome e o número do documento de identificação do colaborador que realizará a visita, sendo indispensável a este a devida identificação e apresentação de documento com foto ao controle de acesso no momento da visita.' },
+      { key: '5.1.g', text: 'Orientar os condôminos, sobre o funcionamento e uso adequados da lavanderia e das máquinas.' },
+      { key: '5.1.h', text: 'Garantir a limpeza externa dos equipamentos.' },
+      { key: '5.1.i', text: 'Comunicar aos condôminos o período de inatividade da lavanderia nos dias de manutenção preventiva.' },
+      { key: '5.1.j', text: 'Disponibilizar a correta infraestrutura predial, elétrica, hidráulica e estrutural e mantê-la em boas condições, conforme normas técnicas.' },
+      { key: '5.1.k', text: 'Ceder local adequado para a preparação, instalação e operação dos equipamentos, garantindo voltagem e capacidade compatíveis e observando todas as especificações do fabricante do equipamento em comodato.' },
+      { key: '5.1.l', text: 'Utilizar os equipamentos exclusivamente para os fins a que se destinam, vedada qualquer utilização diversa do objeto do contrato.' },
+      { key: '5.1.m', text: 'Não alterar, modificar, converter, fixar diretamente no chão, nem remover os equipamentos para outros locais, salvo com autorização expressa e prévia da CONTRATADA. Parágrafo único: Havendo necessidade de mudança do local de instalação, a CONTRATANTE deverá solicitar autorização expressa da CONTRATADA, assumindo integralmente todos os custos decorrentes da alteração.' },
+      { key: '5.1.n', text: 'Não vender, sublocar, alienar, onerar ou oferecer os bens em comodato como garantia, total ou parcial, para qualquer tipo de operação comercial e/ou financeira ou litígios de qualquer natureza.' },
+      { key: '5.1.o', text: 'Responsabilizar-se por quaisquer danos provenientes de mau uso, vandalismo, interferências na rede elétrica ou hidráulica, furto ou roubo dos equipamentos.' },
+      { key: '5.1.p', text: 'Não realizar adaptações, instalações de peças ou modificações na aparência, estrutura ou funcionamento dos equipamentos, salvo autorização prévia e expressa da CONTRATADA.' },
+      { key: '5.1.q', text: 'Não permitir a intervenção de terceiros não autorizados nas máquinas e sistemas operados pela CONTRATADA.' },
+      { key: '5.1.r', text: 'Garantir acesso imediato às dependências para que a CONTRATADA possa efetuar manutenção ou proceder à retirada de seus bens.' }
+    ]
+  },
+  c6_obrigacoes_contratada: {
+    title: 'CLÁUSULA 6 - DAS OBRIGAÇÕES DA CONTRATADA',
+    items: [
+      { key: '6.1.a', text: 'Realizar, periodicamente, a manutenção preventiva dos equipamentos de lavagem e secagem.' },
+      { key: '6.1.b', text: 'Efetuar a instalação dos equipamentos objeto do comodato no prazo máximo de 60 (sessenta) dias após a assinatura do contrato, desde que o local esteja devidamente preparado para receber o maquinário.' },
+      { key: '6.1.c', text: 'Designar um funcionário para representar a CONTRATADA na CONTRATANTE, quando da prestação dos Serviços. A CONTRATADA se responsabiliza, ainda, a supervisionar e controlar seus funcionários e/ou representantes, quando da realização de tais atividades na CONTRATANTE. Os funcionários da CONTRATADA deverão estar devidamente identificados, quando da realização do objeto do presente Contrato no espaço indicado pelo CONTRATANTE.' },
+      { key: '6.1.d', text: 'Fazer com que seus empregados e representantes relacionados direta ou indiretamente, observem todas as normas de segurança e de procedimentos internos da CONTRATANTE, conforme descrito na convenção e regulamento interno da CONTRATANTE, inclusive aqueles referentes ao combate a incêndios, durante o tempo que permanecerem nas dependências desta, desde que tais documentos sejam disponibilizados à CONTRATADA antes do início da prestação dos Serviços, sendo certo que a CONTRATANTE se obriga a, existindo quaisquer alterações nos documentos, encaminhar à CONTRATADA novas versões vigentes, a fim de que a obrigação aqui disposta possa ser cumprida pela CONTRATADA.' },
+      { key: '6.1.e', text: 'Caso haja qualquer imperfeição quando da realização da gestão, a CONTRATADA se obriga, às suas expensas, a corrigir as imperfeições e incorreções dos Serviços, não se responsabilizando por quaisquer danos causados por mau uso, vandalismo ou roubo.' },
+      { key: '6.1.f', text: 'Cumprir, durante o presente Contrato com todas as Leis Federais, Estaduais e Municipais, vigentes ou que venham a viger, sendo a única responsável por infrações cometidas.' },
+      { key: '6.1.g', text: 'Correrão por conta e responsabilidade exclusiva da CONTRATADA todas as obrigações trabalhistas, previdenciárias, fiscais, decorrentes da relação empregatícia entre a CONTRATADA e seus prepostos ou colaboradores que forem designados para a execução do presente Contrato pela CONTRATADA, desde que não tenham sido ocasionados por culpa da CONTRATANTE.' },
+      { key: '6.1.h', text: 'A CONTRATADA concorda e declara que não utilizará o nome, razão social, marcas ou logotipos de propriedade da CONTRATANTE e/ou dos clientes em quaisquer comunicados públicos, anúncios, relatórios de vendas, embalagens de produtos, cartazes, materiais de escritório, literatura impressa, publicidade ou "websites", sem antes ter obtido a aprovação prévia e escrita da CONTRATANTE.' },
+      { key: '6.1.i', text: 'Executar os Serviços com integral observância das disposições contratuais, de forma diligente e oportuna, obedecendo rigorosamente às especificações e normas técnicas aplicáveis.' },
+      { key: '6.1.j', text: 'No caso de chamadas de emergência, a CONTRATADA realizará o primeiro atendimento em até 72 (setenta e duas) horas, a contar do recebimento da chamada.' },
+      { key: '6.1.k', text: 'Para o caso de atendimento online, o prazo de resposta online é de até 4 (quatro) horas, em horário comercial da 08h às 18h.' },
+      { key: '6.1.l', text: 'A CONTRATADA responsabiliza-se pelos serviços de assistência técnica e manutenção dos equipamentos em comodato. §1º. A manutenção e assistência técnica preventiva serão realizadas uma vez ao mês, em horário comercial, no local onde se encontrem os equipamentos em comodato. §2º. Caso seja necessária a retirada do equipamento para manutenção ou assistência técnica externa, a CONTRATADA não terá obrigação de disponibilizar equipamento substituto durante o período em que o bem estiver fora para manutenção.' },
+      { key: '6.1.m', text: 'Em caso de retirada do equipamento para manutenção externa, a CONTRATADA informará ao CONTRATANTE, no prazo de até 5 (cinco) dias úteis a contar da retirada, o prazo previsto para reparo do equipamento. §1º. Se o prazo de reparo informado pela CONTRATADA ultrapassar 14 (quatorze) dias, a CONTRATADA compromete-se a disponibilizar outro equipamento operacional, de mesma qualidade. §2º. A obrigação de disponibilizar equipamento substituto fica afastada se a retirada do bem se der por motivo de mau uso, dolo, culpa ou vandalismo por parte dos usuários.' },
+      { key: '6.1.n', text: 'O CONTRATANTE deverá comunicar imediatamente à CONTRATADA qualquer avaria, extravio, dano, furto ou roubo do equipamento em comodato.' },
+      { key: '6.1.o', text: 'A CONTRATADA não responde por atos de terceiros, como fornecedores de energia, internet ou danos causados por usuários.' }
+    ]
+  },
+  c7_caso_fortuito: {
+    title: 'CLÁUSULA 7. CASO FORTUITO E FORÇA MAIOR',
+    items: [
+      { key: '7.1', text: 'As partes não responderão pelo inadimplemento decorrente de caso fortuito ou força maior, conforme art. 393 do Código Civil. A parte prejudicada deverá notificar a outra em até 2 (dois) dias úteis da constatação do evento.' }
+    ]
+  },
+  c8_sigilo_lgpd: {
+    title: 'CLÁUSULA 8. DO SIGILO, CONFIDENCIALIDADE E PROTEÇÃO DE DADOS (LGPD)',
+    items: [
+      { key: '8.1', text: 'A CONTRATADA e o CONTRATANTE, por si e seus colaboradores, obrigam-se reciprocamente a manter o mais absoluto sigilo e confidencialidade no tocante aos serviços solicitados e executados, documentos e todas as informações verbais ou escritas, registradas e particulares, segredos de negócios ou qualquer outra informação que tiver acesso, durante a vigência do presente CONTRATO.' },
+      { key: '8.2', text: 'As obrigações de confidencialidade subsistirão pelo período de 05 (cinco) anos a partir do encerramento do presente CONTRATO.' },
+      { key: '8.3', text: 'A CONTRATADA se responsabiliza integralmente por qualquer violação às obrigações de confidencialidade aqui estabelecidas, inclusive por parte de seus administradores, empregados, prepostos e terceiros contratados, devendo ainda obedecer integralmente aos termos da Lei Geral de Proteção de Dados (Lei no 13.709/18).' },
+      { key: '8.4', text: 'A CONTRATADA compromete-se a utilizar as Informações Confidenciais exclusivamente para o fiel cumprimento das obrigações, e aqueles atinentes nos termos do presente contrato, sendo expressamente vedada a sua utilização, para qualquer outro fim, sob pena de responder civil e criminalmente.' },
+      { key: '8.5.a', text: 'Utilizar as Informações Confidenciais somente para prestar os Serviços, abstendo-se de divulgar qualquer Informação Confidencial a quaisquer terceiros, salvo conforme estabelecido neste Contrato.' },
+      { key: '8.5.b', text: 'Restringir a divulgação das Informações Confidenciais somente aos profissionais da CONTRATADA que devam conhecê-las para a realização dos Serviços, obrigando-se, ainda, a fazer com que seus administradores, empregados, prepostos e terceiros contratados que tiverem acesso às Informações Confidenciais cumpram as obrigações de confidencialidade aqui estipuladas.' },
+      { key: '8.5.c', text: 'Não reproduzir ou copiar as Informações Confidenciais sem o consentimento prévio e por escrito do CONTRATANTE, exceto para a utilização interna da CONTRATADA que se fizer necessária para a prestação dos Serviços, sendo certo que, neste caso, a CONTRATADA deverá identificar como confidencial qualquer reprodução ou cópia que fizer das Informações Confidenciais e guardá-las em segurança.' },
+      { key: '8.5.d', text: 'Devolver ou destruir prontamente as Informações Confidenciais e suas cópias ou reproduções, sumários, análises ou comunicações, em qualquer meio físico ou eletrônico, tão logo requerido pelo CONTRATANTE ou, caso não seja requerida a devolução ou destruição das Informações Confidenciais, em 2 (dois) dias úteis contados do término do Contrato.' },
+      { key: '8.5.e', text: 'Notificar o CONTRATANTE, imediatamente e por escrito, a respeito de qualquer divulgação, posse e/ou uso não autorizado das Informações Confidenciais de que venha a tomar conhecimento.' },
+      { key: '8.6', text: 'A CONTRATADA é controladora dos dados dos usuários finais dentro dos limites legais e operacionais da plataforma.' }
+    ]
+  },
+  c9_anticorrupcao: {
+    title: 'CLÁUSULA 9. DAS DIRETRIZES ANTICORRUPÇÃO',
+    items: [
+      { key: '9.1', text: 'A CONTRATADA se obriga, sob as penas previstas neste instrumento e na legislação aplicável, a observar e cumprir rigorosamente todas as leis cabíveis, incluindo, mas não se limitando à legislação brasileira anticorrupção, contra a lavagem de dinheiro e, ainda, o FCPA -- Foreign Corrupt Practices Act, o UK Bribery Act e o Canada´s Corruption of Foreign Public Officials Act (em conjunto "Leis Anticorrupção").' },
+      { key: '9.2', text: 'A CONTRATADA declara e garante que não está envolvida ou irá se envolver, direta ou indiretamente, por seus representantes, administradores, diretores, conselheiros, sócios ou acionistas, assessores, consultores, subcontratados, parte relacionada, seus diretores, conselheiros, sócios ou acionistas, assessores ou consultores, durante o cumprimento das obrigações previstas neste CONTRATO, em qualquer atividade ou prática que constitua uma infração aos termos das Leis Anticorrupção.' },
+      { key: '9.3.a', text: 'Sob investigação em virtude de denúncias de suborno e/ou corrupção.' },
+      { key: '9.3.b', text: 'No curso de um processo judicial e/ou administrativo ou foram condenados ou indiciados sob a acusação de corrupção ou suborno.' },
+      { key: '9.3.c', text: 'Listados em alguma entidade governamental, tampouco conhecidos ou suspeitos de práticas de terrorismo e/ou lavagem de dinheiro.' },
+      { key: '9.3.d', text: 'Sujeitos a restrições ou sanções econômicas e de negócios por qualquer entidade governamental.' },
+      { key: '9.3.e', text: 'Banidos ou impedidos, de acordo com qualquer lei que seja imposta ou fiscalizada por qualquer entidade governamental.' },
+      { key: '9.3.f', text: 'Toda documentação de cobrança a ser emitida nos termos deste CONTRATO deverá estar acompanhada de fatura detalhada, contendo discriminação dos serviços prestados e/ou bens adquiridos, conforme o caso. A CONTRATADA obriga-se a manter livros, contas, registros e faturas precisos e concorda que, se considerar necessário, o CONTRATANTE terá o direito de, direta ou indiretamente, com o auxílio de terceiros que venha a indicar, auditar os livros, contas, registros, faturas e documentação de suporte que embasem as cobranças e/ou os pedidos de reembolsos, para verificar o cumprimento do disposto nas Leis Anticorrupção e também na Política Anticorrupção, sendo que a CONTRATADA irá cooperar totalmente no curso de qualquer auditoria, obrigando-se a apresentar as informações e documentos eventualmente necessários, sempre que solicitado.' },
+      { key: '9.3.g', text: 'O não cumprimento por parte da CONTRATADA das Leis Anticorrupção e/ou da Política Anticorrupção será considerada uma infração grave a este CONTRATO e conferirá ao CONTRATANTE o direito de, agindo de boa-fé, declarar rescindido imediatamente o presente CONTRATO, sem qualquer ônus ou penalidade, sendo a CONTRATADA responsável pelas perdas e danos, nos termos da lei aplicável.' },
+      { key: '9.3.h', text: 'A CONTRATADA declara que, direta ou indiretamente, não ofereceu, prometeu, pagou ou autorizou o pagamento em dinheiro, deu ou concordou em dar presentes ou qualquer coisa de valor e, durante a vigência deste CONTRATO, não irá ofertar, prometer, pagar ou autorizar o pagamento em dinheiro, dar ou concordar em dar presentes ou qualquer coisa de valor a qualquer pessoa ou entidade, pública ou privada, com o objetivo de beneficiar ilicitamente o CONTRATANTE e/ou seus negócios.' },
+      { key: '9.3.i', text: 'Durante a vigência deste CONTRATO, a CONTRATADA, direta ou indiretamente, por si, seus representantes, prepostos ou empregados, deve se abster de prometer, oferecer, dar ou concordar em dar, para representantes do CONTRATANTE e/ou para quaisquer terceiros (incluindo autoridades públicas), quaisquer dos itens a seguir, em conjunto denominados "Cortesias". Para fins do disposto nesta Cláusula, integram a definição de Cortesias todos e quaisquer artigos, presentes, brindes, itens de entretenimento, hospitalidade e/ou qualquer coisa de valor relacionada à execução deste CONTRATO, incluindo, mas não se limitando a, vale-presentes, viagens, passagens aéreas, hospedagens, transportes, refeições, convites para eventos (abrangendo peças de teatro, shows, acontecimentos esportivos, passeios turísticos e ingressos para casas noturnas), itens promocionais diversos e/ou quaisquer outros benefícios ou vantagens, ainda que não pecuniários.' },
+      { key: '9.3.j', text: 'A CONTRATADA declara que, direta ou indiretamente, não irá receber, transferir, manter, usar ou esconder recursos que decorram de qualquer atividade ilícita, bem como não irá contratar como empregado ou de alguma forma manter relacionamento profissional com pessoas físicas ou jurídicas envolvidas com atividades criminosas, em especial as Leis Anticorrupção, lavagem de dinheiro, tráfico de drogas e terrorismo.' },
+      { key: '9.3.k1', text: 'Os atuais representantes da CONTRATADA não são funcionários públicos ou empregados do governo.' },
+      { key: '9.3.k2', text: 'Informará imediatamente, por escrito, qualquer nomeação de seus representantes como funcionários públicos ou empregados do governo.' },
+      { key: '9.3.k3', text: 'Eventual nomeação, nos termos do item "b" anterior, resultará automaticamente na rescisão deste CONTRATO, sem a imposição de qualquer multa ou penalidade.' },
+      { key: '9.3.l', text: 'A CONTRATADA notificará prontamente, por escrito, o CONTRATANTE a respeito de qualquer suspeita ou violação do disposto nas Leis Anticorrupção e/ou na Política Anticorrupção, e ainda de participação em práticas de suborno ou corrupção, assim como o descumprimento de qualquer declaração prevista nesta Cláusula.' },
+      { key: '9.4', text: 'Eventual auditoria só poderá ocorrer mediante solicitação formal e motivada, respeitando sigilo empresarial da CONTRATADA.' }
+    ]
+  },
+  c10_disposicoes_gerais: {
+    title: 'CLÁUSULA 10 - DISPOSIÇÕES GERAIS',
+    items: [
+      { key: '10.1', text: 'Fica assegurado à CONTRATADA o direito de exigir do CONTRATANTE o ressarcimento integral de todo e qualquer valor decorrente de danos causados aos equipamentos em comodato por mau uso, dolo ou culpa, bem como nos casos de extravio, furto ou roubo dos bens. Esse ressarcimento será devido independentemente de eventuais despesas judiciais e honorários advocatícios. Parágrafo 1º: A apuração dos danos poderá ser realizada pelas partes ou, a critério da CONTRATADA, por meio da contratação de técnico especializado, sendo o pagamento deste de responsabilidade exclusiva do CONTRATANTE. Parágrafo 2º: Em caso de destruição ou inutilização do(s) equipamento(s) em comodato, por quaisquer das causas acima mencionadas, inclusive furto ou roubo, o CONTRATANTE deverá arcar com o pagamento do valor integral do bem, conforme indicado na nota fiscal de compra do novo equipamento correspondente.' },
+      { key: '10.2', text: 'Caso o CONTRATANTE solicite assistência técnica para defeito que se prove inexistente, ou se existente por conduta dolosa ou culposa de quem utilizou o equipamento, ficará responsável pelo pagamento da visita técnica.' },
+      { key: '10.3', text: 'Todo e qualquer conserto ou reparo nos equipamentos será realizado única e exclusivamente pela CONTRATADA. Parágrafo único: Em caso de descumprimento desta cláusula pelo CONTRATANTE, este será integralmente responsável por todos os danos eventualmente ocasionados ao equipamento ou a terceiros.' },
+      { key: '10.4', text: 'A troca de peças dos equipamentos, seja por desgaste, mau funcionamento, mau uso (culposo ou doloso) ou vandalismo, será efetuada exclusivamente pela CONTRATADA, sendo certo que toda peça reposta ou acrescentada passa a integrar o bem em comodato e permanece de propriedade da CONTRATADA, não cabendo ao CONTRATANTE qualquer direito de retenção ou reivindicação sobre tais componentes.' },
+      { key: '10.5', text: 'Quaisquer serviços não descritos na proposta e que venham a ser executados pela CONTRATADA e devidamente aceito pelo CONTRATANTE serão objeto de aditivo contratual.' },
+      { key: '10.6', text: 'A CONTRATADA declara e garante em favor do CONTRATANTE que tem competência e está plenamente apto a prestar os Serviços, nos termos deste instrumento, com a aplicação das técnicas que se fizerem necessárias.' },
+      { key: '10.7', text: 'O presente CONTRATO não gera nenhuma espécie de vínculo empregatício entre as partes, sendo a CONTRATADA única e integral responsável pelo registro de seus empregados que venham executar quaisquer funções, bem como pelo pagamento dos salários, todos os encargos trabalhistas e previdenciários devidos, seguro de vida, acidentes de trabalho, reclamações trabalhistas e demais ônus atinentes à relação de trabalho.' },
+      { key: '10.8', text: 'As comunicações entre as partes deverão ser feitas por e-mail ou notificação eletrônica registrada, com validade jurídica nos termos da MP 2.200-2/2001.' },
+      { key: '10.9', text: 'Fica expressa e irrevogavelmente estabelecido que a abstenção do exercício pelas partes, de quaisquer direitos ou faculdades que lhes assistam pelo presente CONTRATO, ou a tolerância com atrasos no cumprimento das obrigações, não caracterizará novação ou afetará aqueles direitos ou faculdades, que poderão ser exercidas a qualquer tempo e tampouco alterará as condições convencionadas neste CONTRATO e seus Anexos.' }
+    ]
+  },
+  c11_foro_competente: {
+    title: 'CLÁUSULA 11. DO FORO COMPETENTE',
+    items: [
+      { key: '11.1', text: 'Elegem as partes o foro da Comarca de São Paulo -- SP, para nele serem dirimidas todas e quaisquer dúvidas ou questões oriundas do presente CONTRATO, renunciando as partes a qualquer outro, por mais especial e privilegiado que seja.' }
+    ]
+  }
+};
+
 function switchView(viewName) {
   document.querySelectorAll('.view').forEach(el => el.classList.remove('active'));
   document.getElementById(viewName).classList.add('active');
 
   document.querySelectorAll('.sidebar-item').forEach(el => el.classList.remove('active'));
   const items = document.querySelectorAll('.sidebar-item');
-  const map = {dashboard: 0, contractsList: 1, newContract: 2, simulator: 3, comparator: 4, savedSims: 5};
+  const map = {dashboard: 0, contractsList: 1, newContract: 2, simulator: 3, comparator: 4, savedSims: 5, clausesEditor: 6};
   if (map[viewName] !== undefined) items[map[viewName]].classList.add('active');
 
   if (viewName === 'simulator') updateSimulator();
@@ -2084,6 +2250,7 @@ function switchView(viewName) {
   else if (viewName === 'contractsList') renderContractsList().catch(err => console.error('Error loading contracts:', err));
   else if (viewName === 'savedSims') renderSavedSims().catch(err => console.error('Error loading saved sims:', err));
   else if (viewName === 'newContract') { currentStep = 1; updateStep(); }
+  else if (viewName === 'clausesEditor') renderClausesEditor();
 }
 
 function toggleTheme() {
@@ -2097,6 +2264,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   const saved = localStorage.getItem('theme') || 'light';
   document.documentElement.setAttribute('data-theme', saved);
   renderModelCards();
+  await loadCustomClauses();
   // updateDashboard will be called when user logs in via auth state listener
 });
 
@@ -2128,6 +2296,166 @@ function selectModel(modelKey) {
   selectedModel = modelKey;
   renderModelCards();
   updateConfigUI();
+}
+
+// Clause Management Functions
+let customClauses = {};
+
+async function loadCustomClauses() {
+  try {
+    const user = firebase.auth().currentUser;
+    if (!user) return;
+
+    const clausesRef = db.collection('users').doc(user.uid).collection('settings').doc('clauses');
+    const doc = await clausesRef.get();
+
+    if (doc.exists) {
+      customClauses = doc.data().clauses || {};
+    }
+  } catch (err) {
+    console.error('Error loading custom clauses:', err);
+  }
+}
+
+async function saveCustomClauses(clausesToSave) {
+  try {
+    const user = firebase.auth().currentUser;
+    if (!user) {
+      showToast('Faça login para salvar cláusulas personalizadas', 'error');
+      return false;
+    }
+
+    const clausesRef = db.collection('users').doc(user.uid).collection('settings').doc('clauses');
+    await clausesRef.set({ clauses: clausesToSave, updatedAt: new Date() }, { merge: true });
+    customClauses = clausesToSave;
+    showToast('Cláusulas salvas com sucesso', 'success');
+    return true;
+  } catch (err) {
+    console.error('Error saving custom clauses:', err);
+    showToast('Erro ao salvar cláusulas', 'error');
+    return false;
+  }
+}
+
+function getClauseText(clauseKey, subKey) {
+  // Check custom clauses first
+  if (customClauses[clauseKey] && customClauses[clauseKey].items) {
+    const item = customClauses[clauseKey].items.find(i => i.key === subKey);
+    if (item) return item.text;
+  }
+
+  // Fall back to default clauses
+  if (defaultClauses[clauseKey] && defaultClauses[clauseKey].items) {
+    const item = defaultClauses[clauseKey].items.find(i => i.key === subKey);
+    if (item) return item.text;
+  }
+
+  return '';
+}
+
+function getClauseTitle(clauseKey) {
+  if (customClauses[clauseKey] && customClauses[clauseKey].title) {
+    return customClauses[clauseKey].title;
+  }
+  if (defaultClauses[clauseKey]) {
+    return defaultClauses[clauseKey].title;
+  }
+  return '';
+}
+
+function getAllClauseItems(clauseKey) {
+  // Use custom clause items if available, otherwise default
+  if (customClauses[clauseKey] && customClauses[clauseKey].items) {
+    return customClauses[clauseKey].items;
+  }
+  if (defaultClauses[clauseKey]) {
+    return defaultClauses[clauseKey].items;
+  }
+  return [];
+}
+
+function renderClausesEditor() {
+  const container = document.getElementById('clausesContainer');
+  container.innerHTML = '';
+
+  const clauseKeys = Object.keys(defaultClauses);
+
+  clauseKeys.forEach(clauseKey => {
+    const clauseData = defaultClauses[clauseKey];
+    const customData = customClauses[clauseKey];
+
+    const card = document.createElement('div');
+    card.className = 'card';
+    card.style.marginBottom = '20px';
+
+    const title = customData?.title || clauseData.title;
+    const items = customData?.items || clauseData.items;
+
+    let itemsHtml = items.map((item, idx) => `
+      <div style="margin-bottom: 16px; padding-bottom: 16px; border-bottom: 1px solid var(--border);">
+        <label class="form-label" style="margin-bottom: 8px; font-weight: 600;">${item.key}</label>
+        <textarea class="form-input" id="clause_${clauseKey}_${idx}" style="min-height: 100px; font-size: 13px; font-family: 'Courier New', monospace;">${item.text}</textarea>
+      </div>
+    `).join('');
+
+    card.innerHTML = `
+      <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 20px;">
+        <h3 style="font-size: 15px; font-weight: 700; flex: 1;">${title}</h3>
+        <button class="btn btn-secondary" style="padding: 6px 12px; font-size: 12px;" onclick="toggleClauseSection(this, '${clauseKey}')">Expandir ▼</button>
+      </div>
+      <div id="clause_section_${clauseKey}" style="display: none;">
+        ${itemsHtml}
+      </div>
+    `;
+
+    container.appendChild(card);
+  });
+}
+
+function toggleClauseSection(btn, clauseKey) {
+  const section = document.getElementById(`clause_section_${clauseKey}`);
+  const isHidden = section.style.display === 'none';
+  section.style.display = isHidden ? 'block' : 'none';
+  btn.textContent = isHidden ? 'Recolher ▲' : 'Expandir ▼';
+}
+
+function saveAllClauses() {
+  const clauseKeys = Object.keys(defaultClauses);
+  const updated = {};
+
+  clauseKeys.forEach(clauseKey => {
+    const defaultData = defaultClauses[clauseKey];
+    const items = [];
+
+    defaultData.items.forEach((item, idx) => {
+      const textarea = document.getElementById(`clause_${clauseKey}_${idx}`);
+      if (textarea) {
+        items.push({
+          key: item.key,
+          text: textarea.value
+        });
+      }
+    });
+
+    updated[clauseKey] = {
+      title: defaultData.title,
+      items: items
+    };
+  });
+
+  saveCustomClauses(updated);
+}
+
+function resetAllClauses() {
+  if (!confirm('Tem certeza que deseja redefinir todas as cláusulas para o padrão? Esta ação não pode ser desfeita.')) {
+    return;
+  }
+
+  customClauses = {};
+  saveCustomClauses({}).then(() => {
+    renderClausesEditor();
+    showToast('Cláusulas redefinidas para o padrão', 'success');
+  });
 }
 
 function nextStep() {
@@ -2262,6 +2590,26 @@ function updateFinancialSidebar() {
   document.getElementById('sidebar-total').textContent = 'R$ ' + total.toFixed(2);
 }
 
+function replaceTokens(text, contractData) {
+  if (!text) return text;
+
+  let result = text;
+
+  // Replace all template tokens with contract data
+  result = result.replace(/{VALOR_LAVAGEM}/g, (contractData.lavagem || '15.00').toString().replace('.', ','));
+  result = result.replace(/{VALOR_SECAGEM}/g, (contractData.secagem || '15.00').toString().replace('.', ','));
+  result = result.replace(/{REPASSE}/g, (contractData.repasse || '5.00').toString().replace('.', ','));
+  result = result.replace(/{VIGENCIA}/g, contractData.vigencia || '48');
+  result = result.replace(/{CONTRATANTE}/g, contractData.contratante || '[CONTRATANTE]');
+  result = result.replace(/{CONTRATADA}/g, contractData.contratada || '[CONTRATADA]');
+  result = result.replace(/{CONTRATANTE_CNPJ}/g, contractData.contratanteCnpj || '[CNPJ]');
+  result = result.replace(/{CONTRATANTE_END}/g, contractData.contratanteEnd || '[ENDEREÇO]');
+  result = result.replace(/{CONTRATADA_CNPJ}/g, contractData.contratadaCnpj || '[CNPJ]');
+  result = result.replace(/{CONTRATADA_END}/g, contractData.contratadaEnd || '[ENDEREÇO]');
+
+  return result;
+}
+
 function generateSummary() {
   if (!selectedModel) return;
   const model = contractModels[selectedModel];
@@ -2330,6 +2678,9 @@ function generateContractDisplay() {
   const d = getContractData();
   const isComodato = d.isComodato;
   const title = getContractTitle();
+
+  // Load custom clauses if available
+  loadCustomClauses();
 
   let sindicoInfo = '';
   if (d.sindicoNome) sindicoInfo += `, neste ato representado por seu síndico ${d.sindicoNome}`;

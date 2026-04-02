@@ -6,6 +6,7 @@
 <title>Lavandery Gestão</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/docx/8.2.3/docx.min.js"></script>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
 
@@ -990,7 +991,7 @@ input[type="checkbox"] {
                 <input type="text" class="form-input" id="contratante_nome" placeholder="Nome do Condomínio">
               </div>
               <div class="form-group">
-                <label class="form-label">CNPJ/CPF</label>
+                <label class="form-label">CNPJ</label>
                 <input type="text" class="form-input" id="contratante_cnpj" placeholder="00.000.000/0000-00">
               </div>
             </div>
@@ -1004,6 +1005,51 @@ input[type="checkbox"] {
                 <input type="text" class="form-input" id="contratante_cidade" placeholder="Cidade, UF">
               </div>
             </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label">Nº de Apartamentos</label>
+                <input type="number" class="form-input" id="contratante_apartamentos" placeholder="Ex: 120" min="1">
+              </div>
+              <div class="form-group">
+                <label class="form-label">Metragem dos Aptos (m²)</label>
+                <input type="text" class="form-input" id="contratante_metragem" placeholder="Ex: 45m² a 90m²">
+              </div>
+            </div>
+
+            <h3 style="font-size: 14px; font-weight: 600; margin: 32px 0 16px;">Síndico / Representante Legal</h3>
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label">Nome do Síndico</label>
+                <input type="text" class="form-input" id="sindico_nome" placeholder="Nome completo">
+              </div>
+              <div class="form-group">
+                <label class="form-label">CPF do Síndico</label>
+                <input type="text" class="form-input" id="sindico_cpf" placeholder="000.000.000-00">
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label">E-mail</label>
+                <input type="email" class="form-input" id="sindico_email" placeholder="email@exemplo.com">
+              </div>
+              <div class="form-group">
+                <label class="form-label">Telefone</label>
+                <input type="text" class="form-input" id="sindico_telefone" placeholder="(11) 99999-9999">
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Empresa Administradora (se houver)</label>
+              <input type="text" class="form-input" id="sindico_administradora" placeholder="Nome da administradora e CNPJ">
+            </div>
+
+            <h3 style="font-size: 14px; font-weight: 600; margin: 32px 0 16px;">Documentos Anexos</h3>
+            <div id="uploadArea" style="border: 2px dashed var(--border); border-radius: var(--radius-md); padding: 24px; text-align: center; cursor: pointer; transition: var(--transition);" onclick="document.getElementById('fileInput').click()" ondragover="event.preventDefault();this.style.borderColor='var(--accent)';this.style.background='var(--accent-light)'" ondragleave="this.style.borderColor='var(--border)';this.style.background='transparent'" ondrop="handleFileDrop(event)">
+              <div style="font-size: 32px; margin-bottom: 8px;">📎</div>
+              <p style="font-size: 14px; color: var(--text-secondary);">Arraste documentos aqui ou clique para selecionar</p>
+              <p style="font-size: 12px; color: var(--text-tertiary); margin-top: 4px;">PDF, DOC, DOCX, JPG, PNG (máx. 10MB)</p>
+              <input type="file" id="fileInput" multiple accept=".pdf,.doc,.docx,.jpg,.jpeg,.png" style="display:none" onchange="handleFileUpload(this.files)">
+            </div>
+            <div id="uploadedFilesList" style="margin-top: 12px;"></div>
 
             <div class="step-buttons">
               <button class="btn btn-secondary" onclick="previousStep()" style="visibility:hidden;">Anterior</button>
@@ -1111,7 +1157,8 @@ input[type="checkbox"] {
           <div id="step5" class="card step-content">
             <h2 style="font-size: 20px; font-weight: 600; margin-bottom: 24px;">Contrato Gerado</h2>
             <div class="btn-group" style="margin-bottom: 20px;">
-              <button class="btn btn-primary" onclick="downloadPDF()">Baixar PDF</button>
+              <button class="btn btn-primary" onclick="downloadPDF()">📄 Baixar PDF</button>
+              <button class="btn btn-primary" style="background:#2b579a;" onclick="downloadWord()">📝 Baixar Word</button>
               <button class="btn btn-secondary" onclick="saveContract()">Salvar</button>
               <button class="btn btn-secondary" onclick="switchView('dashboard')">Dashboard</button>
             </div>
@@ -2084,43 +2131,207 @@ function generateSummary() {
   `;
 }
 
-function generateContractDisplay() {
-  const clauses = {
-    gestao: 'CONTRATO DE GESTÃO DE LAVANDERIA - Clausulas padrão para modelo Gestão',
-    comodato: 'CONTRATO DE COMODATO DE EQUIPAMENTOS - Clausulas para comodato SPEED QUEEN',
-    aluguel: 'CONTRATO DE LOCAÇÃO DE EQUIPAMENTOS - Clausulas para aluguel mensal',
-    venda: 'CONTRATO DE VENDA DE EQUIPAMENTOS - Clausulas para venda e pós-venda',
-    hibrido: 'CONTRATO DE SERVIÇOS INTEGRADOS - Clausulas para modalidade híbrida'
-  };
-
+function getContractData() {
   const contratada = document.getElementById('contratada_nome').value || 'Contratada';
   const contratadaCnpj = document.getElementById('contratada_cnpj').value || '';
   const contratadaEnd = document.getElementById('contratada_endereco').value || '';
   const contratadaCid = document.getElementById('contratada_cidade').value || '';
   const contratadaRep = document.getElementById('contratada_representante').value || '';
-  const contratadaFantasia = document.getElementById('contratada_fantasia').value || '';
+  const contratadaFantasia = document.getElementById('contratada_fantasia').value || 'LAVANDERY';
   const contratante = document.getElementById('contratante_nome').value || 'Contratante';
   const contratanteCnpj = document.getElementById('contratante_cnpj').value || '';
   const contratanteEnd = document.getElementById('contratante_endereco').value || '';
   const contratanteCid = document.getElementById('contratante_cidade').value || '';
+  const contratanteAptos = document.getElementById('contratante_apartamentos').value || '';
+  const contratanteMetragem = document.getElementById('contratante_metragem').value || '';
+  const sindicoNome = document.getElementById('sindico_nome').value || '';
+  const sindicoCpf = document.getElementById('sindico_cpf').value || '';
+  const sindicoEmail = document.getElementById('sindico_email').value || '';
+  const sindicoTel = document.getElementById('sindico_telefone').value || '';
+  const sindicoAdmin = document.getElementById('sindico_administradora').value || '';
+  const lavagem = document.getElementById('config_lavagem').value || '0';
+  const secagem = document.getElementById('config_secagem').value || '0';
+  const vigencia = document.getElementById('config_vigencia').value || '48';
+  const repasse = document.getElementById('config_repasse').value || '0';
+  const repasseTipo = document.getElementById('config_repasse_tipo').value || 'fixo';
+  const desconto = document.getElementById('config_desconto').value || '0';
+  const obraCheck = document.getElementById('config_obra_check').checked;
+  const obraValor = document.getElementById('config_obra_valor').value || '0';
+  const isComodato = selectedModel === 'comodato';
+  return { contratada, contratadaCnpj, contratadaEnd, contratadaCid, contratadaRep, contratadaFantasia, contratante, contratanteCnpj, contratanteEnd, contratanteCid, contratanteAptos, contratanteMetragem, sindicoNome, sindicoCpf, sindicoEmail, sindicoTel, sindicoAdmin, lavagem, secagem, vigencia, repasse, repasseTipo, desconto, obraCheck, obraValor, isComodato };
+}
+
+function generateContractDisplay() {
+  const d = getContractData();
+  const isComodato = d.isComodato;
+  const title = getContractTitle();
+
+  let sindicoInfo = '';
+  if (d.sindicoNome) sindicoInfo += `, neste ato representado por seu síndico ${d.sindicoNome}`;
+  if (d.sindicoCpf) sindicoInfo += `, CPF nº ${d.sindicoCpf}`;
+  if (d.sindicoAdmin) sindicoInfo += `, através da administradora ${d.sindicoAdmin}`;
+
+  let condInfo = '';
+  if (d.contratanteAptos) condInfo += `<br><small style="color:var(--text-secondary)">Apartamentos: ${d.contratanteAptos} | Metragem: ${d.contratanteMetragem || 'N/I'}</small>`;
+  if (d.sindicoEmail || d.sindicoTel) condInfo += `<br><small style="color:var(--text-secondary)">Contato: ${d.sindicoEmail || ''}${d.sindicoEmail && d.sindicoTel ? ' | ' : ''}${d.sindicoTel || ''}</small>`;
+
+  const objetoComodato = `
+    <p style="margin: 8px 0 4px 20px;">a) O presente Contrato tem por objeto a prestação de serviços ("Serviços"), pela <strong>CONTRATADA</strong> ao <strong>CONTRATANTE</strong>, de instalação, suporte e assistência para o gerenciamento de lavanderia, via aplicativo Lavandery, que será utilizado na gestão dos equipamentos de propriedade do condomínio <strong>CONTRATANTE</strong>;</p>
+    <p style="margin: 4px 0 4px 20px;">b) Em regime de <u>comodato</u>, a <strong>CONTRATADA</strong> fornecerá ao <strong>CONTRATANTE</strong> conjuntos de equipamentos do tipo "máquina de lavar e secar roupas", marca SPEED QUEEN, de propriedade da <strong>CONTRATADA</strong>, bem como a manutenção preventiva dela;</p>
+    <p style="margin: 4px 0 4px 20px;">c) Os Serviços são firmados em regime de não exclusividade, que significa que a <strong>CONTRATADA</strong>, por si e por seus sócios e demais representantes legais, poderá livremente pactuar prestação de serviço semelhante ou idêntica a do presente Contrato, sem que isso configure inadimplemento contratual.</p>
+    <p style="margin: 4px 0 4px 20px;">d) A <strong>CONTRATADA</strong> declara estar regularmente apta para a prática de sua atividade, nos termos de seu objeto social, respondendo integralmente por qualquer ilegalidade ou dano proveniente dos Serviços, desde que devidamente comprovada pelo <strong>CONTRATANTE</strong>, após realizadas todas as ações necessárias para verificação da suposta ilegalidade ou do suposto dano.</p>
+  `;
+  const objetoGestao = `
+    <p style="margin: 8px 0 4px 20px;">a) O presente Contrato tem por objeto a prestação de serviços ("Serviços"), pela <strong>CONTRATADA</strong> ao <strong>CONTRATANTE</strong>, de instalação, suporte e assistência para o gerenciamento de lavanderia, via aplicativo Lavandery, que será utilizado na gestão dos equipamentos de propriedade do condomínio <strong>CONTRATANTE</strong>;</p>
+    <p style="margin: 4px 0 4px 20px;">b) A <strong>CONTRATADA</strong> realizará também a manutenção preventiva dos equipamentos de lavagem e secagem, de propriedade do <strong>CONTRATANTE</strong>;</p>
+    <p style="margin: 4px 0 4px 20px;">c) Os Serviços são firmados em regime de não exclusividade, que significa que a <strong>CONTRATADA</strong>, por si e por seus sócios e demais representantes legais, poderá livremente pactuar prestação de serviço semelhante ou idêntica a do presente Contrato, sem que isso configure inadimplemento contratual.</p>
+    <p style="margin: 4px 0 4px 20px;">d) A <strong>CONTRATADA</strong> declara estar regularmente apta para a prática de sua atividade, nos termos de seu objeto social, respondendo integralmente por qualquer ilegalidade ou dano proveniente dos Serviços, desde que devidamente comprovada pelo <strong>CONTRATANTE</strong>, após realizadas todas as ações necessárias para verificação da suposta ilegalidade ou do suposto dano.</p>
+  `;
+
+  const obraClause = d.obraCheck ? `
+    <p style="margin: 4px 0 4px 20px;">b) A <strong>CONTRATADA</strong> repassará ao <strong>CONTRATANTE</strong> o valor de R$ ${parseFloat(d.repasse).toFixed(2).replace('.', ',')} por cada ciclo pago na forma da alínea anterior. Referido repasse somente se iniciará após a liquidação integral do custo da obra realizada pela <strong>CONTRATADA</strong> para adequação do espaço, no valor de R$ ${parseFloat(d.obraValor).toFixed(2).replace('.', ',')}.</p>
+  ` : `
+    <p style="margin: 4px 0 4px 20px;">b) A <strong>CONTRATADA</strong> repassará ao <strong>CONTRATANTE</strong> o valor de R$ ${parseFloat(d.repasse).toFixed(2).replace('.', ',')} por cada ciclo pago na forma da alínea anterior.</p>
+  `;
+
+  const S = (t) => `<h2 style="font-size: 14px; font-weight: 700; margin-top: 30px; margin-bottom: 10px; text-decoration: underline;">${t}</h2>`;
+  const P = (t) => `<p style="margin: 4px 0 4px 20px;">${t}</p>`;
 
   document.getElementById('contractDisplay').innerHTML = `
-    <h1 style="text-align: center; font-size: 18px; font-weight: 700; margin-bottom: 30px;">${getContractTitle()}</h1>
-    <p style="margin-bottom: 20px;"><strong>Data:</strong> ${new Date().toLocaleDateString('pt-BR')}</p>
-    <p style="margin-bottom: 20px;">Pelo presente instrumento particular, as partes abaixo qualificadas:</p>
-    <p style="margin-bottom: 5px;"><strong>CONTRATADA:</strong> ${contratada}${contratadaFantasia ? ', doravante denominada ' + contratadaFantasia : ''}${contratadaCnpj ? ', inscrita no CNPJ/MF sob nº ' + contratadaCnpj : ''}${contratadaEnd ? ', situada na ' + contratadaEnd : ''}${contratadaCid ? ', ' + contratadaCid : ''}${contratadaRep ? ', neste ato representada por seu sócio ' + contratadaRep.toUpperCase() : ''};</p>
-    <p style="margin-bottom: 20px;"><strong>CONTRATANTE:</strong> ${contratante}${contratanteCnpj ? ', inscrito no CNPJ/CPF sob nº ' + contratanteCnpj : ''}${contratanteEnd ? ', situado em ' + contratanteEnd : ''}${contratanteCid ? ', ' + contratanteCid : ''}, doravante denominado CONTRATANTE;</p>
-    <h2 style="font-size: 14px; font-weight: 700; margin-top: 30px; margin-bottom: 15px;">I — DAS PARTES</h2>
-    <p style="margin-bottom: 15px;">Pelo presente instrumento particular, constituem-se as seguintes partes:</p>
-    <h2 style="font-size: 14px; font-weight: 700; margin-top: 30px; margin-bottom: 15px;">II — DO OBJETO</h2>
-    <p style="margin-bottom: 15px;">${clauses[selectedModel]}</p>
-    <h2 style="font-size: 14px; font-weight: 700; margin-top: 30px; margin-bottom: 15px;">III — DAS OBRIGAÇÕES</h2>
-    <p style="margin-bottom: 15px;">As partes assumem as obrigações conforme pactuado neste contrato.</p>
-    <h2 style="font-size: 14px; font-weight: 700; margin-top: 30px; margin-bottom: 15px;">IV — DO FINANCEIRO</h2>
-    <p style="margin-bottom: 15px;">Os preços são aqueles estabelecidos no Termo de Referência anexado.</p>
-    <h2 style="font-size: 14px; font-weight: 700; margin-top: 30px; margin-bottom: 15px;">V — DISPOSIÇÕES FINAIS</h2>
-    <p>As partes elegem o foro da comarca de São Paulo para dirimir qualquer dúvida decorrente deste contrato.</p>
+    <h1 style="text-align: center; font-size: 16px; font-weight: 700; margin-bottom: 30px;">${title}</h1>
+    <p style="margin-bottom: 10px;"><strong>CONTRATADA:</strong> <u><strong>${d.contratada}</strong></u>, doravante denominada <strong>${d.contratadaFantasia}</strong>, inscrita no CNPJ/MF sob o nº ${d.contratadaCnpj}, situada na ${d.contratadaEnd}, ${d.contratadaCid}, neste ato representada por seu sócio ${d.contratadaRep};</p>
+    <p style="margin-bottom: 10px;"><strong>CONTRATANTE:</strong> <u><strong>${d.contratante}</strong></u>, condomínio edilício, situado na ${d.contratanteEnd}, inscrito no CNPJ/MF sob o nº ${d.contratanteCnpj}${sindicoInfo}.${condInfo}</p>
+    <p style="margin: 20px 0; text-align: center; font-weight: 600; text-decoration: underline;">De mútuo acordo, ajustam as partes acima o presente de prestação de serviços, que se regerão pelas cláusulas abaixo:</p>
+
+    ${S('I – OBJETO:')}
+    ${isComodato ? objetoComodato : objetoGestao}
+
+    ${S('II - VALOR DOS SERVIÇOS:')}
+    ${P(`a) Fica acertado que o valor dos ciclos a serem arcados pelos condôminos usuários dos serviços, via aplicativo da <strong>CONTRATADA</strong>, em regime pré-pago, será de R$ ${parseFloat(d.lavagem).toFixed(2).replace('.', ',')} para o ciclo de lavagem e R$ ${parseFloat(d.secagem).toFixed(2).replace('.', ',')} para o ciclo de secagem.`)}
+    ${obraClause}
+    ${P(`c) O repasse referido na alínea anterior será depositado na conta indicada pelo contratante em até 60 dias a contar do fechamento do mês.`)}
+    ${P(`d) O repasse será feito considerando o desconto no percentual de ${d.desconto}% referente ao imposto incidente.`)}
+
+    ${S('III - DO REAJUSTE:')}
+    ${P('a) O valor do ciclo informado na cláusula anterior será reajustado anualmente pelo acumulado dos doze meses anteriores ao reajuste, pelo IPCA.')}
+    ${P('b) Na impossibilidade legal de utilização do IPCA como indexador, será utilizado o índice autorizado pela legislação em vigor, que reflita a variação dos custos do setor, à escolha da <strong>CONTRATADA</strong>.')}
+    ${P('c) Caso o acumulado do índice acima totalizar valores negativos, manter-se-á o valor do ciclo cobrado no mês antecedente.')}
+
+    ${S('IV - PRAZO DE VIGÊNCIA E RESCISÃO ANTECIPADA:')}
+    ${P(`a) O prazo de vigência do presente Contrato é de ${d.vigencia} (${extensoMeses(d.vigencia)}) meses a contar da data da assinatura da avença, podendo ser prorrogado por períodos iguais, salvo se manifestado por qualquer das partes o desinteresse, com no mínimo trinta dias de antecedência ao termo do contrato.`)}
+    ${P('b) O <strong>CONTRATANTE</strong> poderá rescindir unilateralmente o presente Contrato, antes do término do seu prazo de vigência e sem justa causa, desde que devidamente notificada à <strong>CONTRATADA</strong> com 60 (sessenta) dias de antecedência, sendo aplicável nesse caso uma multa contratual em valor equivalente a cinco vezes a média dos últimos doze meses das remunerações da <strong>CONTRATADA</strong>, conforme cláusula II.')}
+    ${P('§1º. Descumprido o aviso prévio, sem prejuízo da multa acima estipulada, o <strong>CONTRATANTE</strong> deverá arcar com o pagamento de valor equivalente ao acumulado das duas últimas remunerações mensais da <strong>CONTRATADA</strong>, relativas aos ciclos pagos pelos condôminos, conforme cláusula II.')}
+    ${P('c) O Contrato poderá ser ainda rescindido por justa causa se ocorrer inobservância ou descumprimento, por qualquer das Partes, das obrigações aqui previstas, hipótese em que a rescisão será imediata e a Parte infratora incorrerá na multa contratual disposta acima, sem prejuízo da apuração das perdas e danos.')}
+    ${P('d) Rescindido o contrato, a <strong>CONTRATADA</strong> se compromete a retirar os adesivos, placas e kits de sua propriedade, no prazo máximo de 30 (trinta) dias e deverá o <strong>CONTRATANTE</strong> permitir o acesso imediatamente à <strong>CONTRATADA</strong> para remoção de tais itens. Caso a <strong>CONTRATANTE</strong> não permita o acesso imediato à <strong>CONTRATADA</strong>, incorrerá a <strong>CONTRATANTE</strong> em multa contratual equivalente a R$ 500,00 (quinhentos reais), diariamente, até que o acesso seja permitido.')}
+    ${P('e) A inexecução total ou parcial injustificada, assim como o descumprimento comprovado dos prazos e das condições estipuladas para a prestação dos serviços, serão notificados à <strong>CONTRATADA</strong>, para que haja o devido saneamento do vício.')}
+
+    ${S('V - DAS OBRIGAÇÕES DO CONTRATANTE:')}
+    ${P('a) Prestar à <strong>CONTRATADA</strong> todas as informações e proporcionar durante a vigência deste Contrato, todas as facilidades necessárias à boa execução dos Serviços.')}
+    ${P('b) O <strong>CONTRATANTE</strong>, na qualidade de representante dos condôminos, será integralmente responsável pela utilização adequada dos equipamentos e aplicativo disponibilizados pela <strong>CONTRATADA</strong>, bem como pelo uso da lavanderia.')}
+    ${P('c) Manter a lavanderia compartilhada fechada quando da realização dos Serviços pela <strong>CONTRATADA</strong>.')}
+    ${P('d) Ter sua equipe predial com os treinamentos em dia.')}
+    ${P('e) Orientar os condôminos, sobre o funcionamento e uso adequados da lavanderia e das Máquinas.')}
+    ${P('f) Garantir a limpeza externa dos equipamentos.')}
+    ${P('g) Comunicar o período de inatividade da lavanderia nos dias de manutenção preventiva.')}
+    ${P('h) Disponibilizar a correta infraestrutura predial e mantê-la em boas condições.')}
+
+    ${S('VI - DAS OBRIGAÇÕES DA CONTRATADA:')}
+    ${P('a) Realizar manutenção preventiva dos equipamentos de lavagem e secagem semestralmente;')}
+    ${P('b) Designar um funcionário para representar a <strong>CONTRATADA</strong> na <strong>CONTRATANTE</strong>, quando da prestação dos Serviços. A <strong>CONTRATADA</strong> se responsabiliza, ainda, a supervisionar e controlar seus funcionários e/ou representantes, quando da realização de tais atividades na <strong>CONTRATANTE</strong>. Os funcionários da <strong>CONTRATADA</strong> deverão estar devidamente identificados, quando da realização do objeto do presente Contrato no espaço indicado pelo <strong>CONTRATANTE</strong>.')}
+    ${P('c) Fazer com que seus empregados e representantes relacionados direta ou indiretamente, observem todas as normas de segurança e de procedimentos internos da <strong>CONTRATANTE</strong>, conforme descrito na convenção e regulamento interno da <strong>CONTRATANTE</strong>, inclusive aqueles referentes ao combate a incêndios, durante o tempo que permanecerem nas dependências desta.')}
+    ${P('d) Caso haja qualquer imperfeição quando da realização da gestão, a <strong>CONTRATADA</strong> se obriga, às suas expensas, a corrigir as imperfeições e incorreções dos Serviços, não se responsabilizando por quaisquer danos causados por mau uso, vandalismo ou roubo.')}
+    ${P('e) Cumprir, durante o presente Contrato com todas as Leis Federais, Estaduais e Municipais, vigentes ou que venham a viger, sendo a única responsável por infrações cometidas.')}
+    ${P('f) Correrão por conta e responsabilidade exclusiva da <strong>CONTRATADA</strong> todas as obrigações trabalhistas, previdenciárias, fiscais, decorrentes da relação empregatícia entre a <strong>CONTRATADA</strong> e seus prepostos ou colaboradores que forem designados para a execução do presente Contrato pela <strong>CONTRATADA</strong>, desde que não tenham sido ocasionados por culpa da <strong>CONTRATANTE</strong>.')}
+    ${P('g) A <strong>CONTRATADA</strong> concorda e declara que não utilizará o nome, razão social, marcas ou logotipos de propriedade da <strong>CONTRATANTE</strong> e/ou dos clientes em quaisquer comunicados públicos, anúncios, relatórios de vendas, embalagens de produtos, cartazes, materiais de escritório, literatura impressa, publicidade ou "websites", sem antes ter obtido a aprovação prévia e escrita da <strong>CONTRATANTE</strong>.')}
+    ${P('h) Executar os Serviços com integral observância das disposições contratuais, de forma diligente e oportuna, obedecendo rigorosamente às especificações e normas técnicas aplicáveis.')}
+    ${P('i) No caso de chamadas de emergência, a <strong>CONTRATADA</strong> realizará o primeiro atendimento em até 72 (setenta e duas) horas, a contar do recebimento da chamada;')}
+    ${P('j) Para o caso de atendimento online, o prazo de resposta online é de até 4 (quatro) horas;')}
+
+    ${S('VII - CASO FORTUITO E FORÇA MAIOR:')}
+    ${P('a) Constatada a ocorrência de caso fortuito ou força maior que impeça o cumprimento de qualquer das obrigações ora assumidas, a Parte prejudicada em cumprir suas obrigações deverá notificar a outra Parte, no prazo máximo de 2 (dois) dias úteis contados a partir da constatação do evento.')}
+
+    ${S('VIII – DO SIGILO E LGPD:')}
+    ${P('a) A <strong>CONTRATADA</strong> e o <strong>CONTRATANTE</strong>, por si e seus colaboradores, obrigam-se reciprocamente a manter o mais absoluto sigilo e confidencialidade no tocante aos serviços solicitados e executados, documentos e todas as informações verbais ou escritas, registradas e particulares, segredos de negócios ou qualquer outra informação que tiver acesso, durante a vigência do presente CONTRATO;')}
+    ${P('b) As obrigações de confidencialidade subsistirão pelo período de 05 (cinco) anos a partir do encerramento do presente CONTRATO;')}
+    ${P('c) A <strong>CONTRATADA</strong> se responsabiliza integralmente por qualquer violação às obrigações de confidencialidade aqui estabelecidas, inclusive por parte de seus administradores, empregados, prepostos e terceiros contratados, devendo ainda obedecer integralmente aos termos da Lei Geral de Proteção de Dados (Lei no 13.709/18);')}
+    ${P('d) A <strong>CONTRATADA</strong> compromete-se a utilizar as Informações Confidenciais exclusivamente para o fiel cumprimento das obrigações, e aqueles atinentes nos termos do presente contrato, sendo expressamente vedada a sua utilização, para qualquer outro fim, sob pena de responder civil e criminalmente;')}
+    ${P('e) Além da obrigação de confidencialidade prevista acima, a <strong>CONTRATADA</strong> obriga-se a:')}
+    <div style="margin-left: 40px;">
+      ${P('1. Utilizar as Informações Confidenciais somente para prestar os Serviços, abstendo-se de divulgar qualquer Informação Confidencial a quaisquer terceiros, salvo conforme estabelecido neste Contrato;')}
+      ${P('2. Restringir a divulgação das Informações Confidenciais somente aos profissionais da <strong>CONTRATADA</strong> que devam conhecê-las para a realização dos Serviços;')}
+      ${P('3. Não reproduzir ou copiar as Informações Confidenciais sem o consentimento prévio e por escrito do <strong>CONTRATANTE</strong>, exceto para a utilização interna da <strong>CONTRATADA</strong> que se fizer necessária para a prestação dos Serviços;')}
+      ${P('4. Devolver ou destruir prontamente as Informações Confidenciais e suas cópias ou reproduções, sumários, análises ou comunicações, em qualquer meio físico ou eletrônico, tão logo requerido pelo <strong>CONTRATANTE</strong> ou, caso não seja requerida a devolução ou destruição das Informações Confidenciais, em 2 (dois) dias úteis contados do término do Contrato;')}
+    </div>
+    ${P('f) Notificar o <strong>CONTRATANTE</strong>, imediatamente e por escrito, a respeito de qualquer divulgação, posse e/ou uso não autorizado das Informações Confidenciais de que venha a tomar conhecimento.')}
+
+    ${S('IX - DAS DIRETRIZES ANTICORRUPÇÃO:')}
+    ${P('a) A <strong>CONTRATADA</strong> se obriga, sob as penas previstas neste instrumento e na legislação aplicável, a observar e cumprir rigorosamente todas as leis cabíveis, incluindo, mas não se limitando à legislação brasileira anticorrupção, contra a lavagem de dinheiro e, ainda, o FCPA – <em>Foreign Corrupt Practices Act</em>, o <em>UK Bribery Act</em> e o <em>Canada\'s Corruption of Foreign Public Officials Act</em> (em conjunto "Leis Anticorrupção");')}
+    ${P('b) A <strong>CONTRATADA</strong> declara e garante que não está envolvida ou irá se envolver, direta ou indiretamente, por seus representantes, administradores, diretores, conselheiros, sócios ou acionistas, assessores, consultores, subcontratados, parte relacionada, durante o cumprimento das obrigações previstas neste <strong>CONTRATO</strong>, em qualquer atividade ou prática que constitua uma infração aos termos das Leis Anticorrupção;')}
+    ${P('c) A <strong>CONTRATADA</strong> declara e garante que não se encontra, assim como seus representantes, administradores, diretores, conselheiros, sócios ou acionistas, assessores, consultores, direta ou indiretamente:')}
+    <div style="margin-left: 40px;">
+      ${P('d) Sob investigação em virtude de denúncias de suborno e/ou corrupção;')}
+      ${P('e) No curso de um processo judicial e/ou administrativo ou foram condenados ou indiciados sob a acusação de corrupção ou suborno;')}
+      ${P('f) Listados em alguma entidade governamental, tampouco conhecidos ou suspeitos de práticas de terrorismo e/ou lavagem de dinheiro;')}
+      ${P('g) Sujeitos a restrições ou sanções econômicas e de negócios por qualquer entidade governamental;')}
+      ${P('h) Banidos ou impedidos, de acordo com qualquer lei que seja imposta ou fiscalizada por qualquer entidade governamental;')}
+    </div>
+    ${P('i) Toda documentação de cobrança a ser emitida nos termos deste <strong>CONTRATO</strong> deverá estar acompanhada de fatura detalhada, contendo discriminação dos serviços prestados e/ou bens adquiridos, conforme o caso. A <strong>CONTRATADA</strong> obriga-se a manter livros, contas, registros e faturas precisos e concorda que, se considerar necessário, o <strong>CONTRATANTE</strong> terá o direito de, direta ou indiretamente, com o auxílio de terceiros que venha a indicar, auditar os livros, contas, registros, faturas e documentação de suporte que embasem as cobranças e/ou os pedidos de reembolsos, para verificar o cumprimento do disposto nas Leis Anticorrupção;')}
+    ${P('j) O não cumprimento por parte da <strong>CONTRATADA</strong> das Leis Anticorrupção e/ou da Política Anticorrupção será considerada uma infração grave a este <strong>CONTRATO</strong> e conferirá ao <strong>CONTRATANTE</strong> o direito de, agindo de boa-fé, declarar rescindido imediatamente o presente <strong>CONTRATO</strong>, sem qualquer ônus ou penalidade, sendo a <strong>CONTRATADA</strong> responsável pelas perdas e danos, nos termos da lei aplicável;')}
+    ${P('k) A <strong>CONTRATADA</strong> declara que, direta ou indiretamente, não ofereceu, prometeu, pagou ou autorizou o pagamento em dinheiro, deu ou concordou em dar presentes ou qualquer coisa de valor e, durante a vigência deste <strong>CONTRATO</strong>, não irá ofertar, prometer, pagar ou autorizar o pagamento em dinheiro, dar ou concordar em dar presentes ou qualquer coisa de valor a qualquer pessoa ou entidade, pública ou privada, com o objetivo de beneficiar ilicitamente o <strong>CONTRATANTE</strong> e/ou seus negócios;')}
+    ${P('l) Durante a vigência deste <strong>CONTRATO</strong>, a <strong>CONTRATADA</strong>, direta ou indiretamente, por si, seus representantes, prepostos ou empregados, deve se abster de prometer, oferecer, dar ou concordar em dar, para representantes do <strong>CONTRATANTE</strong> e/ou para quaisquer terceiros (incluindo autoridades públicas), quaisquer dos itens a seguir, em conjunto denominados "Cortesias";')}
+    ${P('m) A <strong>CONTRATADA</strong> declara que, direta ou indiretamente, não irá receber, transferir, manter, usar ou esconder recursos que decorram de qualquer atividade ilícita, bem como não irá contratar como empregado ou de alguma forma manter relacionamento profissional com pessoas físicas ou jurídicas envolvidas com atividades criminosas, em especial as Leis Anticorrupção, lavagem de dinheiro, tráfico de drogas e terrorismo;')}
+    ${P('n) A <strong>CONTRATADA</strong> declara e garante que:')}
+    <div style="margin-left: 40px;">
+      ${P('1. Os atuais representantes da <strong>CONTRATADA</strong> não são funcionários públicos ou empregados do governo;')}
+      ${P('2. Informará imediatamente, por escrito, qualquer nomeação de seus representantes como funcionários públicos ou empregados do governo;')}
+      ${P('3. Eventual nomeação, nos termos do item "b" anterior, resultará automaticamente na rescisão deste <strong>CONTRATO</strong>, sem a imposição de qualquer multa ou penalidade;')}
+    </div>
+    ${P('o) A <strong>CONTRATADA</strong> notificará prontamente, por escrito, o <strong>CONTRATANTE</strong> a respeito de qualquer suspeita ou violação do disposto nas Leis Anticorrupção e/ou na Política Anticorrupção, e ainda de participação em práticas de suborno ou corrupção, assim como o descumprimento de qualquer declaração prevista nesta Cláusula.')}
+
+    ${S('X - DISPOSIÇÕES GERAIS:')}
+    ${P('a) Caso o <strong>CONTRATANTE</strong> solicite assistência técnica para defeito que se prove inexistente, ou se existente por conduta dolosa ou culposa de quem utilizou o equipamento, ficará responsável pelo pagamento da visita técnica.')}
+    ${P('b) Quaisquer serviços não descritos na proposta e que venham a ser executados pela <strong>CONTRATADA</strong> e devidamente aceito pelo <strong>CONTRATANTE</strong> serão objeto de aditivo contratual;')}
+    ${P('c) A <strong>CONTRATADA</strong> declara e garante em favor do <strong>CONTRATANTE</strong> que tem competência e está plenamente apto a prestar os Serviços, nos termos deste instrumento, com a aplicação das técnicas que se fizerem necessárias;')}
+    ${P('d) O presente <strong>CONTRATO</strong> não gera nenhuma espécie de vínculo empregatício entre as partes, sendo a <strong>CONTRATADA</strong> única e integral responsável pelo registro de seus empregados que venham executar quaisquer funções, bem como pelo pagamento dos salários, todos os encargos trabalhistas e previdenciários devidos, seguro de vida, acidentes de trabalho, reclamações trabalhistas e demais ônus atinentes à relação de trabalho;')}
+    ${P('e) Serviços complementares e adicionais não especificados neste instrumento, deverão ser objeto de Termo Aditivo previamente aprovado entre as partes para posterior execução;')}
+    ${P('f) Fica expressa e irrevogavelmente estabelecido que a abstenção do exercício pelas partes, de quaisquer direitos ou faculdades que lhes assistam pelo presente <strong>CONTRATO</strong>, ou a tolerância com atrasos no cumprimento das obrigações, não caracterizará novação ou afetará aqueles direitos ou faculdades, que poderão ser exercidas a qualquer tempo e tampouco alterará as condições convencionadas neste <strong>CONTRATO</strong> e seus Anexos.')}
+
+    ${S('XI – DO FORO:')}
+    ${P('a) Elegem as partes o foro da Comarca de São Paulo-SP, para nele serem dirimidas todas e quaisquer dúvidas ou questões oriundas do presente <strong>CONTRATO</strong>, renunciando as partes a qualquer outro, por mais especial e privilegiado que seja.')}
+
+    <p style="margin-top: 30px;">O presente instrumento é assinado pelas PARTES, cuja assinatura fica desde já expressamente confirmada pelas partes e testemunhas, que declaram estar de acordo com o presente documento e ciente de seus termos.</p>
+    <p style="margin-top: 20px;">São Paulo, ${new Date().toLocaleDateString('pt-BR', {day: '2-digit', month: 'long', year: 'numeric'})}.</p>
+    <div style="margin-top: 50px; display: grid; grid-template-columns: 1fr 1fr; gap: 40px;">
+      <div style="text-align: center;">
+        <div style="border-top: 1px solid #333; padding-top: 8px; margin-top: 60px;">
+          <strong>CONTRATANTE</strong><br>${d.contratante}
+        </div>
+      </div>
+      <div style="text-align: center;">
+        <div style="border-top: 1px solid #333; padding-top: 8px; margin-top: 60px;">
+          <strong>CONTRATADA</strong><br>${d.contratada}
+        </div>
+      </div>
+    </div>
+    <div style="margin-top: 50px; display: grid; grid-template-columns: 1fr 1fr; gap: 40px;">
+      <div style="text-align: center;">
+        <div style="border-top: 1px solid #333; padding-top: 8px; margin-top: 40px;">
+          TESTEMUNHA<br>Nome:<br>RG:
+        </div>
+      </div>
+      <div style="text-align: center;">
+        <div style="border-top: 1px solid #333; padding-top: 8px; margin-top: 40px;">
+          TESTEMUNHA<br>Nome:<br>RG:
+        </div>
+      </div>
+    </div>
   `;
+}
+
+function extensoMeses(m) {
+  const n = parseInt(m);
+  const extensos = {1:'um',2:'dois',3:'três',4:'quatro',5:'cinco',6:'seis',7:'sete',8:'oito',9:'nove',10:'dez',11:'onze',12:'doze',18:'dezoito',24:'vinte e quatro',30:'trinta',36:'trinta e seis',42:'quarenta e dois',48:'quarenta e oito',60:'sessenta'};
+  return extensos[n] || n;
 }
 
 function getContractTitle() {
@@ -2136,130 +2347,218 @@ function getContractTitle() {
 
 function downloadPDF() {
   const { jsPDF } = window.jspdf;
-  const doc = new jsPDF('p', 'mm', 'a4');
-  const pageWidth = 210;
-  const pageHeight = 297;
-  const marginLeft = 20;
-  const marginRight = 20;
-  const marginTop = 25;
-  const marginBottom = 25;
-  const contentWidth = pageWidth - marginLeft - marginRight;
-  let y = marginTop;
+  const pdf = new jsPDF('p', 'mm', 'a4');
+  const W = 210, H = 297, ML = 20, MR = 20, MT = 25, MB = 25;
+  const CW = W - ML - MR;
+  let y = MT;
+  const d = getContractData();
+  const isComodato = d.isComodato;
 
-  function checkPageBreak(needed) {
-    if (y + needed > pageHeight - marginBottom) {
-      doc.addPage();
-      y = marginTop;
-    }
+  function pb(needed) { if (y + needed > H - MB) { pdf.addPage(); y = MT; } }
+  function addH(text) {
+    pb(14);
+    y += 6;
+    pdf.setFont('helvetica', 'bold'); pdf.setFontSize(11); pdf.setTextColor(30,30,30);
+    const lines = pdf.splitTextToSize(text, CW);
+    pdf.text(lines, ML, y);
+    y += lines.length * 5.5 + 4;
+  }
+  function addP(text, indent) {
+    const ind = indent || 0;
+    pdf.setFont('helvetica', 'normal'); pdf.setFontSize(10); pdf.setTextColor(50,50,50);
+    const lines = pdf.splitTextToSize(text, CW - ind);
+    pb(lines.length * 4.5 + 2);
+    pdf.text(lines, ML + ind, y);
+    y += lines.length * 4.5 + 2;
   }
 
-  doc.setFontSize(16);
-  doc.setFont('helvetica', 'bold');
-  doc.setTextColor(30, 30, 30);
+  // Title
+  pdf.setFont('helvetica', 'bold'); pdf.setFontSize(14); pdf.setTextColor(30,30,30);
   const title = getContractTitle();
-  const titleLines = doc.splitTextToSize(title, contentWidth);
-  doc.text(titleLines, pageWidth / 2, y, { align: 'center' });
-  y += titleLines.length * 7 + 10;
+  const tl = pdf.splitTextToSize(title, CW);
+  pdf.text(tl, W/2, y, {align:'center'}); y += tl.length * 6 + 8;
 
-  doc.setDrawColor(200, 200, 200);
-  doc.setLineWidth(0.3);
-  doc.line(marginLeft, y, pageWidth - marginRight, y);
-  y += 8;
+  // Partes
+  let sindicoInfo = '';
+  if (d.sindicoNome) sindicoInfo += `, neste ato representado por seu síndico ${d.sindicoNome}`;
+  if (d.sindicoCpf) sindicoInfo += `, CPF nº ${d.sindicoCpf}`;
+  if (d.sindicoAdmin) sindicoInfo += `, através da administradora ${d.sindicoAdmin}`;
 
-  doc.setFontSize(10);
-  doc.setFont('helvetica', 'normal');
-  doc.setTextColor(100, 100, 100);
-  doc.text('Data: ' + new Date().toLocaleDateString('pt-BR'), marginLeft, y);
-  y += 8;
+  pdf.setFont('helvetica','bold'); pdf.setFontSize(10);
+  pdf.text('CONTRATADA:', ML, y); y += 5;
+  addP(`${d.contratada}, doravante denominada ${d.contratadaFantasia}, inscrita no CNPJ/MF sob o nº ${d.contratadaCnpj}, situada na ${d.contratadaEnd}, ${d.contratadaCid}, neste ato representada por seu sócio ${d.contratadaRep};`, 5);
+  y += 3;
 
-  checkPageBreak(20);
+  pdf.setFont('helvetica','bold'); pdf.setFontSize(10);
+  pb(10); pdf.text('CONTRATANTE:', ML, y); y += 5;
+  addP(`${d.contratante}, condomínio edilício, situado na ${d.contratanteEnd}, inscrito no CNPJ/MF sob o nº ${d.contratanteCnpj}${sindicoInfo}.`, 5);
 
-  const contratada = document.getElementById('contratada_nome').value || 'Contratada';
-  const contratadaCnpj = document.getElementById('contratada_cnpj').value || '';
-  const contratadaEnd = document.getElementById('contratada_endereco').value || '';
-  const contratadaCid = document.getElementById('contratada_cidade').value || '';
-  const contratadaRep = document.getElementById('contratada_representante').value || '';
-  const contratadaFantasia = document.getElementById('contratada_fantasia').value || '';
-  const contratante = document.getElementById('contratante_nome').value || 'Contratante';
-  const contratanteCnpj = document.getElementById('contratante_cnpj').value || '';
-  const contratanteEnd = document.getElementById('contratante_endereco').value || '';
-  const contratanteCid = document.getElementById('contratante_cidade').value || '';
+  if (d.contratanteAptos) { addP(`Apartamentos: ${d.contratanteAptos} | Metragem: ${d.contratanteMetragem || 'N/I'}`, 5); }
+  if (d.sindicoEmail || d.sindicoTel) { addP(`Contato: ${d.sindicoEmail || ''}${d.sindicoEmail && d.sindicoTel ? ' | ' : ''}${d.sindicoTel || ''}`, 5); }
+  y += 4;
 
-  doc.setFontSize(10);
-  doc.setTextColor(50, 50, 50);
-  doc.text('Pelo presente instrumento particular, as partes abaixo qualificadas:', marginLeft, y);
-  y += 8;
+  pdf.setFont('helvetica','bold'); pdf.setFontSize(10); pb(10);
+  const mut = pdf.splitTextToSize('De mútuo acordo, ajustam as partes acima o presente de prestação de serviços, que se regerão pelas cláusulas abaixo:', CW);
+  pdf.text(mut, W/2, y, {align:'center'}); y += mut.length * 5 + 6;
 
-  checkPageBreak(30);
+  // I - OBJETO
+  addH('I – OBJETO:');
+  addP('a) O presente Contrato tem por objeto a prestação de serviços ("Serviços"), pela CONTRATADA ao CONTRATANTE, de instalação, suporte e assistência para o gerenciamento de lavanderia, via aplicativo Lavandery.', 5);
+  if (isComodato) {
+    addP('b) Em regime de comodato, a CONTRATADA fornecerá equipamentos do tipo "máquina de lavar e secar roupas", marca SPEED QUEEN, de propriedade da CONTRATADA, bem como a manutenção preventiva;', 5);
+  } else {
+    addP('b) A CONTRATADA realizará também a manutenção preventiva dos equipamentos de lavagem e secagem, de propriedade do CONTRATANTE;', 5);
+  }
+  addP('c) Os Serviços são firmados em regime de não exclusividade.', 5);
+  addP('d) A CONTRATADA declara estar regularmente apta para a prática de sua atividade.', 5);
 
-  doc.setFont('helvetica', 'bold');
-  doc.text('CONTRATADA:', marginLeft, y);
-  y += 6;
-  doc.setFont('helvetica', 'normal');
-  let contratadaTxt = contratada;
-  if (contratadaFantasia) contratadaTxt += ', doravante denominada ' + contratadaFantasia;
-  if (contratadaCnpj) contratadaTxt += ', inscrita no CNPJ/MF sob nº ' + contratadaCnpj;
-  if (contratadaEnd) contratadaTxt += ', situada na ' + contratadaEnd;
-  if (contratadaCid) contratadaTxt += ', ' + contratadaCid;
-  if (contratadaRep) contratadaTxt += ', neste ato representada por seu sócio ' + contratadaRep.toUpperCase();
-  contratadaTxt += ';';
-  const contratadaLines = doc.splitTextToSize(contratadaTxt, contentWidth - 5);
-  doc.text(contratadaLines, marginLeft + 5, y);
-  y += contratadaLines.length * 5 + 4;
+  // II - VALOR
+  addH('II - VALOR DOS SERVIÇOS:');
+  addP(`a) O valor dos ciclos via aplicativo, em regime pré-pago, será de R$ ${parseFloat(d.lavagem).toFixed(2).replace('.',',')} para lavagem e R$ ${parseFloat(d.secagem).toFixed(2).replace('.',',')} para secagem.`, 5);
+  if (d.obraCheck) {
+    addP(`b) A CONTRATADA repassará R$ ${parseFloat(d.repasse).toFixed(2).replace('.',',')} por ciclo. Repasse inicia após liquidação da obra de R$ ${parseFloat(d.obraValor).toFixed(2).replace('.',',')}.`, 5);
+  } else {
+    addP(`b) A CONTRATADA repassará R$ ${parseFloat(d.repasse).toFixed(2).replace('.',',')} por cada ciclo pago.`, 5);
+  }
+  addP('c) O repasse será depositado em até 60 dias a contar do fechamento do mês.', 5);
+  addP(`d) Desconto de ${d.desconto}% referente ao imposto incidente.`, 5);
 
-  doc.setFont('helvetica', 'bold');
-  doc.text('CONTRATANTE:', marginLeft, y);
-  y += 6;
-  doc.setFont('helvetica', 'normal');
-  let contratanteTxt = contratante;
-  if (contratanteCnpj) contratanteTxt += ', inscrito no CNPJ/CPF sob nº ' + contratanteCnpj;
-  if (contratanteEnd) contratanteTxt += ', situado em ' + contratanteEnd;
-  if (contratanteCid) contratanteTxt += ', ' + contratanteCid;
-  contratanteTxt += ', doravante denominado CONTRATANTE;';
-  const contratanteLines = doc.splitTextToSize(contratanteTxt, contentWidth - 5);
-  doc.text(contratanteLines, marginLeft + 5, y);
-  y += contratanteLines.length * 5 + 6;
+  // III - REAJUSTE
+  addH('III - DO REAJUSTE:');
+  addP('a) Reajuste anual pelo IPCA acumulado dos doze meses anteriores.', 5);
+  addP('b) Na impossibilidade do IPCA, índice autorizado pela legislação, à escolha da CONTRATADA.', 5);
+  addP('c) Se negativo, mantém-se o valor do mês antecedente.', 5);
 
-  checkPageBreak(30);
+  // IV - PRAZO
+  addH('IV - PRAZO DE VIGÊNCIA E RESCISÃO ANTECIPADA:');
+  addP(`a) Vigência de ${d.vigencia} (${extensoMeses(d.vigencia)}) meses, prorrogável por períodos iguais.`, 5);
+  addP('b) Rescisão unilateral pelo CONTRATANTE com 60 dias de antecedência e multa de 5x a média dos últimos 12 meses.', 5);
+  addP('c) Rescisão por justa causa se houver inobservância das obrigações.', 5);
+  addP('d) Após rescisão, retirada de adesivos/placas/kits em até 30 dias. Multa de R$ 500,00/dia se acesso negado.', 5);
+  addP('e) Inexecução parcial será notificada para saneamento do vício.', 5);
 
-  doc.setFont('helvetica', 'bold');
-  doc.setFontSize(11);
-  doc.text('I — DAS PARTES', marginLeft, y);
-  y += 7;
+  // V - OBRIGAÇÕES DO CONTRATANTE
+  addH('V - DAS OBRIGAÇÕES DO CONTRATANTE:');
+  ['a) Prestar informações e facilidades necessárias à execução dos Serviços.',
+   'b) Responsabilidade integral pela utilização adequada dos equipamentos e aplicativo.',
+   'c) Manter a lavanderia fechada durante realização dos Serviços.',
+   'd) Equipe predial com treinamentos em dia.',
+   'e) Orientar condôminos sobre funcionamento e uso adequados.',
+   'f) Garantir limpeza externa dos equipamentos.',
+   'g) Comunicar inatividade nos dias de manutenção preventiva.',
+   'h) Disponibilizar correta infraestrutura predial.'
+  ].forEach(t => addP(t, 5));
 
-  doc.setFont('helvetica', 'normal');
-  doc.setFontSize(10);
-  const introText = 'Pelo presente instrumento particular, as partes acima qualificadas celebram este contrato.';
-  const introLines = doc.splitTextToSize(introText, contentWidth);
-  doc.text(introLines, marginLeft, y);
-  y += introLines.length * 5 + 5;
+  // VI - OBRIGAÇÕES DA CONTRATADA
+  addH('VI - DAS OBRIGAÇÕES DA CONTRATADA:');
+  ['a) Manutenção preventiva semestral dos equipamentos;',
+   'b) Designar funcionário identificado para representar a CONTRATADA;',
+   'c) Observar normas de segurança e procedimentos internos;',
+   'd) Corrigir imperfeições dos Serviços às suas expensas;',
+   'e) Cumprir Leis Federais, Estaduais e Municipais;',
+   'f) Responsabilidade exclusiva por obrigações trabalhistas e fiscais;',
+   'g) Não usar nome/marcas da CONTRATANTE sem aprovação escrita;',
+   'h) Executar com integral observância das disposições contratuais;',
+   'i) Atendimento de emergência em até 72 horas;',
+   'j) Atendimento online em até 4 horas.'
+  ].forEach(t => addP(t, 5));
 
-  const pageCount = doc.internal.getNumberOfPages();
-  for (let i = 1; i <= pageCount; i++) {
-    doc.setPage(i);
-    doc.setFontSize(7);
-    doc.setTextColor(150, 150, 150);
-    doc.text('Lavandery Gestão | Página ' + i, pageWidth / 2, pageHeight - 10, { align: 'center' });
+  // VII
+  addH('VII - CASO FORTUITO E FORÇA MAIOR:');
+  addP('a) Notificação em até 2 dias úteis em caso de impedimento por caso fortuito ou força maior.', 5);
+
+  // VIII
+  addH('VIII – DO SIGILO E LGPD:');
+  addP('a) Sigilo e confidencialidade recíprocos durante a vigência do CONTRATO;', 5);
+  addP('b) Confidencialidade subsiste por 05 anos após encerramento;', 5);
+  addP('c) Responsabilidade integral por violações, obedecendo a LGPD (Lei 13.709/18);', 5);
+  addP('d) Uso exclusivo das Informações Confidenciais para cumprimento das obrigações;', 5);
+  addP('e) Restrições de divulgação, reprodução, devolução/destruição das Informações Confidenciais;', 5);
+  addP('f) Notificação imediata sobre uso não autorizado de Informações Confidenciais.', 5);
+
+  // IX
+  addH('IX - DAS DIRETRIZES ANTICORRUPÇÃO:');
+  addP('a) Observância às Leis Anticorrupção brasileiras e internacionais (FCPA, UK Bribery Act, etc.);', 5);
+  addP('b-h) Declarações de não envolvimento com corrupção, investigações, sanções;', 5);
+  addP('i) Documentação de cobrança acompanhada de fatura detalhada com direito de auditoria;', 5);
+  addP('j) Infração anticorrupção = rescisão imediata do CONTRATO;', 5);
+  addP('k-o) Demais declarações anticorrupção conforme contrato completo.', 5);
+
+  // X
+  addH('X - DISPOSIÇÕES GERAIS:');
+  addP('a) Assistência técnica para defeito inexistente: pagamento pelo CONTRATANTE.', 5);
+  addP('b) Serviços adicionais via aditivo contratual;', 5);
+  addP('c) CONTRATADA com competência plena para prestar os Serviços;', 5);
+  addP('d) Sem vínculo empregatício entre as partes;', 5);
+  addP('e) Serviços complementares mediante Termo Aditivo;', 5);
+  addP('f) Tolerância com atrasos não caracteriza novação.', 5);
+
+  // XI
+  addH('XI – DO FORO:');
+  addP('a) Foro da Comarca de São Paulo-SP.', 5);
+
+  // Assinaturas
+  y += 8; pb(60);
+  addP('O presente instrumento é assinado pelas PARTES, cuja assinatura fica desde já expressamente confirmada pelas partes e testemunhas.');
+  y += 4;
+  addP(`São Paulo, ${new Date().toLocaleDateString('pt-BR', {day:'2-digit', month:'long', year:'numeric'})}.`);
+  y += 20; pb(50);
+
+  pdf.setFont('helvetica','normal'); pdf.setFontSize(10);
+  pdf.line(ML+10, y, ML+70, y); pdf.line(W-MR-70, y, W-MR-10, y);
+  y += 5;
+  pdf.setFont('helvetica','bold');
+  pdf.text('CONTRATANTE', ML+40, y, {align:'center'});
+  pdf.text('CONTRATADA', W-MR-40, y, {align:'center'});
+  y += 5;
+  pdf.setFont('helvetica','normal'); pdf.setFontSize(9);
+  pdf.text(d.contratante, ML+40, y, {align:'center'});
+  pdf.text(d.contratada, W-MR-40, y, {align:'center'});
+  y += 20; pb(30);
+
+  pdf.line(ML+10, y, ML+60, y); pdf.line(W-MR-60, y, W-MR-10, y);
+  y += 5; pdf.setFontSize(9);
+  pdf.text('TESTEMUNHA', ML+35, y, {align:'center'});
+  pdf.text('TESTEMUNHA', W-MR-35, y, {align:'center'});
+  y += 4;
+  pdf.text('Nome:', ML+10, y); pdf.text('Nome:', W-MR-60, y);
+  y += 4;
+  pdf.text('RG:', ML+10, y); pdf.text('RG:', W-MR-60, y);
+
+  // Footer em todas as páginas
+  const pc = pdf.internal.getNumberOfPages();
+  for (let i = 1; i <= pc; i++) {
+    pdf.setPage(i);
+    pdf.setFontSize(7); pdf.setTextColor(150,150,150);
+    pdf.text('Lavandery Gestão | Página ' + i + ' de ' + pc, W/2, H - 10, {align:'center'});
   }
 
-  const filename = (contratante || 'contrato').replace(/\s+/g, '_') + '_contrato.pdf';
-  doc.save(filename);
+  const filename = (d.contratante || 'contrato').replace(/\s+/g, '_') + '_contrato.pdf';
+  pdf.save(filename);
   showToast('PDF baixado com sucesso!', 'success');
 }
 
 async function saveContract() {
+  const d = getContractData();
   const contracts = await getContracts();
   contracts.push({
     id: Date.now(),
     model: selectedModel,
-    contratada: document.getElementById('contratada_nome').value,
-    contratadaCnpj: document.getElementById('contratada_cnpj').value,
-    contratadaEndereco: document.getElementById('contratada_endereco').value,
-    contratadaCidade: document.getElementById('contratada_cidade').value,
-    contratante: document.getElementById('contratante_nome').value,
-    contratanteCnpj: document.getElementById('contratante_cnpj').value,
-    contratanteEndereco: document.getElementById('contratante_endereco').value,
-    contratanteCidade: document.getElementById('contratante_cidade').value,
+    contratada: d.contratada,
+    contratadaCnpj: d.contratadaCnpj,
+    contratadaEndereco: d.contratadaEnd,
+    contratadaCidade: d.contratadaCid,
+    contratante: d.contratante,
+    contratanteCnpj: d.contratanteCnpj,
+    contratanteEndereco: d.contratanteEnd,
+    contratanteCidade: d.contratanteCid,
+    contratanteAptos: d.contratanteAptos,
+    contratanteMetragem: d.contratanteMetragem,
+    sindicoNome: d.sindicoNome,
+    sindicoCpf: d.sindicoCpf,
+    sindicoEmail: d.sindicoEmail,
+    sindicoTel: d.sindicoTel,
+    sindicoAdmin: d.sindicoAdmin,
     data: new Date().toLocaleDateString('pt-BR'),
     status: 'pending'
   });
@@ -3186,6 +3485,223 @@ function downloadSimulacaoPDF() {
   const fileName = 'Simulacao_' + (condNome !== 'Não informado' ? condNome.replace(/[^a-zA-Z0-9]/g, '_') : 'Lavandery') + '_' + dataVal + '.pdf';
   doc.save(fileName);
   showToast('PDF exportado com sucesso!');
+}
+
+// ==================== FILE UPLOAD ====================
+let uploadedFiles = [];
+
+function handleFileDrop(event) {
+  event.preventDefault();
+  event.target.closest('#uploadArea').style.borderColor = 'var(--border)';
+  event.target.closest('#uploadArea').style.background = 'transparent';
+  handleFileUpload(event.dataTransfer.files);
+}
+
+function handleFileUpload(files) {
+  const maxSize = 10 * 1024 * 1024;
+  const allowed = ['.pdf','.doc','.docx','.jpg','.jpeg','.png'];
+  Array.from(files).forEach(file => {
+    const ext = '.' + file.name.split('.').pop().toLowerCase();
+    if (!allowed.includes(ext)) { showToast('Formato não suportado: ' + ext, 'error'); return; }
+    if (file.size > maxSize) { showToast('Arquivo muito grande: ' + file.name, 'error'); return; }
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      uploadedFiles.push({ name: file.name, size: file.size, type: file.type, data: e.target.result, date: new Date().toLocaleDateString('pt-BR') });
+      renderUploadedFiles();
+      showToast('Arquivo anexado: ' + file.name, 'success');
+    };
+    reader.readAsDataURL(file);
+  });
+}
+
+function renderUploadedFiles() {
+  const list = document.getElementById('uploadedFilesList');
+  if (!list) return;
+  if (uploadedFiles.length === 0) { list.innerHTML = ''; return; }
+  list.innerHTML = uploadedFiles.map((f, i) => `
+    <div style="display:flex;align-items:center;gap:10px;padding:8px 12px;background:var(--bg-tertiary);border-radius:var(--radius-sm);margin-bottom:6px;">
+      <span style="font-size:18px;">${f.name.endsWith('.pdf')?'📄':f.name.match(/\.(jpg|jpeg|png)$/i)?'🖼️':'📎'}</span>
+      <div style="flex:1;min-width:0;">
+        <div style="font-size:13px;font-weight:500;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${f.name}</div>
+        <div style="font-size:11px;color:var(--text-tertiary);">${(f.size/1024).toFixed(1)} KB — ${f.date}</div>
+      </div>
+      <button onclick="uploadedFiles.splice(${i},1);renderUploadedFiles();" style="background:none;border:none;color:#ff3b30;cursor:pointer;font-size:16px;">✕</button>
+    </div>
+  `).join('');
+}
+
+// ==================== DOWNLOAD WORD ====================
+async function downloadWord() {
+  const d = getContractData();
+  const isComodato = d.isComodato;
+  const title = getContractTitle();
+  const { Document, Packer, Paragraph, TextRun, AlignmentType, HeadingLevel, BorderStyle, UnderlineType } = docx;
+
+  const B = (t) => new TextRun({ text: t, bold: true, font: 'Arial', size: 22 });
+  const N = (t) => new TextRun({ text: t, font: 'Arial', size: 22 });
+  const U = (t) => new TextRun({ text: t, bold: true, underline: { type: UnderlineType.SINGLE }, font: 'Arial', size: 22 });
+  const I = (t) => new TextRun({ text: t, italics: true, font: 'Arial', size: 22 });
+
+  function heading(text) {
+    return new Paragraph({ children: [U(text)], spacing: { before: 400, after: 200 } });
+  }
+  function para(children, indent) {
+    return new Paragraph({ children: children, spacing: { after: 100 }, indent: indent ? { left: indent } : undefined });
+  }
+
+  let sindicoInfo = '';
+  if (d.sindicoNome) sindicoInfo += `, neste ato representado por seu síndico ${d.sindicoNome}`;
+  if (d.sindicoCpf) sindicoInfo += `, CPF nº ${d.sindicoCpf}`;
+  if (d.sindicoAdmin) sindicoInfo += `, através da administradora ${d.sindicoAdmin}`;
+
+  const sections = [];
+
+  // Title
+  sections.push(new Paragraph({ children: [B(title)], alignment: AlignmentType.CENTER, spacing: { after: 400 } }));
+
+  // CONTRATADA
+  sections.push(para([B('CONTRATADA: '), U(d.contratada), N(`, doravante denominada `), B(d.contratadaFantasia), N(`, inscrita no CNPJ/MF sob o nº ${d.contratadaCnpj}, situada na ${d.contratadaEnd}, ${d.contratadaCid}, neste ato representada por seu sócio ${d.contratadaRep};`)]));
+
+  // CONTRATANTE
+  sections.push(para([B('CONTRATANTE: '), U(d.contratante), N(`, condomínio edilício, situado na ${d.contratanteEnd}, inscrito no CNPJ/MF sob o nº ${d.contratanteCnpj}${sindicoInfo}.`)]));
+
+  if (d.contratanteAptos || d.sindicoEmail || d.sindicoTel) {
+    const contactParts = [];
+    if (d.contratanteAptos) contactParts.push(`Apartamentos: ${d.contratanteAptos} | Metragem: ${d.contratanteMetragem || 'N/I'}`);
+    if (d.sindicoEmail) contactParts.push(`E-mail: ${d.sindicoEmail}`);
+    if (d.sindicoTel) contactParts.push(`Tel: ${d.sindicoTel}`);
+    sections.push(para([new TextRun({ text: contactParts.join(' | '), font: 'Arial', size: 18, color: '666666' })]));
+  }
+
+  sections.push(new Paragraph({ children: [U('De mútuo acordo, ajustam as partes acima o presente de prestação de serviços, que se regerão pelas cláusulas abaixo:')], alignment: AlignmentType.CENTER, spacing: { before: 300, after: 300 } }));
+
+  // I - OBJETO
+  sections.push(heading('I – OBJETO:'));
+  if (isComodato) {
+    sections.push(para([N('a) O presente Contrato tem por objeto a prestação de serviços ("Serviços"), pela CONTRATADA ao CONTRATANTE, de instalação, suporte e assistência para o gerenciamento de lavanderia, via aplicativo Lavandery, que será utilizado na gestão dos equipamentos de propriedade do condomínio CONTRATANTE;')], 360));
+    sections.push(para([N('b) Em regime de comodato, a CONTRATADA fornecerá ao CONTRATANTE conjuntos de equipamentos do tipo "máquina de lavar e secar roupas", marca SPEED QUEEN, de propriedade da CONTRATADA, bem como a manutenção preventiva dela;')], 360));
+  } else {
+    sections.push(para([N('a) O presente Contrato tem por objeto a prestação de serviços ("Serviços"), pela CONTRATADA ao CONTRATANTE, de instalação, suporte e assistência para o gerenciamento de lavanderia, via aplicativo Lavandery, que será utilizado na gestão dos equipamentos de propriedade do condomínio CONTRATANTE;')], 360));
+    sections.push(para([N('b) A CONTRATADA realizará também a manutenção preventiva dos equipamentos de lavagem e secagem, de propriedade do CONTRATANTE;')], 360));
+  }
+  sections.push(para([N('c) Os Serviços são firmados em regime de não exclusividade.')], 360));
+  sections.push(para([N('d) A CONTRATADA declara estar regularmente apta para a prática de sua atividade.')], 360));
+
+  // II - VALOR DOS SERVIÇOS
+  sections.push(heading('II - VALOR DOS SERVIÇOS:'));
+  sections.push(para([N(`a) O valor dos ciclos via aplicativo da CONTRATADA, em regime pré-pago, será de R$ ${parseFloat(d.lavagem).toFixed(2).replace('.', ',')} para lavagem e R$ ${parseFloat(d.secagem).toFixed(2).replace('.', ',')} para secagem.`)], 360));
+  if (d.obraCheck) {
+    sections.push(para([N(`b) A CONTRATADA repassará ao CONTRATANTE o valor de R$ ${parseFloat(d.repasse).toFixed(2).replace('.', ',')} por cada ciclo pago. Referido repasse somente se iniciará após a liquidação integral do custo da obra de R$ ${parseFloat(d.obraValor).toFixed(2).replace('.', ',')}.`)], 360));
+  } else {
+    sections.push(para([N(`b) A CONTRATADA repassará ao CONTRATANTE o valor de R$ ${parseFloat(d.repasse).toFixed(2).replace('.', ',')} por cada ciclo pago.`)], 360));
+  }
+  sections.push(para([N('c) O repasse será depositado na conta indicada pelo contratante em até 60 dias a contar do fechamento do mês.')], 360));
+  sections.push(para([N(`d) O repasse será feito considerando o desconto no percentual de ${d.desconto}% referente ao imposto incidente.`)], 360));
+
+  // III - REAJUSTE
+  sections.push(heading('III - DO REAJUSTE:'));
+  sections.push(para([N('a) O valor do ciclo será reajustado anualmente pelo acumulado dos doze meses anteriores ao reajuste, pelo IPCA.')], 360));
+  sections.push(para([N('b) Na impossibilidade legal de utilização do IPCA, será utilizado o índice autorizado pela legislação em vigor, à escolha da CONTRATADA.')], 360));
+  sections.push(para([N('c) Caso o acumulado do índice totalizar valores negativos, manter-se-á o valor do ciclo cobrado no mês antecedente.')], 360));
+
+  // IV - PRAZO
+  sections.push(heading('IV - PRAZO DE VIGÊNCIA E RESCISÃO ANTECIPADA:'));
+  sections.push(para([N(`a) O prazo de vigência é de ${d.vigencia} (${extensoMeses(d.vigencia)}) meses a contar da data da assinatura, podendo ser prorrogado por períodos iguais.`)], 360));
+  sections.push(para([N('b) O CONTRATANTE poderá rescindir unilateralmente com 60 dias de antecedência, sendo aplicável multa equivalente a cinco vezes a média dos últimos doze meses das remunerações da CONTRATADA.')], 360));
+  sections.push(para([N('c) O Contrato poderá ser rescindido por justa causa se ocorrer inobservância ou descumprimento das obrigações aqui previstas.')], 360));
+  sections.push(para([N('d) Rescindido o contrato, a CONTRATADA se compromete a retirar os adesivos, placas e kits no prazo máximo de 30 dias.')], 360));
+  sections.push(para([N('e) A inexecução total ou parcial injustificada será notificada à CONTRATADA para saneamento do vício.')], 360));
+
+  // V - OBRIGAÇÕES DO CONTRATANTE
+  sections.push(heading('V - DAS OBRIGAÇÕES DO CONTRATANTE:'));
+  ['a) Prestar à CONTRATADA todas as informações e facilidades necessárias à boa execução dos Serviços.',
+   'b) O CONTRATANTE será integralmente responsável pela utilização adequada dos equipamentos e aplicativo.',
+   'c) Manter a lavanderia compartilhada fechada quando da realização dos Serviços.',
+   'd) Ter sua equipe predial com os treinamentos em dia.',
+   'e) Orientar os condôminos sobre o funcionamento e uso adequados da lavanderia.',
+   'f) Garantir a limpeza externa dos equipamentos.',
+   'g) Comunicar o período de inatividade nos dias de manutenção preventiva.',
+   'h) Disponibilizar a correta infraestrutura predial e mantê-la em boas condições.'
+  ].forEach(t => sections.push(para([N(t)], 360)));
+
+  // VI - OBRIGAÇÕES DA CONTRATADA
+  sections.push(heading('VI - DAS OBRIGAÇÕES DA CONTRATADA:'));
+  ['a) Realizar manutenção preventiva dos equipamentos semestralmente;',
+   'b) Designar um funcionário para representar a CONTRATADA na CONTRATANTE;',
+   'c) Fazer com que seus empregados observem todas as normas de segurança e procedimentos internos da CONTRATANTE;',
+   'd) Corrigir imperfeições e incorreções dos Serviços às suas expensas;',
+   'e) Cumprir com todas as Leis Federais, Estaduais e Municipais vigentes;',
+   'f) Responsabilizar-se por todas as obrigações trabalhistas, previdenciárias e fiscais;',
+   'g) Não utilizar nome, razão social, marcas ou logotipos da CONTRATANTE sem aprovação prévia e escrita;',
+   'h) Executar os Serviços com integral observância das disposições contratuais;',
+   'i) No caso de chamadas de emergência, realizar o primeiro atendimento em até 72 horas;',
+   'j) Para atendimento online, prazo de resposta de até 4 horas;'
+  ].forEach(t => sections.push(para([N(t)], 360)));
+
+  // VII - CASO FORTUITO
+  sections.push(heading('VII - CASO FORTUITO E FORÇA MAIOR:'));
+  sections.push(para([N('a) Constatada a ocorrência de caso fortuito ou força maior, a Parte prejudicada deverá notificar a outra no prazo máximo de 2 dias úteis.')], 360));
+
+  // VIII - SIGILO E LGPD
+  sections.push(heading('VIII – DO SIGILO E LGPD:'));
+  sections.push(para([N('a) As partes obrigam-se reciprocamente a manter o mais absoluto sigilo e confidencialidade no tocante aos serviços;')], 360));
+  sections.push(para([N('b) As obrigações de confidencialidade subsistirão por 05 (cinco) anos após o encerramento;')], 360));
+  sections.push(para([N('c) A CONTRATADA se responsabiliza integralmente por qualquer violação, devendo obedecer à LGPD (Lei 13.709/18);')], 360));
+  sections.push(para([N('d) A CONTRATADA compromete-se a utilizar as Informações Confidenciais exclusivamente para o cumprimento das obrigações;')], 360));
+  sections.push(para([N('e) A CONTRATADA obriga-se a utilizar as Informações Confidenciais somente para prestar os Serviços, não reproduzir sem consentimento, e devolver ou destruir no término;')], 360));
+  sections.push(para([N('f) Notificar o CONTRATANTE sobre qualquer divulgação, posse e/ou uso não autorizado das Informações Confidenciais.')], 360));
+
+  // IX - ANTICORRUPÇÃO
+  sections.push(heading('IX - DAS DIRETRIZES ANTICORRUPÇÃO:'));
+  sections.push(para([N('a) A CONTRATADA se obriga a observar e cumprir rigorosamente todas as leis anticorrupção cabíveis, incluindo FCPA, UK Bribery Act e Canada\'s Corruption of Foreign Public Officials Act;')], 360));
+  sections.push(para([N('b) A CONTRATADA declara e garante que não está envolvida em qualquer atividade que constitua infração às Leis Anticorrupção;')], 360));
+  sections.push(para([N('c) A CONTRATADA declara e garante que não se encontra sob investigação, processo judicial, listada em entidade governamental, sujeita a sanções, ou banida;')], 360));
+  sections.push(para([N('i) Toda documentação de cobrança deverá estar acompanhada de fatura detalhada;')], 360));
+  sections.push(para([N('j) O não cumprimento das Leis Anticorrupção será considerada infração grave ao CONTRATO;')], 360));
+  sections.push(para([N('k-o) Demais declarações anticorrupção conforme estabelecido em contrato.')], 360));
+
+  // X - DISPOSIÇÕES GERAIS
+  sections.push(heading('X - DISPOSIÇÕES GERAIS:'));
+  ['a) Caso o CONTRATANTE solicite assistência técnica para defeito inexistente, ficará responsável pelo pagamento da visita técnica.',
+   'b) Quaisquer serviços adicionais serão objeto de aditivo contratual;',
+   'c) A CONTRATADA declara competência plena para prestar os Serviços;',
+   'd) O presente CONTRATO não gera vínculo empregatício entre as partes;',
+   'e) Serviços complementares deverão ser objeto de Termo Aditivo;',
+   'f) A tolerância com atrasos não caracterizará novação dos direitos.'
+  ].forEach(t => sections.push(para([N(t)], 360)));
+
+  // XI - FORO
+  sections.push(heading('XI – DO FORO:'));
+  sections.push(para([N('a) Elegem as partes o foro da Comarca de São Paulo-SP, para dirimir todas e quaisquer dúvidas oriundas do presente CONTRATO.')], 360));
+
+  // Assinaturas
+  sections.push(new Paragraph({ children: [N('O presente instrumento é assinado pelas PARTES, cuja assinatura fica desde já expressamente confirmada pelas partes e testemunhas.')], spacing: { before: 400, after: 200 } }));
+  sections.push(new Paragraph({ children: [N(`São Paulo, ${new Date().toLocaleDateString('pt-BR', {day: '2-digit', month: 'long', year: 'numeric'})}.`)], spacing: { after: 600 } }));
+
+  sections.push(new Paragraph({ children: [N('_________________________________')], alignment: AlignmentType.CENTER, spacing: { before: 400 } }));
+  sections.push(new Paragraph({ children: [B('CONTRATANTE')], alignment: AlignmentType.CENTER }));
+  sections.push(new Paragraph({ children: [N(d.contratante)], alignment: AlignmentType.CENTER, spacing: { after: 300 } }));
+
+  sections.push(new Paragraph({ children: [N('_________________________________')], alignment: AlignmentType.CENTER, spacing: { before: 200 } }));
+  sections.push(new Paragraph({ children: [B('CONTRATADA')], alignment: AlignmentType.CENTER }));
+  sections.push(new Paragraph({ children: [N(d.contratada)], alignment: AlignmentType.CENTER, spacing: { after: 400 } }));
+
+  sections.push(new Paragraph({ children: [N('________________          ________________')], alignment: AlignmentType.CENTER, spacing: { before: 200 } }));
+  sections.push(new Paragraph({ children: [N('TESTEMUNHA                    TESTEMUNHA')], alignment: AlignmentType.CENTER }));
+
+  const doc = new Document({
+    sections: [{ properties: { page: { margin: { top: 1440, right: 1440, bottom: 1440, left: 1440 } } }, children: sections }]
+  });
+
+  Packer.toBlob(doc).then(blob => {
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = (d.contratante || 'contrato').replace(/\s+/g, '_') + '_contrato.docx';
+    a.click();
+    URL.revokeObjectURL(url);
+    showToast('Word gerado com sucesso!', 'success');
+  });
 }
 
 function showToast(message, type = 'success') {

@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="pt-BR" data-theme="light">
+<html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Contrato Pro - Lavandery GestÃ£o</title>
-<meta name="description" content="Contrato Pro - Sistema de GestÃ£o de Contratos de Lavanderia">
+<title>Contrato Pro - Lavandery Gestão</title>
+<meta name="description" content="Contrato Pro - Sistema de Gestão de Contratos de Lavanderia">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>L</text></svg>">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
@@ -17,7 +17,7 @@
 <style>
 /* ============================================================
    CONTRATO PRO - SaaS Platform Styles
-   Lavandery GestÃ£o - Premium UI System
+   Lavandery Gestão - Premium UI System
    ============================================================ */
 
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
@@ -329,13 +329,13 @@ body {
   transition: var(--transition);
 }
 .theme-toggle::after {
-  content: 'âï¸'; position: absolute; left: 3px; top: 3px;
+  content: '☀️'; position: absolute; left: 3px; top: 3px;
   width: 20px; height: 20px; background: white;
   border-radius: 50%; transition: var(--transition);
   display: flex; align-items: center; justify-content: center;
   font-size: 11px; box-shadow: 0 1px 3px rgba(0,0,0,0.15);
 }
-[data-theme="dark"] .theme-toggle::after { transform: translateX(24px); content: 'ð'; }
+[data-theme="dark"] .theme-toggle::after { transform: translateX(24px); content: '🌙'; }
 
 /* ============================================================
    APP LAYOUT
@@ -1119,7 +1119,7 @@ input[type="checkbox"] { width: 18px; height: 18px; cursor: pointer; accent-colo
     <div class="auth-card">
       <div class="auth-logo">L</div>
       <h1 class="auth-title">Contrato Pro</h1>
-      <p class="auth-subtitle">Sistema de GestÃ£o de Contratos de Lavanderia</p>
+      <p class="auth-subtitle">Sistema de Gestão de Contratos de Lavanderia</p>
 
       <!-- Google Sign-In -->
       <button id="googleLoginBtn" class="btn-google">
@@ -1146,7 +1146,7 @@ input[type="checkbox"] { width: 18px; height: 18px; cursor: pointer; accent-colo
         <button id="forgotPasswordBtn" class="btn-link">Esqueci minha senha</button>
       </div>
       <div class="auth-footer">
-        <span>NÃ£o tem conta?</span>
+        <span>Não tem conta?</span>
         <button id="showRegisterBtn" class="btn-link">Criar conta</button>
       </div>
     </div>
@@ -1172,7 +1172,7 @@ input[type="checkbox"] { width: 18px; height: 18px; cursor: pointer; accent-colo
         </div>
         <div class="form-group">
           <label class="form-label">Senha</label>
-          <input type="password" id="registerPassword" class="form-input" placeholder="MÃ­nimo 6 caracteres" required>
+          <input type="password" id="registerPassword" class="form-input" placeholder="Mínimo 6 caracteres" required>
         </div>
         <div class="form-group">
           <label class="form-label">Confirmar Senha</label>
@@ -1182,7 +1182,7 @@ input[type="checkbox"] { width: 18px; height: 18px; cursor: pointer; accent-colo
       </form>
 
       <div class="auth-footer">
-        <span>JÃ¡ tem conta?</span>
+        <span>Já tem conta?</span>
         <button id="showLoginBtn" class="btn-link">Fazer login</button>
       </div>
     </div>
@@ -1193,8 +1193,8 @@ input[type="checkbox"] { width: 18px; height: 18px; cursor: pointer; accent-colo
 <div id="pendingScreen" class="auth-screen hidden">
   <div class="auth-container">
     <div class="auth-card" style="text-align:center;">
-      <div style="font-size:64px;margin-bottom:16px;">â³</div>
-      <h2>Aguardando AprovaÃ§Ã£o</h2>
+      <div style="font-size:64px;margin-bottom:16px;">⏳</div>
+      <h2>Aguardando Aprovação</h2>
       <p style="color:var(--text-secondary);margin:16px 0;">
         Sua conta foi criada com sucesso!<br>
         Um administrador precisa aprovar seu acesso.
@@ -1208,7 +1208,7 @@ input[type="checkbox"] { width: 18px; height: 18px; cursor: pointer; accent-colo
 <div id="blockedScreen" class="auth-screen hidden">
   <div class="auth-container">
     <div class="auth-card" style="text-align:center;">
-      <div style="font-size:64px;margin-bottom:16px;">ð«</div>
+      <div style="font-size:64px;margin-bottom:16px;">🚫</div>
       <h2>Acesso Bloqueado</h2>
       <p style="color:var(--text-secondary);margin:16px 0;">
         Sua conta foi bloqueada pelo administrador.<br>
@@ -1223,10 +1223,10 @@ input[type="checkbox"] { width: 18px; height: 18px; cursor: pointer; accent-colo
 <div id="verificationScreen" class="auth-screen hidden">
   <div class="auth-container">
     <div class="auth-card" style="text-align:center;">
-      <div style="font-size:64px;margin-bottom:16px;">ð§</div>
+      <div style="font-size:64px;margin-bottom:16px;">📧</div>
       <h2>Verifique seu Email</h2>
       <p style="color:var(--text-secondary);margin:16px 0;">
-        Enviamos um link de verificaÃ§Ã£o para seu email.<br>
+        Enviamos um link de verificação para seu email.<br>
         Clique no link para ativar sua conta.
       </p>
       <button id="resendVerificationBtn" class="btn btn-primary" style="margin-bottom:12px;">Reenviar Email</button>
@@ -1243,7 +1243,7 @@ input[type="checkbox"] { width: 18px; height: 18px; cursor: pointer; accent-colo
   <!-- Top Navigation -->
   <div class="topnav">
     <div class="topnav-left">
-      <button id="mobileMenuBtn" class="topnav-menu-btn">â°</button>
+      <button id="mobileMenuBtn" class="topnav-menu-btn">☰</button>
       <div class="topnav-brand">
         <div class="topnav-logo">L</div>
         <span class="topnav-title">Contrato Pro</span>
@@ -1252,7 +1252,7 @@ input[type="checkbox"] { width: 18px; height: 18px; cursor: pointer; accent-colo
     <div class="topnav-right">
       <span id="userName" class="topnav-user-name"></span>
       <img id="userAvatar" class="topnav-avatar" src="" alt="" style="display:none;">
-      <button id="themeToggle" class="btn-icon" title="Alternar tema">ð</button>
+      <button id="themeToggle" class="btn-icon" title="Alternar tema">🌙</button>
       <button id="logoutBtn" class="btn btn-secondary btn-sm">Sair</button>
     </div>
   </div>
@@ -1265,36 +1265,36 @@ input[type="checkbox"] { width: 18px; height: 18px; cursor: pointer; accent-colo
       <div class="sidebar-section">
         <div class="sidebar-label">MENU</div>
         <a class="sidebar-item active" data-view="dashboard" href="#">
-          <span class="sidebar-icon">ð</span>
+          <span class="sidebar-icon">📊</span>
           <span>Dashboard</span>
         </a>
         <a class="sidebar-item" data-view="contracts" href="#">
-          <span class="sidebar-icon">ð</span>
+          <span class="sidebar-icon">📋</span>
           <span>Contratos</span>
         </a>
         <a class="sidebar-item" data-view="wizard" href="#">
-          <span class="sidebar-icon">â¨</span>
+          <span class="sidebar-icon">✨</span>
           <span>Novo Contrato</span>
         </a>
         <a class="sidebar-item" data-view="simulator" href="#">
-          <span class="sidebar-icon">ð®</span>
+          <span class="sidebar-icon">🔮</span>
           <span>Simulador</span>
         </a>
         <a class="sidebar-item" data-view="comparator" href="#">
-          <span class="sidebar-icon">âï¸</span>
+          <span class="sidebar-icon">⚖️</span>
           <span>Comparador</span>
         </a>
         <a class="sidebar-item" data-view="clauses" href="#">
-          <span class="sidebar-icon">ð</span>
-          <span>ClÃ¡usulas</span>
+          <span class="sidebar-icon">📄</span>
+          <span>Cláusulas</span>
         </a>
       </div>
 
       <div class="sidebar-section" id="adminSidebarSection" style="display:none;">
-        <div class="sidebar-label">ADMINISTRAÃÃO</div>
+        <div class="sidebar-label">ADMINISTRAÇÃO</div>
         <a class="sidebar-item" data-view="admin" href="#">
-          <span class="sidebar-icon">ð¥</span>
-          <span>UsuÃ¡rios</span>
+          <span class="sidebar-icon">👥</span>
+          <span>Usuários</span>
           <span class="badge" id="pendingBadge" style="display:none;">0</span>
         </a>
       </div>
@@ -1488,10 +1488,10 @@ window.App.Toast = (function() {
   function createToastElement(message, type) {
     const toastId = 'toast-' + Date.now();
     const icons = {
-      success: 'â',
-      error: 'â',
+      success: '✓',
+      error: '✕',
       warning: '!',
-      info: 'â¹'
+      info: 'ℹ'
     };
 
     const colors = {
@@ -1537,7 +1537,7 @@ window.App.Toast = (function() {
       flex-shrink: 0;
       font-size: 14px;
     `;
-    iconSpan.textContent = icons[type] || 'â¹';
+    iconSpan.textContent = icons[type] || 'ℹ';
 
     const messageSpan = document.createElement('span');
     messageSpan.style.cssText = `
@@ -1561,7 +1561,7 @@ window.App.Toast = (function() {
       flex-shrink: 0;
       transition: color 0.2s;
     `;
-    closeBtn.textContent = 'Ã';
+    closeBtn.textContent = '×';
     closeBtn.onmouseover = () => { closeBtn.style.color = '#333'; };
     closeBtn.onmouseout = () => { closeBtn.style.color = '#999'; };
     closeBtn.onclick = () => { removeToast(toastId); };
@@ -2757,7 +2757,7 @@ window.App.CNPJService = (function() {
           if (!validateCNPJ(cleaned)) {
             reject({
               code: "INVALID_FORMAT",
-              message: "CNPJ deve ter 14 dÃ­gitos"
+              message: "CNPJ deve ter 14 dígitos"
             });
             return;
           }
@@ -2770,7 +2770,7 @@ window.App.CNPJService = (function() {
 
           // Fetch from API
           if (onProgress) {
-            onProgress("Buscando informaÃ§Ãµes do CNPJ...");
+            onProgress("Buscando informações do CNPJ...");
           }
 
           const response = await fetch(
@@ -2781,7 +2781,7 @@ window.App.CNPJService = (function() {
             if (response.status === 404) {
               reject({
                 code: "NOT_FOUND",
-                message: "CNPJ nÃ£o encontrado na base de dados"
+                message: "CNPJ não encontrado na base de dados"
               });
               return;
             }
@@ -2795,7 +2795,7 @@ window.App.CNPJService = (function() {
           if (!data.razao_social) {
             reject({
               code: "INVALID_RESPONSE",
-              message: "Dados da empresa invÃ¡lidos"
+              message: "Dados da empresa inválidos"
             });
             return;
           }
@@ -2810,7 +2810,7 @@ window.App.CNPJService = (function() {
 
           let errorObj = {
             code: "NETWORK_ERROR",
-            message: "Erro ao buscar CNPJ. Verifique sua conexÃ£o."
+            message: "Erro ao buscar CNPJ. Verifique sua conexão."
           };
 
           if (error.code) {
@@ -2818,7 +2818,7 @@ window.App.CNPJService = (function() {
           } else if (error.message === "Failed to fetch") {
             errorObj = {
               code: "NETWORK_ERROR",
-              message: "Erro de conexÃ£o com a API"
+              message: "Erro de conexão com a API"
             };
           }
 
@@ -3590,16 +3590,16 @@ window.App = window.App || {};
 (function() {
   'use strict';
 
-  // ââââââââââââââââââââââââââââââââââââââââââââââ
+  // ──────────────────────────────────────────────
   // Short aliases for services
-  // ââââââââââââââââââââââââââââââââââââââââââââââ
+  // ──────────────────────────────────────────────
   window.App.Auth = window.App.AuthService;
   window.App.CNPJ = window.App.CNPJService;
 
-  // ââââââââââââââââââââââââââââââââââââââââââââââ
-  // RBAC adapter â wraps RBACService with extra
+  // ──────────────────────────────────────────────
+  // RBAC adapter — wraps RBACService with extra
   // convenience methods used by modules
-  // ââââââââââââââââââââââââââââââââââââââââââââââ
+  // ──────────────────────────────────────────────
   const rbac = window.App.RBACService;
 
   // Local user list cache (populated async, used sync by admin/dashboard)
@@ -3619,7 +3619,7 @@ window.App = window.App || {};
   }
 
   window.App.RBAC = Object.assign({}, rbac, {
-    // Sync wrapper â returns cached list
+    // Sync wrapper — returns cached list
     listUsers: function() {
       if (!_usersLoaded) {
         // Trigger async load for next call
@@ -3651,7 +3651,7 @@ window.App = window.App || {};
       return user ? user.role : null;
     },
 
-    // Unified updateUser â dispatches to the right async method
+    // Unified updateUser — dispatches to the right async method
     // Returns {success, error} for sync-style consumers
     updateUser: function(uid, updates) {
       const result = { success: false, error: null };
@@ -3674,7 +3674,7 @@ window.App = window.App || {};
         })
         .catch(err => {
           console.error('updateUser error:', err);
-          window.App.Toast.error('Erro ao atualizar usuÃ¡rio: ' + (err.message || err));
+          window.App.Toast.error('Erro ao atualizar usuário: ' + (err.message || err));
         });
 
       // Optimistic return
@@ -3707,10 +3707,10 @@ window.App = window.App || {};
     }
   });
 
-  // ââââââââââââââââââââââââââââââââââââââââââââââ
-  // Firestore adapter â wraps async methods with
+  // ──────────────────────────────────────────────
+  // Firestore adapter — wraps async methods with
   // local caching for sync-style consumers
-  // ââââââââââââââââââââââââââââââââââââââââââââââ
+  // ──────────────────────────────────────────────
   const fs = window.App.FirestoreService;
 
   let _cachedContracts = [];
@@ -3746,7 +3746,7 @@ window.App = window.App || {};
     // Data loading
     loadData: loadAllData,
 
-    // Contracts â sync getters, async setters wrapped to return {success}
+    // Contracts — sync getters, async setters wrapped to return {success}
     getContracts: function() {
       if (!_contractsLoaded) {
         loadAllData();
@@ -3799,7 +3799,7 @@ window.App = window.App || {};
         })
         .catch(err => {
           console.error('saveSimulacao error:', err);
-          window.App.Toast.error('Erro ao salvar simulaÃ§Ã£o');
+          window.App.Toast.error('Erro ao salvar simulação');
         });
       return { success: true };
     },
@@ -3825,7 +3825,7 @@ window.App = window.App || {};
       fs.saveCustomClauses(Array.isArray(clauses) ? clauses : [clauses])
         .catch(err => {
           console.error('saveCustomClauses error:', err);
-          window.App.Toast.error('Erro ao salvar clÃ¡usulas');
+          window.App.Toast.error('Erro ao salvar cláusulas');
         });
       return { success: true };
     },
@@ -3884,12 +3884,12 @@ window.App.Router = (function() {
       render: () => App.Comparator.renderComparator()
     },
     clauses: {
-      title: 'ClÃ¡usulas',
+      title: 'Cláusulas',
       containerId: 'clausesView',
       render: () => App.Clauses.renderClausesEditor()
     },
     admin: {
-      title: 'AdministraÃ§Ã£o',
+      title: 'Administração',
       containerId: 'adminView',
       render: () => App.Admin.renderAdminPanel()
     }
@@ -3904,13 +3904,13 @@ window.App.Router = (function() {
     const view = viewRegistry[viewName];
     if (!view) {
       console.warn('View not found:', viewName);
-      App.Toast.showToast('PÃ¡gina nÃ£o encontrada', 'warning');
+      App.Toast.showToast('Página não encontrada', 'warning');
       return false;
     }
 
     // Permission check
     if (!canAccessView(viewName)) {
-      App.Toast.showToast('VocÃª nÃ£o tem acesso a esta pÃ¡gina', 'warning');
+      App.Toast.showToast('Você não tem acesso a esta página', 'warning');
       if (viewName !== 'dashboard') {
         switchView('dashboard');
       }
@@ -3970,7 +3970,7 @@ window.App.Router = (function() {
     if (!container) return;
 
     const currentStep = App.Contracts.getCurrentStep();
-    const stepTitles = ['Partes Envolvidas', 'Modelo', 'ConfiguraÃ§Ã£o', 'Resumo', 'Contrato Final'];
+    const stepTitles = ['Partes Envolvidas', 'Modelo', 'Configuração', 'Resumo', 'Contrato Final'];
 
     let html = `
       <div class="wizard-container">
@@ -3991,7 +3991,7 @@ window.App.Router = (function() {
       const cls = stepNum === currentStep ? 'active' : (stepNum < currentStep ? 'completed' : '');
       html += `
         <div class="step-indicator ${cls}">
-          <div class="step-number">${stepNum < currentStep ? 'â' : stepNum}</div>
+          <div class="step-number">${stepNum < currentStep ? '✓' : stepNum}</div>
           <div class="step-title">${title}</div>
         </div>
       `;
@@ -4015,10 +4015,10 @@ window.App.Router = (function() {
         </div>
         <div class="wizard-footer">
           <button class="btn btn-secondary" onclick="window.App.Contracts.previousStep(); window.App.Router.renderWizard();"
-            ${currentStep === 1 ? 'disabled' : ''}>â Anterior</button>
+            ${currentStep === 1 ? 'disabled' : ''}>← Anterior</button>
           ${currentStep < 5
-            ? '<button class="btn btn-primary" onclick="window.App.Contracts.nextStep(); window.App.Router.renderWizard();">PrÃ³ximo â</button>'
-            : '<button class="btn btn-success" onclick="window.App.Contracts.saveContract()">ð¾ Salvar Contrato</button>'
+            ? '<button class="btn btn-primary" onclick="window.App.Contracts.nextStep(); window.App.Router.renderWizard();">Próximo →</button>'
+            : '<button class="btn btn-success" onclick="window.App.Contracts.saveContract()">💾 Salvar Contrato</button>'
           }
         </div>
       </div>
@@ -4036,7 +4036,7 @@ window.App.Router = (function() {
     const data = App.Contracts.getContractData();
     return `
       <div class="step-content">
-        <h2>InformaÃ§Ãµes das Partes</h2>
+        <h2>Informações das Partes</h2>
         <div class="form-section">
           <h3>Contratada</h3>
           <div class="form-group">
@@ -4046,7 +4046,7 @@ window.App.Router = (function() {
               placeholder="Digite o CNPJ">
           </div>
           <div class="form-group">
-            <label>RazÃ£o Social:</label>
+            <label>Razão Social:</label>
             <input type="text" id="contratadaNome" class="form-control" value="${data.contratada.nome || ''}"
               onchange="window.App.Router.updateField('contratada.nome', this.value)" placeholder="Nome da empresa">
           </div>
@@ -4056,9 +4056,9 @@ window.App.Router = (function() {
               onchange="window.App.Router.updateField('contratada.fantasia', this.value)" placeholder="Nome fantasia">
           </div>
           <div class="form-group">
-            <label>EndereÃ§o:</label>
+            <label>Endereço:</label>
             <input type="text" id="contratadaEndereco" class="form-control" value="${data.contratada.endereco || ''}"
-              onchange="window.App.Router.updateField('contratada.endereco', this.value)" placeholder="EndereÃ§o completo">
+              onchange="window.App.Router.updateField('contratada.endereco', this.value)" placeholder="Endereço completo">
           </div>
           <div class="form-group">
             <label>Cidade:</label>
@@ -4080,14 +4080,14 @@ window.App.Router = (function() {
               onchange="window.App.Router.updateField('contratante.cnpj', this.value)" placeholder="CNPJ">
           </div>
           <div class="form-group">
-            <label>RazÃ£o Social:</label>
+            <label>Razão Social:</label>
             <input type="text" class="form-control" value="${data.contratante.nome || ''}"
               onchange="window.App.Router.updateField('contratante.nome', this.value)" placeholder="Nome da empresa">
           </div>
           <div class="form-group">
-            <label>EndereÃ§o:</label>
+            <label>Endereço:</label>
             <input type="text" class="form-control" value="${data.contratante.endereco || ''}"
-              onchange="window.App.Router.updateField('contratante.endereco', this.value)" placeholder="EndereÃ§o completo">
+              onchange="window.App.Router.updateField('contratante.endereco', this.value)" placeholder="Endereço completo">
           </div>
           <div class="form-group">
             <label>Cidade:</label>
@@ -4115,7 +4115,7 @@ window.App.Router = (function() {
 
     return `
       <div class="step-content">
-        <h2>ConfiguraÃ§Ã£o Financeira</h2>
+        <h2>Configuração Financeira</h2>
         <div class="form-section">
           <h3>Modelo: ${model?.name || 'Selecione um modelo'}</h3>
           <div class="form-group">
@@ -4129,12 +4129,12 @@ window.App.Router = (function() {
               onchange="window.App.Router.updateField('financial.secagem', parseFloat(this.value))">
           </div>
           <div class="form-group">
-            <label>Ciclos por MÃªs:</label>
+            <label>Ciclos por Mês:</label>
             <input type="number" class="form-control" value="${data.financial.ciclosMes || 0}"
               onchange="window.App.Router.updateField('financial.ciclosMes', parseInt(this.value))">
           </div>
           <div class="form-group">
-            <label>VigÃªncia (meses):</label>
+            <label>Vigência (meses):</label>
             <input type="number" class="form-control" value="${data.financial.vigencia || 12}"
               onchange="window.App.Router.updateField('financial.vigencia', parseInt(this.value))">
           </div>
@@ -4143,7 +4143,7 @@ window.App.Router = (function() {
             <select class="form-control" onchange="window.App.Router.updateField('financial.repasseTipo', this.value)">
               <option value="mensal" ${data.financial.repasseTipo === 'mensal' ? 'selected' : ''}>Mensal</option>
               <option value="percentual" ${data.financial.repasseTipo === 'percentual' ? 'selected' : ''}>Percentual</option>
-              <option value="unico" ${data.financial.repasseTipo === 'unico' ? 'selected' : ''}>Ãnico</option>
+              <option value="unico" ${data.financial.repasseTipo === 'unico' ? 'selected' : ''}>Único</option>
             </select>
           </div>
           <div class="form-group">
@@ -4176,8 +4176,8 @@ window.App.Router = (function() {
         <h2>Visualizar Contrato</h2>
         <div class="contract-preview">${App.Contracts.generateContractDisplay()}</div>
         <div class="step-actions" style="margin-top:16px;display:flex;gap:8px;">
-          <button class="btn btn-secondary" onclick="window.App.Contracts.downloadPDF()">ð Download PDF</button>
-          <button class="btn btn-secondary" onclick="window.App.Contracts.downloadWord()">ð Download Word</button>
+          <button class="btn btn-secondary" onclick="window.App.Contracts.downloadPDF()">📄 Download PDF</button>
+          <button class="btn btn-secondary" onclick="window.App.Contracts.downloadWord()">📝 Download Word</button>
         </div>
       </div>
     `;
@@ -4234,7 +4234,7 @@ window.App.Router = (function() {
 
       App.Toast.showToast('Dados da empresa carregados!', 'success');
     } catch (err) {
-      App.Toast.showToast(err.message || 'CNPJ nÃ£o encontrado', 'warning');
+      App.Toast.showToast(err.message || 'CNPJ não encontrado', 'warning');
     }
   }
 
@@ -4258,11 +4258,11 @@ window.App.Dashboard = (function() {
   'use strict';
 
   const contractModels = {
-    gestao: { name: 'GestÃ£o', icon: 'ð' },
-    comodato: { name: 'Comodato', icon: 'ð¦' },
-    aluguel: { name: 'Aluguel', icon: 'ð¢' },
-    venda: { name: 'Venda', icon: 'ð°' },
-    hibrido: { name: 'HÃ­brido', icon: 'ð' }
+    gestao: { name: 'Gestão', icon: '📊' },
+    comodato: { name: 'Comodato', icon: '📦' },
+    aluguel: { name: 'Aluguel', icon: '🏢' },
+    venda: { name: 'Venda', icon: '💰' },
+    hibrido: { name: 'Híbrido', icon: '🔀' }
   };
 
   function calculateFinancials(contracts) {
@@ -4396,7 +4396,7 @@ window.App.Dashboard = (function() {
       <div class="dashboard-container">
         <div class="dashboard-header">
           <h1>Dashboard</h1>
-          <p class="text-gray-500">VisÃ£o geral de seus contratos</p>
+          <p class="text-gray-500">Visão geral de seus contratos</p>
         </div>
 
         <div class="stats-grid">
@@ -4405,7 +4405,7 @@ window.App.Dashboard = (function() {
     // Stat Cards
     html += `
           <div class="stat-card">
-            <div class="stat-icon">ð</div>
+            <div class="stat-icon">📋</div>
             <div class="stat-content">
               <div class="stat-label">Total de Contratos</div>
               <div class="stat-value">${formatNumber(totalContratos)}</div>
@@ -4413,7 +4413,7 @@ window.App.Dashboard = (function() {
           </div>
 
           <div class="stat-card stat-success">
-            <div class="stat-icon">â</div>
+            <div class="stat-icon">✅</div>
             <div class="stat-content">
               <div class="stat-label">Contratos Ganho</div>
               <div class="stat-value">${formatNumber(financials.ganho)}</div>
@@ -4422,7 +4422,7 @@ window.App.Dashboard = (function() {
           </div>
 
           <div class="stat-card stat-danger">
-            <div class="stat-icon">â</div>
+            <div class="stat-icon">❌</div>
             <div class="stat-content">
               <div class="stat-label">Contratos Perda</div>
               <div class="stat-value">${formatNumber(financials.perda)}</div>
@@ -4431,7 +4431,7 @@ window.App.Dashboard = (function() {
           </div>
 
           <div class="stat-card stat-info">
-            <div class="stat-icon">ðµ</div>
+            <div class="stat-icon">💵</div>
             <div class="stat-content">
               <div class="stat-label">Receita Total</div>
               <div class="stat-value">${formatCurrency(financials.totalReceita)}</div>
@@ -4475,7 +4475,7 @@ window.App.Dashboard = (function() {
                   <span class="financial-value danger">${formatCurrency(financials.totalCusto)}</span>
                 </div>
                 <div class="financial-item financial-highlight">
-                  <span class="financial-label">Lucro LÃ­quido</span>
+                  <span class="financial-label">Lucro Líquido</span>
                   <span class="financial-value ${financials.lucroLiquido >= 0 ? 'success' : 'danger'}">
                     ${formatCurrency(financials.lucroLiquido)}
                   </span>
@@ -4486,12 +4486,12 @@ window.App.Dashboard = (function() {
 
           <div class="card">
             <div class="card-header">
-              <h2>InformaÃ§Ãµes Gerais</h2>
+              <h2>Informações Gerais</h2>
             </div>
             <div class="card-body">
               <div class="info-summary">
                 <div class="info-item">
-                  <span class="info-label">UsuÃ¡rios Ativos</span>
+                  <span class="info-label">Usuários Ativos</span>
                   <span class="info-value">${window.App.RBAC ? formatNumber(window.App.RBAC.listUsers().length) : '0'}</span>
                 </div>
                 <div class="info-item">
@@ -4530,7 +4530,7 @@ window.App.Dashboard = (function() {
       `;
 
       recentContracts.forEach(contract => {
-        const model = contractModels[contract.model] || { name: contract.model, icon: 'ð' };
+        const model = contractModels[contract.model] || { name: contract.model, icon: '📄' };
         const lucro = contract.receita - contract.custo;
         const statusBadge = lucro >= 0
           ? '<span class="badge badge-success">Ganho</span>'
@@ -4582,10 +4582,10 @@ window.App.Contracts = (function() {
 
   const contractModels = {
     gestao: {
-      name: 'GestÃ£o',
-      subtitle: 'GestÃ£o de Equipamentos',
-      icon: 'ð',
-      description: 'Modelo para gestÃ£o completa de equipamentos',
+      name: 'Gestão',
+      subtitle: 'Gestão de Equipamentos',
+      icon: '📊',
+      description: 'Modelo para gestão completa de equipamentos',
       hasComodato: false,
       hasAluguelEquip: false,
       hasVenda: false,
@@ -4602,8 +4602,8 @@ window.App.Contracts = (function() {
     },
     comodato: {
       name: 'Comodato',
-      subtitle: 'EmprÃ©stimo Gratuito de Equipamentos',
-      icon: 'ð¦',
+      subtitle: 'Empréstimo Gratuito de Equipamentos',
+      icon: '📦',
       description: 'Equipamentos cedidos sem custo',
       hasComodato: true,
       hasAluguelEquip: false,
@@ -4622,7 +4622,7 @@ window.App.Contracts = (function() {
     aluguel: {
       name: 'Aluguel',
       subtitle: 'Aluguel de Equipamentos',
-      icon: 'ð¢',
+      icon: '🏢',
       description: 'Aluguel de equipamentos com repasse',
       hasComodato: false,
       hasAluguelEquip: true,
@@ -4641,8 +4641,8 @@ window.App.Contracts = (function() {
     venda: {
       name: 'Venda',
       subtitle: 'Venda de Equipamentos',
-      icon: 'ð°',
-      description: 'Venda de equipamentos Ã  vista ou parcelado',
+      icon: '💰',
+      description: 'Venda de equipamentos à vista ou parcelado',
       hasComodato: false,
       hasAluguelEquip: false,
       hasVenda: true,
@@ -4658,10 +4658,10 @@ window.App.Contracts = (function() {
       }
     },
     hibrido: {
-      name: 'HÃ­brido',
-      subtitle: 'CombinaÃ§Ã£o de Modelos',
-      icon: 'ð',
-      description: 'CombinaÃ§Ã£o de comodato, aluguel e venda',
+      name: 'Híbrido',
+      subtitle: 'Combinação de Modelos',
+      icon: '🔀',
+      description: 'Combinação de comodato, aluguel e venda',
       hasComodato: true,
       hasAluguelEquip: true,
       hasVenda: true,
@@ -4682,43 +4682,43 @@ window.App.Contracts = (function() {
     objeto: {
       title: 'Objeto do Contrato',
       items: {
-        especificacao: 'EspecificaÃ§Ã£o dos equipamentos',
-        quantidade: 'Quantidade e sÃ©rie dos equipamentos',
-        condicao: 'CondiÃ§Ã£o de entrega'
+        especificacao: 'Especificação dos equipamentos',
+        quantidade: 'Quantidade e série dos equipamentos',
+        condicao: 'Condição de entrega'
       }
     },
     equipamentos: {
-      title: 'DescriÃ§Ã£o dos Equipamentos',
+      title: 'Descrição dos Equipamentos',
       items: {
         listagem: 'Lista completa de equipamentos',
         marcas: 'Marcas e modelos',
-        condicao_tecnica: 'CondiÃ§Ã£o tÃ©cnica no recebimento'
+        condicao_tecnica: 'Condição técnica no recebimento'
       }
     },
     obrigacoes_contratada: {
-      title: 'ObrigaÃ§Ãµes da Contratada',
+      title: 'Obrigações da Contratada',
       items: {
-        manutencao: 'ManutenÃ§Ã£o preventiva e corretiva',
-        assistencia: 'AssistÃªncia tÃ©cnica disponÃ­vel 24h',
+        manutencao: 'Manutenção preventiva e corretiva',
+        assistencia: 'Assistência técnica disponível 24h',
         higiene: 'Higiene e limpeza dos equipamentos',
-        reposicao: 'ReposiÃ§Ã£o de peÃ§as danificadas'
+        reposicao: 'Reposição de peças danificadas'
       }
     },
     obrigacoes_contratante: {
-      title: 'ObrigaÃ§Ãµes do Contratante',
+      title: 'Obrigações do Contratante',
       items: {
         pagamento: 'Pagamento pontual dos valores',
         cuidado: 'Cuidado com os equipamentos',
-        comunicacao: 'ComunicaÃ§Ã£o de problemas imediata',
-        acesso: 'Acesso para manutenÃ§Ã£o e limpeza'
+        comunicacao: 'Comunicação de problemas imediata',
+        acesso: 'Acesso para manutenção e limpeza'
       }
     },
     valores: {
-      title: 'Valores e CondiÃ§Ãµes Financeiras',
+      title: 'Valores e Condições Financeiras',
       items: {
         preco_lavagem: 'Valor do repasse por lavagem: R$ {VALOR_LAVAGEM}',
         preco_secagem: 'Valor do repasse por secagem: R$ {VALOR_SECAGEM}',
-        ciclos: 'Ciclos estimados por mÃªs: {CICLOS_MES}',
+        ciclos: 'Ciclos estimados por mês: {CICLOS_MES}',
         repasse: 'Repasse total mensal estimado: R$ {REPASSE}'
       }
     },
@@ -4728,51 +4728,51 @@ window.App.Contracts = (function() {
         tipo: 'Tipo de repasse: {REPASSE_TIPO}',
         percentual: 'Percentual sobre faturamento: {PERCENTUAL}%',
         fixo: 'Valor fixo mensal: R$ {VALOR_FIXO}',
-        frequencia: 'FrequÃªncia: Mensal'
+        frequencia: 'Frequência: Mensal'
       }
     },
     vigencia: {
-      title: 'VigÃªncia e RenovaÃ§Ã£o',
+      title: 'Vigência e Renovação',
       items: {
-        duracao: 'DuraÃ§Ã£o do contrato: {VIGENCIA} meses',
-        renovacao: 'RenovaÃ§Ã£o automÃ¡tica ao final do perÃ­odo',
-        rescisao_antecipada: 'Possibilidade de rescisÃ£o antecipada com aviso prÃ©vio',
-        transicao: 'PerÃ­odo de transiÃ§Ã£o: 15 dias'
+        duracao: 'Duração do contrato: {VIGENCIA} meses',
+        renovacao: 'Renovação automática ao final do período',
+        rescisao_antecipada: 'Possibilidade de rescisão antecipada com aviso prévio',
+        transicao: 'Período de transição: 15 dias'
       }
     },
     rescisao: {
-      title: 'RescisÃ£o e Encerramento',
+      title: 'Rescisão e Encerramento',
       items: {
-        motivos: 'Motivos para rescisÃ£o',
-        procedimento: 'Procedimento de devoluÃ§Ã£o dos equipamentos',
-        multa: 'Multa por rescisÃ£o antecipada',
+        motivos: 'Motivos para rescisão',
+        procedimento: 'Procedimento de devolução dos equipamentos',
+        multa: 'Multa por rescisão antecipada',
         acerto: 'Acerto final de contas'
       }
     },
     confidencialidade: {
       title: 'Confidencialidade',
       items: {
-        sigilo: 'Compromisso de sigilo das informaÃ§Ãµes',
-        dados_pessoais: 'ProteÃ§Ã£o de dados pessoais conforme LGPD',
-        uso_informacoes: 'Uso restrito das informaÃ§Ãµes fornecidas',
-        duracao: 'Confidencialidade por {VIGENCIA} meses apÃ³s encerramento'
+        sigilo: 'Compromisso de sigilo das informações',
+        dados_pessoais: 'Proteção de dados pessoais conforme LGPD',
+        uso_informacoes: 'Uso restrito das informações fornecidas',
+        duracao: 'Confidencialidade por {VIGENCIA} meses após encerramento'
       }
     },
     disposicoes_gerais: {
-      title: 'DisposiÃ§Ãµes Gerais',
+      title: 'Disposições Gerais',
       items: {
         integridade: 'Integridade do contrato',
-        modificacoes: 'ModificaÃ§Ãµes devem ser por escrito',
-        invalidade: 'Invalidade de uma clÃ¡usula nÃ£o afeta as demais',
-        cessao: 'ProibiÃ§Ã£o de cessÃ£o sem consentimento prÃ©vio'
+        modificacoes: 'Modificações devem ser por escrito',
+        invalidade: 'Invalidade de uma cláusula não afeta as demais',
+        cessao: 'Proibição de cessão sem consentimento prévio'
       }
     },
     foro: {
-      title: 'Foro de CompetÃªncia',
+      title: 'Foro de Competência',
       items: {
-        jurisdicao: 'JurisdiÃ§Ã£o: Comarca de {CIDADE_CONTRATANTE}',
-        lei: 'Lei Brasileira aplicÃ¡vel',
-        resolucao: 'ResoluÃ§Ã£o de conflitos em primeira instÃ¢ncia'
+        jurisdicao: 'Jurisdição: Comarca de {CIDADE_CONTRATANTE}',
+        lei: 'Lei Brasileira aplicável',
+        resolucao: 'Resolução de conflitos em primeira instância'
       }
     }
   };
@@ -4924,7 +4924,7 @@ window.App.Contracts = (function() {
               <span class="value">${model.name}</span>
             </div>
             <div class="summary-item">
-              <span class="label">VigÃªncia:</span>
+              <span class="label">Vigência:</span>
               <span class="value">${contractData.financial.vigencia} meses</span>
             </div>
             <div class="summary-item">
@@ -4936,14 +4936,14 @@ window.App.Contracts = (function() {
               <span class="value">${formatCurrency(contractData.financial.secagem)}</span>
             </div>
             <div class="summary-item">
-              <span class="label">Ciclos/MÃªs:</span>
+              <span class="label">Ciclos/Mês:</span>
               <span class="value">${contractData.financial.ciclosMes}</span>
             </div>
           </div>
         </div>
 
         <div class="summary-section financial-summary">
-          <h3>AnÃ¡lise Financeira</h3>
+          <h3>Análise Financeira</h3>
           <div class="financial-cards">
             <div class="financial-card">
               <span class="label">Receita Total</span>
@@ -4987,7 +4987,7 @@ window.App.Contracts = (function() {
         </div>
 
         <div class="contract-clauses">
-          <h2>ClÃ¡usulas do Contrato</h2>
+          <h2>Cláusulas do Contrato</h2>
     `;
 
     // Iterate through clauses
@@ -5023,14 +5023,14 @@ window.App.Contracts = (function() {
               <td>${formatCurrency(custo)}</td>
             </tr>
             <tr class="total-row">
-              <td>Lucro LÃ­quido:</td>
+              <td>Lucro Líquido:</td>
               <td class="${lucro >= 0 ? 'success' : 'danger'}">${formatCurrency(lucro)}</td>
             </tr>
           </table>
         </div>
 
         <div class="contract-footer">
-          <p>Assinado digitalmente em ${new Date().toLocaleDateString('pt-BR')} Ã s ${new Date().toLocaleTimeString('pt-BR')}</p>
+          <p>Assinado digitalmente em ${new Date().toLocaleDateString('pt-BR')} às ${new Date().toLocaleTimeString('pt-BR')}</p>
         </div>
       </div>
     `;
@@ -5067,7 +5067,7 @@ window.App.Contracts = (function() {
 
   function downloadPDF() {
     if (typeof jspdf === 'undefined' || !jspdf.jsPDF) {
-      App.Toast.showToast('jsPDF nÃ£o carregado', 'error');
+      App.Toast.showToast('jsPDF não carregado', 'error');
       return;
     }
 
@@ -5101,7 +5101,7 @@ window.App.Contracts = (function() {
     yPos += lineHeight;
     doc.text(`CNPJ: ${contractData.contratada.cnpj}`, margin, yPos);
     yPos += lineHeight;
-    doc.text(`EndereÃ§o: ${contractData.contratada.endereco}, ${contractData.contratada.cidade}`, margin, yPos);
+    doc.text(`Endereço: ${contractData.contratada.endereco}, ${contractData.contratada.cidade}`, margin, yPos);
     yPos += lineHeight;
     doc.text(`Representante: ${contractData.contratada.representante}`, margin, yPos);
     yPos += 10;
@@ -5110,12 +5110,12 @@ window.App.Contracts = (function() {
     yPos += lineHeight;
     doc.text(`CNPJ: ${contractData.contratante.cnpj}`, margin, yPos);
     yPos += lineHeight;
-    doc.text(`EndereÃ§o: ${contractData.contratante.endereco}, ${contractData.contratante.cidade}`, margin, yPos);
+    doc.text(`Endereço: ${contractData.contratante.endereco}, ${contractData.contratante.cidade}`, margin, yPos);
     yPos += 15;
 
     // Clauses
     doc.setFontSize(11);
-    doc.text('CLÃUSULAS', margin, yPos);
+    doc.text('CLÁUSULAS', margin, yPos);
     yPos += 10;
 
     doc.setFontSize(9);
@@ -5168,7 +5168,7 @@ window.App.Contracts = (function() {
     doc.text(`Custo Total Estimado: ${formatCurrency(custo)}`, margin, yPos);
     yPos += lineHeight;
     doc.setFont(undefined, 'bold');
-    doc.text(`Lucro LÃ­quido: ${formatCurrency(lucro)}`, margin, yPos);
+    doc.text(`Lucro Líquido: ${formatCurrency(lucro)}`, margin, yPos);
 
     doc.save(`Contrato_${contractData.contratada.nome}_${new Date().getTime()}.pdf`);
     App.Toast.showToast('PDF gerado com sucesso!', 'success');
@@ -5176,7 +5176,7 @@ window.App.Contracts = (function() {
 
   function downloadWord() {
     if (typeof docx === 'undefined') {
-      App.Toast.showToast('docx.js nÃ£o carregado', 'error');
+      App.Toast.showToast('docx.js não carregado', 'error');
       return;
     }
 
@@ -5227,7 +5227,7 @@ window.App.Contracts = (function() {
 
     paragraphs.push(
       new docx.Paragraph({
-        text: `EndereÃ§o: ${contractData.contratada.endereco}, ${contractData.contratada.cidade}`,
+        text: `Endereço: ${contractData.contratada.endereco}, ${contractData.contratada.cidade}`,
         spacing: { after: 100 }
       })
     );
@@ -5255,7 +5255,7 @@ window.App.Contracts = (function() {
 
     paragraphs.push(
       new docx.Paragraph({
-        text: `EndereÃ§o: ${contractData.contratante.endereco}, ${contractData.contratante.cidade}`,
+        text: `Endereço: ${contractData.contratante.endereco}, ${contractData.contratante.cidade}`,
         spacing: { after: 400 }
       })
     );
@@ -5263,7 +5263,7 @@ window.App.Contracts = (function() {
     // Clauses
     paragraphs.push(
       new docx.Paragraph({
-        text: 'CLÃUSULAS',
+        text: 'CLÁUSULAS',
         heading: docx.HeadingLevel.HEADING_2,
         spacing: { after: 200 }
       })
@@ -5322,7 +5322,7 @@ window.App.Contracts = (function() {
 
     paragraphs.push(
       new docx.Paragraph({
-        text: `Lucro LÃ­quido: ${formatCurrency(lucro)}`,
+        text: `Lucro Líquido: ${formatCurrency(lucro)}`,
         bold: true,
         spacing: { after: 400 }
       })
@@ -5330,7 +5330,7 @@ window.App.Contracts = (function() {
 
     paragraphs.push(
       new docx.Paragraph({
-        text: `Assinado em ${new Date().toLocaleDateString('pt-BR')} Ã s ${new Date().toLocaleTimeString('pt-BR')}`,
+        text: `Assinado em ${new Date().toLocaleDateString('pt-BR')} às ${new Date().toLocaleTimeString('pt-BR')}`,
         spacing: { before: 400 }
       })
     );
@@ -5385,7 +5385,7 @@ window.App.Contracts = (function() {
                 <th>Lucro</th>
                 <th>Status</th>
                 <th>Data</th>
-                <th>AÃ§Ãµes</th>
+                <th>Ações</th>
               </tr>
             </thead>
             <tbody>
@@ -5395,7 +5395,7 @@ window.App.Contracts = (function() {
       html += '<tr><td colspan="8" class="text-center text-gray-500 py-4">Nenhum contrato registrado</td></tr>';
     } else {
       contracts.forEach((contract, idx) => {
-        const model = contractModels[contract.model] || { name: contract.model, icon: 'ð' };
+        const model = contractModels[contract.model] || { name: contract.model, icon: '📄' };
         const statusBadge = contract.status === 'ganho'
           ? '<span class="badge badge-success">Ganho</span>'
           : '<span class="badge badge-danger">Perda</span>';
@@ -5461,7 +5461,7 @@ window.App.Contracts = (function() {
         <div class="modal-content large">
           <div class="modal-header">
             <h2>Visualizar Contrato</h2>
-            <button class="btn-close" onclick="this.closest('.modal').remove()">Ã</button>
+            <button class="btn-close" onclick="this.closest('.modal').remove()">×</button>
           </div>
           <div class="modal-body">
             ${displayHtml}
@@ -5583,13 +5583,13 @@ window.App.Simulator = (function() {
       <div class="simulator-container">
         <div class="simulator-header">
           <h1>Simulador de Contratos</h1>
-          <p class="text-gray-500">Simule diferentes cenÃ¡rios financeiros</p>
+          <p class="text-gray-500">Simule diferentes cenários financeiros</p>
         </div>
 
         <div class="simulator-grid">
           <div class="card">
             <div class="card-header">
-              <h2>ConfiguraÃ§Ã£o da SimulaÃ§Ã£o</h2>
+              <h2>Configuração da Simulação</h2>
             </div>
             <div class="card-body">
               <form id="simulatorForm" onsubmit="event.preventDefault(); window.App.Simulator.runSimulation();">
@@ -5634,7 +5634,7 @@ window.App.Simulator = (function() {
                 </div>
 
                 <div class="form-group">
-                  <label for="simCiclos">Ciclos por MÃªs:</label>
+                  <label for="simCiclos">Ciclos por Mês:</label>
                   <input
                     type="number"
                     id="simCiclos"
@@ -5647,7 +5647,7 @@ window.App.Simulator = (function() {
                 </div>
 
                 <div class="form-group">
-                  <label for="simVigencia">VigÃªncia (meses):</label>
+                  <label for="simVigencia">Vigência (meses):</label>
                   <input
                     type="number"
                     id="simVigencia"
@@ -5664,7 +5664,7 @@ window.App.Simulator = (function() {
                   <select id="simRepasseTipo" class="form-control" onchange="window.App.Simulator.updatePreview()">
                     <option value="mensal">Mensal</option>
                     <option value="percentual">Percentual</option>
-                    <option value="unico">Ãnico</option>
+                    <option value="unico">Único</option>
                   </select>
                 </div>
 
@@ -5704,20 +5704,20 @@ window.App.Simulator = (function() {
 
           <div class="card">
             <div class="card-header">
-              <h2>Resultados da SimulaÃ§Ã£o</h2>
+              <h2>Resultados da Simulação</h2>
             </div>
             <div class="card-body" id="simulationResults">
-              <p class="text-gray-500 text-center">Configure os parÃ¢metros e clique em Simular</p>
+              <p class="text-gray-500 text-center">Configure os parâmetros e clique em Simular</p>
             </div>
           </div>
         </div>
 
         <div class="card">
           <div class="card-header">
-            <h2>SimulaÃ§Ãµes Salvas</h2>
+            <h2>Simulações Salvas</h2>
           </div>
           <div class="card-body" id="savedSimulationsList">
-            <p class="text-gray-500 text-center">Nenhuma simulaÃ§Ã£o salva</p>
+            <p class="text-gray-500 text-center">Nenhuma simulação salva</p>
           </div>
         </div>
       </div>
@@ -5776,7 +5776,7 @@ window.App.Simulator = (function() {
       <div class="simulation-results">
         <div class="result-header">
           <h3>${model.name}</h3>
-          <p class="text-gray-600">SimulaÃ§Ã£o realizada em ${new Date().toLocaleDateString('pt-BR')}</p>
+          <p class="text-gray-600">Simulação realizada em ${new Date().toLocaleDateString('pt-BR')}</p>
         </div>
 
         <div class="results-grid">
@@ -5784,7 +5784,7 @@ window.App.Simulator = (function() {
             <span class="result-label">Receita Total</span>
             <span class="result-value success">${formatCurrency(results.receita)}</span>
             <p class="result-detail">
-              (${config.lavagem.toFixed(2)} + ${config.secagem.toFixed(2)}) Ã ${config.ciclosMes} Ã ${config.vigencia}
+              (${config.lavagem.toFixed(2)} + ${config.secagem.toFixed(2)}) × ${config.ciclosMes} × ${config.vigencia}
             </p>
           </div>
 
@@ -5792,12 +5792,12 @@ window.App.Simulator = (function() {
             <span class="result-label">Custo Total</span>
             <span class="result-value danger">${formatCurrency(results.custo)}</span>
             <p class="result-detail">
-              ${formatCurrency(config.repasse)} Ã ${config.vigencia} meses
+              ${formatCurrency(config.repasse)} × ${config.vigencia} meses
             </p>
           </div>
 
           <div class="result-card">
-            <span class="result-label">Lucro LÃ­quido</span>
+            <span class="result-label">Lucro Líquido</span>
             <span class="result-value ${lucroClass}">${formatCurrency(results.lucro)}</span>
             <p class="result-detail">
               Receita - Custo
@@ -5823,10 +5823,10 @@ window.App.Simulator = (function() {
           <div class="result-card">
             <span class="result-label">Resultado</span>
             <span class="result-value ${lucroClass}">
-              ${results.lucro >= 0 ? 'VIÃVEL' : 'NÃO VIÃVEL'}
+              ${results.lucro >= 0 ? 'VIÁVEL' : 'NÃO VIÁVEL'}
             </span>
             <p class="result-detail">
-              ${results.lucro >= 0 ? 'Contrato lucrativo' : 'Contrato deficitÃ¡rio'}
+              ${results.lucro >= 0 ? 'Contrato lucrativo' : 'Contrato deficitário'}
             </p>
           </div>
         </div>
@@ -5836,7 +5836,7 @@ window.App.Simulator = (function() {
             class="btn btn-primary"
             onclick="window.App.Simulator.saveSimulation()"
           >
-            Salvar SimulaÃ§Ã£o
+            Salvar Simulação
           </button>
           <button
             class="btn btn-secondary"
@@ -5860,16 +5860,16 @@ window.App.Simulator = (function() {
       config: config,
       results: results,
       savedAt: new Date(),
-      name: `${models[config.model]?.name || 'SimulaÃ§Ã£o'} - ${new Date().toLocaleDateString('pt-BR')}`
+      name: `${models[config.model]?.name || 'Simulação'} - ${new Date().toLocaleDateString('pt-BR')}`
     };
 
     const result = App.Firestore.saveSimulation(simulation);
     if (result.success) {
-      App.Toast.showToast('SimulaÃ§Ã£o salva com sucesso!', 'success');
+      App.Toast.showToast('Simulação salva com sucesso!', 'success');
       loadSavedSimulations();
       renderSavedSimulations();
     } else {
-      App.Toast.showToast('Erro ao salvar simulaÃ§Ã£o: ' + result.error, 'error');
+      App.Toast.showToast('Erro ao salvar simulação: ' + result.error, 'error');
     }
   }
 
@@ -5881,7 +5881,7 @@ window.App.Simulator = (function() {
       model: config.model,
       config: config,
       results: results,
-      name: `${models[config.model]?.name || 'SimulaÃ§Ã£o'} - ${new Date().toLocaleDateString('pt-BR')}`
+      name: `${models[config.model]?.name || 'Simulação'} - ${new Date().toLocaleDateString('pt-BR')}`
     };
 
     // Store in sessionStorage for comparator
@@ -5889,10 +5889,10 @@ window.App.Simulator = (function() {
     if (comparatorData.length < 5) {
       comparatorData.push(simulation);
       sessionStorage.setItem('comparatorSimulations', JSON.stringify(comparatorData));
-      App.Toast.showToast('SimulaÃ§Ã£o adicionada ao comparador!', 'success');
+      App.Toast.showToast('Simulação adicionada ao comparador!', 'success');
       App.Router.switchView('comparator');
     } else {
-      App.Toast.showToast('MÃ¡ximo de 5 simulaÃ§Ãµes no comparador', 'warning');
+      App.Toast.showToast('Máximo de 5 simulações no comparador', 'warning');
     }
   }
 
@@ -5903,7 +5903,7 @@ window.App.Simulator = (function() {
     loadSavedSimulations();
 
     if (savedSimulations.length === 0) {
-      container.innerHTML = '<p class="text-gray-500 text-center">Nenhuma simulaÃ§Ã£o salva</p>';
+      container.innerHTML = '<p class="text-gray-500 text-center">Nenhuma simulação salva</p>';
       return;
     }
 
@@ -5970,12 +5970,12 @@ window.App.Simulator = (function() {
       document.getElementById('simDesconto').value = sim.config.desconto;
 
       updatePreview();
-      App.Toast.showToast('SimulaÃ§Ã£o carregada', 'success');
+      App.Toast.showToast('Simulação carregada', 'success');
     }
   }
 
   function deleteSimulation(index) {
-    if (!confirm('Tem certeza que deseja deletar esta simulaÃ§Ã£o?')) return;
+    if (!confirm('Tem certeza que deseja deletar esta simulação?')) return;
 
     const sims = App.Firestore.getSimulations() || [];
     const sortedSims = sims.slice(-10).reverse();
@@ -5988,7 +5988,7 @@ window.App.Simulator = (function() {
       );
 
       App.Firestore.saveSimulations(newSims);
-      App.Toast.showToast('SimulaÃ§Ã£o deletada', 'success');
+      App.Toast.showToast('Simulação deletada', 'success');
       loadSavedSimulations();
       renderSavedSimulations();
     }
@@ -6060,14 +6060,14 @@ window.App.Comparator = (function() {
     let html = `
       <div class="comparator-container">
         <div class="comparator-header">
-          <h1>Comparador de SimulaÃ§Ãµes</h1>
-          <p class="text-gray-500">Compare atÃ© 5 simulaÃ§Ãµes lado a lado</p>
+          <h1>Comparador de Simulações</h1>
+          <p class="text-gray-500">Compare até 5 simulações lado a lado</p>
         </div>
 
         <div class="comparator-info">
-          <p>SimulaÃ§Ãµes adicionadas: <strong>${simulations.length}/5</strong></p>
+          <p>Simulações adicionadas: <strong>${simulations.length}/5</strong></p>
           ${simulations.length < 5
-            ? '<button class="btn btn-sm btn-primary" onclick="window.App.Router.switchView(\'simulator\')">Adicionar SimulaÃ§Ã£o</button>'
+            ? '<button class="btn btn-sm btn-primary" onclick="window.App.Router.switchView(\'simulator\')">Adicionar Simulação</button>'
             : ''
           }
           ${simulations.length > 0
@@ -6077,7 +6077,7 @@ window.App.Comparator = (function() {
         </div>
 
         ${simulations.length === 0
-          ? '<div class="empty-state"><p>Nenhuma simulaÃ§Ã£o adicionada. VÃ¡ ao simulador para adicionar.</p></div>'
+          ? '<div class="empty-state"><p>Nenhuma simulação adicionada. Vá ao simulador para adicionar.</p></div>'
           : renderComparisonCards(simulations) + renderComparisonChart(simulations)
         }
       </div>
@@ -6093,7 +6093,7 @@ window.App.Comparator = (function() {
     `;
 
     simulations.forEach((sim, idx) => {
-      const model = models[sim.model] || { name: sim.model, icon: 'ð' };
+      const model = models[sim.model] || { name: sim.model, icon: '📊' };
       const score = calculateScore(sim.results);
       const lucroClass = sim.results.lucro >= 0 ? 'success' : 'danger';
 
@@ -6107,13 +6107,13 @@ window.App.Comparator = (function() {
             <button
               class="btn-close"
               onclick="window.App.Comparator.removeSimulation(${idx})"
-            >Ã</button>
+            >×</button>
           </div>
 
           <div class="card-score">
             <div class="score-badge" style="--score: ${score}%">
               <span class="score-value">${score.toFixed(1)}</span>
-              <span class="score-label">PontuaÃ§Ã£o</span>
+              <span class="score-label">Pontuação</span>
             </div>
           </div>
 
@@ -6127,7 +6127,7 @@ window.App.Comparator = (function() {
               <span class="metric-value danger">${formatCurrency(sim.results.custo)}</span>
             </div>
             <div class="metric-row">
-              <span class="metric-label">Lucro LÃ­quido</span>
+              <span class="metric-label">Lucro Líquido</span>
               <span class="metric-value ${lucroClass}">${formatCurrency(sim.results.lucro)}</span>
             </div>
             <div class="metric-row">
@@ -6142,10 +6142,10 @@ window.App.Comparator = (function() {
 
           <div class="card-details">
             <p class="detail-item">
-              <strong>Ciclos/MÃªs:</strong> ${sim.config.ciclosMes}
+              <strong>Ciclos/Mês:</strong> ${sim.config.ciclosMes}
             </p>
             <p class="detail-item">
-              <strong>VigÃªncia:</strong> ${sim.config.vigencia} meses
+              <strong>Vigência:</strong> ${sim.config.vigencia} meses
             </p>
             <p class="detail-item">
               <strong>Repasse Mensal:</strong> ${formatCurrency(sim.config.repasse)}
@@ -6189,7 +6189,7 @@ window.App.Comparator = (function() {
     let html = `
       <div class="card">
         <div class="card-header">
-          <h2>GrÃ¡fico de ComparaÃ§Ã£o</h2>
+          <h2>Gráfico de Comparação</h2>
         </div>
         <div class="card-body">
           <div style="position: relative; height: 400px;">
@@ -6284,12 +6284,12 @@ window.App.Comparator = (function() {
       sims.splice(index, 1);
       saveComparatorData(sims);
       renderComparator();
-      App.Toast.showToast('SimulaÃ§Ã£o removida', 'success');
+      App.Toast.showToast('Simulação removida', 'success');
     }
   }
 
   function clearComparator() {
-    if (!confirm('Tem certeza que deseja limpar todas as simulaÃ§Ãµes?')) return;
+    if (!confirm('Tem certeza que deseja limpar todas as simulações?')) return;
     sessionStorage.removeItem('comparatorSimulations');
     renderComparator();
     App.Toast.showToast('Comparador limpo', 'success');
@@ -6301,11 +6301,11 @@ window.App.Comparator = (function() {
       const sim = sims[index];
       const model = models[sim.model] || { name: sim.model };
 
-      let content = `SIMULAÃÃO: ${model.name}\n`;
+      let content = `SIMULAÇÃO: ${model.name}\n`;
       content += `Data: ${new Date().toLocaleDateString('pt-BR')}\n\n`;
-      content += `CONFIGURAÃÃO:\n`;
-      content += `Ciclos/MÃªs: ${sim.config.ciclosMes}\n`;
-      content += `VigÃªncia: ${sim.config.vigencia} meses\n`;
+      content += `CONFIGURAÇÃO:\n`;
+      content += `Ciclos/Mês: ${sim.config.ciclosMes}\n`;
+      content += `Vigência: ${sim.config.vigencia} meses\n`;
       content += `Valor Lavagem: ${formatCurrency(sim.config.lavagem)}\n`;
       content += `Valor Secagem: ${formatCurrency(sim.config.secagem)}\n`;
       content += `Repasse Mensal: ${formatCurrency(sim.config.repasse)}\n`;
@@ -6313,7 +6313,7 @@ window.App.Comparator = (function() {
       content += `RESULTADOS:\n`;
       content += `Receita Total: ${formatCurrency(sim.results.receita)}\n`;
       content += `Custo Total: ${formatCurrency(sim.results.custo)}\n`;
-      content += `Lucro LÃ­quido: ${formatCurrency(sim.results.lucro)}\n`;
+      content += `Lucro Líquido: ${formatCurrency(sim.results.lucro)}\n`;
       content += `Margem: ${formatPercentage(sim.results.margem)}\n`;
       content += `ROI: ${formatPercentage(sim.results.roi)}\n`;
 
@@ -6327,7 +6327,7 @@ window.App.Comparator = (function() {
       document.body.removeChild(a);
       URL.revokeObjectURL(url);
 
-      App.Toast.showToast('SimulaÃ§Ã£o exportada com sucesso!', 'success');
+      App.Toast.showToast('Simulação exportada com sucesso!', 'success');
     }
   }
 
@@ -6407,21 +6407,21 @@ window.App.Clauses = (function() {
     let html = `
       <div class="clauses-container">
         <div class="clauses-header">
-          <h1>Editor de ClÃ¡usulas</h1>
-          <p class="text-gray-500">Customize as clÃ¡usulas padrÃ£o dos contratos</p>
+          <h1>Editor de Cláusulas</h1>
+          <p class="text-gray-500">Customize as cláusulas padrão dos contratos</p>
           <div class="clauses-status">
             <span class="badge ${isUsingCustom() ? 'badge-warning' : 'badge-info'}">
-              ${isUsingCustom() ? 'Usando clÃ¡usulas customizadas' : 'Usando clÃ¡usulas padrÃ£o'}
+              ${isUsingCustom() ? 'Usando cláusulas customizadas' : 'Usando cláusulas padrão'}
             </span>
           </div>
         </div>
 
         <div class="clauses-toolbar">
           <button class="btn btn-primary" onclick="window.App.Clauses.saveAllClauses()">
-            Salvar AlteraÃ§Ãµes
+            Salvar Alterações
           </button>
           <button class="btn btn-secondary" onclick="window.App.Clauses.resetToDefaults()">
-            Restaurar PadrÃ£o
+            Restaurar Padrão
           </button>
         </div>
 
@@ -6440,7 +6440,7 @@ window.App.Clauses = (function() {
               <span class="clause-number">${clauseIdx + 1}.</span>
               ${clause.title}
             </h3>
-            <span class="clause-toggle">â¼</span>
+            <span class="clause-toggle">▼</span>
           </div>
 
           <div id="${clauseId}" class="clause-content">
@@ -6463,7 +6463,7 @@ window.App.Clauses = (function() {
               rows="3"
             >${itemText}</textarea>
             <small class="help-text">
-              Dica: Use {VARIÃVEL} para substituiÃ§Ãµes (ex: {CONTRATANTE}, {VIGENCIA}, {VALOR_LAVAGEM})
+              Dica: Use {VARIÁVEL} para substituições (ex: {CONTRATANTE}, {VIGENCIA}, {VALOR_LAVAGEM})
             </small>
           </div>
         `;
@@ -6480,7 +6480,7 @@ window.App.Clauses = (function() {
         </form>
 
         <div class="clauses-reference">
-          <h3>VariÃ¡veis DisponÃ­veis</h3>
+          <h3>Variáveis Disponíveis</h3>
           <div class="reference-grid">
             <div class="reference-item">
               <code>{CONTRATANTE}</code> - Nome da empresa contratante
@@ -6495,10 +6495,10 @@ window.App.Clauses = (function() {
               <code>{CNPJ_CONTRATADA}</code> - CNPJ contratada
             </div>
             <div class="reference-item">
-              <code>{ENDERECO_CONTRATANTE}</code> - EndereÃ§o contratante
+              <code>{ENDERECO_CONTRATANTE}</code> - Endereço contratante
             </div>
             <div class="reference-item">
-              <code>{ENDERECO_CONTRATADA}</code> - EndereÃ§o contratada
+              <code>{ENDERECO_CONTRATADA}</code> - Endereço contratada
             </div>
             <div class="reference-item">
               <code>{CIDADE_CONTRATANTE}</code> - Cidade contratante
@@ -6516,7 +6516,7 @@ window.App.Clauses = (function() {
               <code>{VALOR_SECAGEM}</code> - Valor do repasse por secagem
             </div>
             <div class="reference-item">
-              <code>{CICLOS_MES}</code> - NÃºmero de ciclos por mÃªs
+              <code>{CICLOS_MES}</code> - Número de ciclos por mês
             </div>
             <div class="reference-item">
               <code>{REPASSE}</code> - Valor total do repasse
@@ -6525,7 +6525,7 @@ window.App.Clauses = (function() {
               <code>{REPASSE_TIPO}</code> - Tipo de repasse
             </div>
             <div class="reference-item">
-              <code>{VIGENCIA}</code> - VigÃªncia em meses
+              <code>{VIGENCIA}</code> - Vigência em meses
             </div>
             <div class="reference-item">
               <code>{PERCENTUAL}</code> - Percentual do repasse
@@ -6573,25 +6573,25 @@ window.App.Clauses = (function() {
     const result = App.Firestore.saveCustomClauses(clauses);
     if (result.success) {
       customClauses = clauses;
-      App.Toast.showToast('ClÃ¡usulas salvas com sucesso!', 'success');
+      App.Toast.showToast('Cláusulas salvas com sucesso!', 'success');
       renderClausesEditor();
     } else {
-      App.Toast.showToast('Erro ao salvar clÃ¡usulas: ' + result.error, 'error');
+      App.Toast.showToast('Erro ao salvar cláusulas: ' + result.error, 'error');
     }
   }
 
   function resetToDefaults() {
-    if (!confirm('Tem certeza que deseja restaurar as clÃ¡usulas padrÃ£o? As alteraÃ§Ãµes serÃ£o perdidas.')) {
+    if (!confirm('Tem certeza que deseja restaurar as cláusulas padrão? As alterações serão perdidas.')) {
       return;
     }
 
     const result = App.Firestore.deleteCustomClauses();
     if (result.success) {
       customClauses = null;
-      App.Toast.showToast('ClÃ¡usulas restauradas ao padrÃ£o', 'success');
+      App.Toast.showToast('Cláusulas restauradas ao padrão', 'success');
       renderClausesEditor();
     } else {
-      App.Toast.showToast('Erro ao restaurar clÃ¡usulas: ' + result.error, 'error');
+      App.Toast.showToast('Erro ao restaurar cláusulas: ' + result.error, 'error');
     }
   }
 
@@ -6607,7 +6607,7 @@ window.App.Clauses = (function() {
     a.click();
     document.body.removeChild(a);
     URL.revokeObjectURL(url);
-    App.Toast.showToast('ClÃ¡usulas exportadas com sucesso!', 'success');
+    App.Toast.showToast('Cláusulas exportadas com sucesso!', 'success');
   }
 
   function importClausesFromJson(file) {
@@ -6618,10 +6618,10 @@ window.App.Clauses = (function() {
         const result = App.Firestore.saveCustomClauses(clauses);
         if (result.success) {
           customClauses = clauses;
-          App.Toast.showToast('ClÃ¡usulas importadas com sucesso!', 'success');
+          App.Toast.showToast('Cláusulas importadas com sucesso!', 'success');
           renderClausesEditor();
         } else {
-          App.Toast.showToast('Erro ao importar clÃ¡usulas: ' + result.error, 'error');
+          App.Toast.showToast('Erro ao importar cláusulas: ' + result.error, 'error');
         }
       } catch (error) {
         App.Toast.showToast('Erro ao processar arquivo: ' + error.message, 'error');
@@ -6652,13 +6652,13 @@ window.App.Clauses = (function() {
       const clause = clauses[clauseKey];
 
       if (!clause.title || clause.title.trim() === '') {
-        errors.push(`ClÃ¡usula ${clauseKey}: tÃ­tulo vazio`);
+        errors.push(`Cláusula ${clauseKey}: título vazio`);
       }
 
       Object.keys(clause.items).forEach(itemKey => {
         const item = clause.items[itemKey];
         if (!item || item.trim() === '') {
-          errors.push(`ClÃ¡usula ${clauseKey}, item ${itemKey}: texto vazio`);
+          errors.push(`Cláusula ${clauseKey}, item ${itemKey}: texto vazio`);
         }
       });
     });
@@ -6743,32 +6743,32 @@ window.App.Admin = (function() {
   function approveUser(uid) {
     const result = App.RBAC.updateUser(uid, { status: 'approved' });
     if (result.success) {
-      App.Toast.showToast('UsuÃ¡rio aprovado com sucesso', 'success');
+      App.Toast.showToast('Usuário aprovado com sucesso', 'success');
       renderAdminPanel();
     } else {
-      App.Toast.showToast('Erro ao aprovar usuÃ¡rio: ' + result.error, 'error');
+      App.Toast.showToast('Erro ao aprovar usuário: ' + result.error, 'error');
     }
   }
 
   function blockUser(uid) {
-    if (!confirm('Tem certeza que deseja bloquear este usuÃ¡rio?')) return;
+    if (!confirm('Tem certeza que deseja bloquear este usuário?')) return;
 
     const result = App.RBAC.updateUser(uid, { status: 'blocked' });
     if (result.success) {
-      App.Toast.showToast('UsuÃ¡rio bloqueado com sucesso', 'success');
+      App.Toast.showToast('Usuário bloqueado com sucesso', 'success');
       renderAdminPanel();
     } else {
-      App.Toast.showToast('Erro ao bloquear usuÃ¡rio: ' + result.error, 'error');
+      App.Toast.showToast('Erro ao bloquear usuário: ' + result.error, 'error');
     }
   }
 
   function unblockUser(uid) {
     const result = App.RBAC.updateUser(uid, { status: 'approved' });
     if (result.success) {
-      App.Toast.showToast('UsuÃ¡rio desbloqueado com sucesso', 'success');
+      App.Toast.showToast('Usuário desbloqueado com sucesso', 'success');
       renderAdminPanel();
     } else {
-      App.Toast.showToast('Erro ao desbloquear usuÃ¡rio: ' + result.error, 'error');
+      App.Toast.showToast('Erro ao desbloquear usuário: ' + result.error, 'error');
     }
   }
 
@@ -6819,8 +6819,8 @@ window.App.Admin = (function() {
     modal.innerHTML = `
       <div class="modal-content">
         <div class="modal-header">
-          <h2>Editar PermissÃµes</h2>
-          <button class="btn-close" onclick="this.closest('.modal').remove()">Ã</button>
+          <h2>Editar Permissões</h2>
+          <button class="btn-close" onclick="this.closest('.modal').remove()">×</button>
         </div>
         <div class="modal-body">
           ${permissionsHtml}
@@ -6841,11 +6841,11 @@ window.App.Admin = (function() {
 
     const result = App.RBAC.updateUser(uid, { permissions: permissions });
     if (result.success) {
-      App.Toast.showToast('PermissÃµes atualizadas com sucesso', 'success');
+      App.Toast.showToast('Permissões atualizadas com sucesso', 'success');
       document.querySelector('.modal').remove();
       renderAdminPanel();
     } else {
-      App.Toast.showToast('Erro ao atualizar permissÃµes: ' + result.error, 'error');
+      App.Toast.showToast('Erro ao atualizar permissões: ' + result.error, 'error');
     }
   }
 
@@ -6860,12 +6860,12 @@ window.App.Admin = (function() {
       <div class="admin-container">
         <div class="admin-header">
           <h1>Painel Administrativo</h1>
-          <p class="text-gray-500">Gerenciamento de usuÃ¡rios e permissÃµes</p>
+          <p class="text-gray-500">Gerenciamento de usuários e permissões</p>
         </div>
 
         <div class="stats-bar">
           <div class="stat">
-            <span class="stat-label">Total de UsuÃ¡rios</span>
+            <span class="stat-label">Total de Usuários</span>
             <span class="stat-value">${stats.total}</span>
           </div>
           <div class="stat">
@@ -6919,7 +6919,7 @@ window.App.Admin = (function() {
               <option value="all" ${filterRole === 'all' ? 'selected' : ''}>Todos</option>
               <option value="admin" ${filterRole === 'admin' ? 'selected' : ''}>Administrador</option>
               <option value="gestor" ${filterRole === 'gestor' ? 'selected' : ''}>Gestor</option>
-              <option value="usuario" ${filterRole === 'usuario' ? 'selected' : ''}>UsuÃ¡rio</option>
+              <option value="usuario" ${filterRole === 'usuario' ? 'selected' : ''}>Usuário</option>
             </select>
           </div>
         </div>
@@ -6932,14 +6932,14 @@ window.App.Admin = (function() {
                 <th>Email</th>
                 <th>Status</th>
                 <th>Perfil</th>
-                <th>AÃ§Ãµes</th>
+                <th>Ações</th>
               </tr>
             </thead>
             <tbody>
     `;
 
     if (filteredUsers.length === 0) {
-      html += '<tr><td colspan="5" class="text-center text-gray-500 py-4">Nenhum usuÃ¡rio encontrado</td></tr>';
+      html += '<tr><td colspan="5" class="text-center text-gray-500 py-4">Nenhum usuário encontrado</td></tr>';
     } else {
       filteredUsers.forEach(user => {
         const statusBadge = getStatusBadge(user.status);
@@ -6983,7 +6983,7 @@ window.App.Admin = (function() {
     const badges = {
       'admin': '<span class="badge badge-info">Administrador</span>',
       'gestor': '<span class="badge badge-primary">Gestor</span>',
-      'usuario': '<span class="badge badge-secondary">UsuÃ¡rio</span>'
+      'usuario': '<span class="badge badge-secondary">Usuário</span>'
     };
     return badges[role] || '<span class="badge">Sem Perfil</span>';
   }
@@ -7033,7 +7033,7 @@ window.App.Admin = (function() {
       >
         <option value="admin" ${user.role === 'admin' ? 'selected' : ''}>Administrador</option>
         <option value="gestor" ${user.role === 'gestor' ? 'selected' : ''}>Gestor</option>
-        <option value="usuario" ${user.role === 'usuario' ? 'selected' : ''}>UsuÃ¡rio</option>
+        <option value="usuario" ${user.role === 'usuario' ? 'selected' : ''}>Usuário</option>
       </select>
     `;
 
@@ -7043,7 +7043,7 @@ window.App.Admin = (function() {
         class="btn btn-sm btn-secondary"
         onclick="window.App.Admin.editPermissions('${user.uid}')"
       >
-        PermissÃµes
+        Permissões
       </button>
     `;
 
@@ -7099,9 +7099,9 @@ window.App = window.App || {};
   let pageLoaderTimer = null;
   let isInitialized = false;
 
-  // ââââââââââââââââââââââââââââââââââââââââââââââ
+  // ──────────────────────────────────────────────
   // Page Loader
-  // ââââââââââââââââââââââââââââââââââââââââââââââ
+  // ──────────────────────────────────────────────
   function showPageLoader() {
     const loader = document.getElementById('pageLoader');
     if (loader) {
@@ -7121,9 +7121,9 @@ window.App = window.App || {};
     }
   }
 
-  // ââââââââââââââââââââââââââââââââââââââââââââââ
+  // ──────────────────────────────────────────────
   // Theme
-  // ââââââââââââââââââââââââââââââââââââââââââââââ
+  // ──────────────────────────────────────────────
   function initializeTheme() {
     const savedTheme = localStorage.getItem('contratoPro_theme') || 'light';
     document.documentElement.setAttribute('data-theme', savedTheme);
@@ -7142,9 +7142,9 @@ window.App = window.App || {};
     App.Toast.showToast(`Tema ${next === 'dark' ? 'escuro' : 'claro'} ativado`, 'info');
   }
 
-  // ââââââââââââââââââââââââââââââââââââââââââââââ
+  // ──────────────────────────────────────────────
   // Screen Management
-  // ââââââââââââââââââââââââââââââââââââââââââââââ
+  // ──────────────────────────────────────────────
   function showScreen(screenId) {
     // Hide all auth screens and main app
     document.querySelectorAll('.auth-screen').forEach(el => el.classList.add('hidden'));
@@ -7178,9 +7178,9 @@ window.App = window.App || {};
     if (appContainer) appContainer.classList.remove('hidden');
   }
 
-  // ââââââââââââââââââââââââââââââââââââââââââââââ
+  // ──────────────────────────────────────────────
   // Auth State Handler
-  // ââââââââââââââââââââââââââââââââââââââââââââââ
+  // ──────────────────────────────────────────────
   async function handleAuthStateChange(user, error) {
     showPageLoader();
 
@@ -7192,7 +7192,7 @@ window.App = window.App || {};
     }
 
     if (!user) {
-      // Not authenticated â show login
+      // Not authenticated → show login
       showLoginScreen();
       hidePageLoader();
       return;
@@ -7221,14 +7221,14 @@ window.App = window.App || {};
       return;
     }
 
-    // User is approved â initialize app
+    // User is approved → initialize app
     await initializeAppForUser(user);
     hidePageLoader();
   }
 
-  // ââââââââââââââââââââââââââââââââââââââââââââââ
+  // ──────────────────────────────────────────────
   // App Initialization (after auth)
-  // ââââââââââââââââââââââââââââââââââââââââââââââ
+  // ──────────────────────────────────────────────
   async function initializeAppForUser(user) {
     showApp();
 
@@ -7277,9 +7277,9 @@ window.App = window.App || {};
     }
   }
 
-  // ââââââââââââââââââââââââââââââââââââââââââââââ
+  // ──────────────────────────────────────────────
   // Sidebar & Navigation
-  // ââââââââââââââââââââââââââââââââââââââââââââââ
+  // ──────────────────────────────────────────────
   function initializeSidebar() {
     document.querySelectorAll('[data-view]').forEach(item => {
       // Remove old listeners by cloning
@@ -7305,9 +7305,9 @@ window.App = window.App || {};
     }
   }
 
-  // ââââââââââââââââââââââââââââââââââââââââââââââ
+  // ──────────────────────────────────────────────
   // Login Form Handlers
-  // ââââââââââââââââââââââââââââââââââââââââââââââ
+  // ──────────────────────────────────────────────
   function setupLoginForm() {
     const loginForm = document.getElementById('loginForm');
     if (loginForm) {
@@ -7360,7 +7360,7 @@ window.App = window.App || {};
         }
 
         if (password !== confirmPw) {
-          App.Toast.warning('As senhas nÃ£o coincidem');
+          App.Toast.warning('As senhas não coincidem');
           return;
         }
 
@@ -7391,9 +7391,9 @@ window.App = window.App || {};
         }
         try {
           await App.Auth.resetPassword(email);
-          App.Toast.success('Email de recuperaÃ§Ã£o enviado!');
+          App.Toast.success('Email de recuperação enviado!');
         } catch (err) {
-          App.Toast.error(err.message || 'Erro ao enviar email de recuperaÃ§Ã£o');
+          App.Toast.error(err.message || 'Erro ao enviar email de recuperação');
         }
       });
     }
@@ -7419,7 +7419,7 @@ window.App = window.App || {};
       resendBtn.addEventListener('click', async () => {
         try {
           await App.Auth.resendVerificationEmail();
-          App.Toast.success('Email de verificaÃ§Ã£o reenviado!');
+          App.Toast.success('Email de verificação reenviado!');
         } catch (err) {
           App.Toast.error('Erro ao reenviar email');
         }
@@ -7427,9 +7427,9 @@ window.App = window.App || {};
     }
   }
 
-  // ââââââââââââââââââââââââââââââââââââââââââââââ
+  // ──────────────────────────────────────────────
   // Pending Badge
-  // ââââââââââââââââââââââââââââââââââââââââââââââ
+  // ──────────────────────────────────────────────
   function updatePendingBadge() {
     const users = App.RBAC.listUsers();
     const pendingCount = users.filter(u => u.status === 'pending').length;
@@ -7445,9 +7445,9 @@ window.App = window.App || {};
     }
   }
 
-  // ââââââââââââââââââââââââââââââââââââââââââââââ
+  // ──────────────────────────────────────────────
   // Keyboard Shortcuts
-  // ââââââââââââââââââââââââââââââââââââââââââââââ
+  // ──────────────────────────────────────────────
   function initializeKeyboardShortcuts() {
     document.addEventListener('keydown', (e) => {
       if (!App.Auth.getCurrentUser()) return;
@@ -7466,9 +7466,9 @@ window.App = window.App || {};
     });
   }
 
-  // ââââââââââââââââââââââââââââââââââââââââââââââ
+  // ──────────────────────────────────────────────
   // Mobile Menu
-  // ââââââââââââââââââââââââââââââââââââââââââââââ
+  // ──────────────────────────────────────────────
   function setupMobileMenu() {
     const mobileMenuBtn = document.getElementById('mobileMenuBtn');
     const sidebar = document.querySelector('.sidebar');
@@ -7485,9 +7485,9 @@ window.App = window.App || {};
     }
   }
 
-  // ââââââââââââââââââââââââââââââââââââââââââââââ
+  // ──────────────────────────────────────────────
   // Validate Required Services
-  // ââââââââââââââââââââââââââââââââââââââââââââââ
+  // ──────────────────────────────────────────────
   function validateServices() {
     const required = ['Config', 'Auth', 'RBAC', 'Firestore', 'CNPJ', 'Toast', 'Router'];
     const missing = required.filter(name => !window.App[name]);
@@ -7497,7 +7497,7 @@ window.App = window.App || {};
       document.body.innerHTML = `
         <div style="padding: 40px; text-align: center; font-family: sans-serif;">
           <h1 style="color: #ef4444;">Erro de Carregamento</h1>
-          <p>ServiÃ§os nÃ£o inicializados: ${missing.join(', ')}</p>
+          <p>Serviços não inicializados: ${missing.join(', ')}</p>
           <p>Verifique se todos os scripts foram carregados.</p>
         </div>
       `;
@@ -7506,9 +7506,9 @@ window.App = window.App || {};
     return true;
   }
 
-  // ââââââââââââââââââââââââââââââââââââââââââââââ
+  // ──────────────────────────────────────────────
   // Main Entry Point
-  // ââââââââââââââââââââââââââââââââââââââââââââââ
+  // ──────────────────────────────────────────────
   function main() {
     if (!validateServices()) return;
 

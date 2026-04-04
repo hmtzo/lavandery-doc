@@ -490,6 +490,7 @@ body::after {
   height: 1px;
   background: linear-gradient(90deg, transparent, var(--accent), transparent);
   opacity: 0.5;
+  pointer-events: none;
 }
 
 .auth-card::after {
@@ -504,6 +505,7 @@ body::after {
   mask-composite: exclude;
   opacity: 0.3;
   animation: gradientRotate 4s ease-in-out infinite;
+  pointer-events: none;
 }
 
 .auth-logo {

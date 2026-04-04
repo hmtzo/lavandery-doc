@@ -7125,7 +7125,7 @@ window.App = window.App || {};
   // Theme
   // ──────────────────────────────────────────────
   function initializeTheme() {
-    const savedTheme = localStorage.getItem('contratoPro_theme') || 'light';
+    const savedTheme = localStorage.getItem('contratoPro_theme') || 'dark';
     document.documentElement.setAttribute('data-theme', savedTheme);
 
     const themeToggle = document.getElementById('themeToggle');
@@ -7135,7 +7135,7 @@ window.App = window.App || {};
   }
 
   function toggleTheme() {
-    const current = document.documentElement.getAttribute('data-theme') || 'light';
+    const current = document.documentElement.getAttribute('data-theme') || 'dark';
     const next = current === 'light' ? 'dark' : 'light';
     document.documentElement.setAttribute('data-theme', next);
     localStorage.setItem('contratoPro_theme', next);

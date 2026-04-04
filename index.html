@@ -11928,6 +11928,12 @@ window.App.Admin = (function() {
               <button style="${actionButtonStyle}" onclick="window.App.Admin.showEditPermissionsModal('${user.uid}')">
                 Permissões
               </button>
+              <button style="${actionButtonStyle}; color: #ffa500; border-color: rgba(255, 165, 0, 0.3); background: rgba(255, 165, 0, 0.1);" onclick="window.App.Admin.resetUserPassword('${user.email}')">
+                Resetar Senha
+              </button>
+              <button style="${actionButtonStyle}; color: #ff3b30; border-color: rgba(255, 59, 48, 0.3); background: rgba(255, 59, 48, 0.1);" onclick="window.App.Admin.deleteUser('${user.uid}', '${user.email}')">
+                Remover
+              </button>
             </div>
           </div>
         `;
@@ -11956,6 +11962,30 @@ window.App.Admin = (function() {
     renderAdminPanel();
   }
 
+  function resetUserPassword(email) {
+    if (!confirm('Enviar email de redefinição de senha para ' + email + '?')) return;
+    firebase.auth().sendPasswordResetEmail(email)
+      .then(() => {
+        App.Toast.showToast('Email de redefinição enviado para ' + email, 'success');
+      })
+      .catch(error => {
+        App.Toast.showToast('Erro ao enviar email: ' + (error.message || error), 'error');
+      });
+  }
+
+  function deleteUser(uid, email) {
+    if (!confirm('Tem certeza que deseja remover o usuário ' + email + '? Isso remove apenas o perfil do sistema, não a conta Firebase Auth.')) return;
+    const db = firebase.firestore();
+    db.collection('users').doc(uid).collection('profile').doc('data').delete()
+      .then(() => {
+        App.Toast.showToast('Perfil do usuário removido', 'success');
+        App.RBAC.refreshUsers().then(() => renderAdminPanel());
+      })
+      .catch(error => {
+        App.Toast.showToast('Erro ao remover: ' + (error.message || error), 'error');
+      });
+  }
+
   function getPendingCount() {
     const users = App.RBAC.listUsers() || [];
     return users.filter(u => u.status === 'pending').length;
@@ -11977,7 +12007,9 @@ window.App.Admin = (function() {
     _submitRegisterUser: _submitRegisterUser,
     _submitInviteUser: _submitInviteUser,
     _savePermissions: _savePermissions,
-    _copyToClipboard: _copyToClipboard
+    _copyToClipboard: _copyToClipboard,
+    resetUserPassword: resetUserPassword,
+    deleteUser: deleteUser
   };
 })();
 

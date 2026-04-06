@@ -2524,7 +2524,7 @@ window.App.Config = (function() {
    */
   const constants = {
     // Admin configuration
-    ADMIN_EMAIL: "hmtzo@icloud.com",
+    ADMIN_EMAILS: ["hmtzo@icloud.com", "juliana@lavandery.com.br"],
 
     // reCAPTCHA
     RECAPTCHA_SITE_KEY: "6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI",
@@ -2948,7 +2948,7 @@ window.App.AuthService = (function() {
   async function createUserProfile(uid, email, displayName = "") {
     try {
       const db = getFirestore();
-      const isAdmin = email === config.constants.ADMIN_EMAIL;
+      const isAdmin = config.constants.ADMIN_EMAILS.includes(email);
 
       const profileData = {
         email,
